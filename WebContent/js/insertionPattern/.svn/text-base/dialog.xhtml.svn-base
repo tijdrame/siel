@@ -1,0 +1,49 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"     
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:a4j="http://richfaces.org/a4j">
+<head>    
+    <f:view contentType="text/html" xmlns:f="http://java.sun.com/jsf/core"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>dfdf DivingSpace.com dfd</title>
+    <link href="#{facesContext.externalContext.requestContextPath}/stylesheet/screen.gcss" rel="stylesheet" type="text/css" />
+    
+	<script type="text/javascript" src="js/selectPastePattern/js/tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="js/selectPastePattern/js/form_utils.js"></script>
+	<script type="text/javascript" src="js/selectPastePattern/js/dialog.js"></script>
+
+	<base target="_self" />
+</head>
+
+<body>
+
+
+	
+<form onsubmit="ExampleDialog.insert();return false;" action="#">
+	<p>Here is a example dialog.</p>
+	<p>Selected text: <input id="someval" name="someval" type="text" class="text" /></p>
+	<p>Custom arg: <input id="somearg" name="somearg" type="text" class="text" /></p>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" id="insert" name="insert" value="{#insert}" onclick="ExampleDialog.insert();" />
+		</div>
+
+		<div style="float: right">
+			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+	</div>
+</form>
+
+	
+	
+
+
+</body> 
+</html> 

@@ -1,0 +1,545 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 20/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage des Vehicules -->
+    <ui:define name="title">Application Am@domCim@p</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<!-- <center><h:messages style="color:red;" globalOnly="true"/></center> -->
+		<a:loadScript src="/js/common.js"/>
+		<!-- Debut Form Principal -->
+		<h:form>
+		<!-- Debut Tableau des buttons de validation -->
+		
+		<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+								<li>
+									<h:commandLink action="#{cotisationSecuriteSocialeService.creerCotisationSecuriteSociale}"  >
+										<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+									</h:commandLink>
+								</li>
+								
+								<li>
+									<h:commandLink immediate="true"  onclick="afficherAttente();"  >
+										<s:graphicImage fileName="arrow_left.png" style="border:0px;" value="/picto/arrow_left.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.retour']}
+									</h:commandLink>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+		
+		<!-- Fin Tableau des buttons de validation -->
+		
+		<!-- Panel principal-->
+		
+		
+		<div id="zoneRecherche3" class="zoneRecherche3">
+			<div class="label2">
+			#{msgBundle['cotisation_securitesociale.nouvellecotisation']}
+			</div>
+			<!-- Debut Panel1 -->
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+					#{msgBundle['cotisation_securitesociale.bloc1']}
+				</div>
+					<div class="clear"></div>
+				</div>
+				<div class="content">
+				<table width="100%">
+				<tr>
+				<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.tauxCotisationRisquePro']} : " />
+								</td>
+							<td>
+								<h:inputText styleClass="textBleu montantFloat"  id="tauxCotisationRisquePro"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.tauxCotisationRisquePro}" maxlength="5" size="2" />	
+								<h:outputText style="color:red;font-size: large;font-weight: bold;"  />
+							
+								<h:message for="tauxCotisationRisquePro"  style="color:red" />
+							</td>
+							
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.tauxInteretRetardCotisation']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px montantFloat"  id="tauxInteretRetardCotisation" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.tauxInteretRetardCotisation}"  maxlength="5" size="2"/>	
+								<h:message for="tauxInteretRetardCotisation"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							</tr>
+							<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.tauxCotisationAssuresVolontaires']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px montantFloat"  id="tauxCotisationAssuresVolontaires" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.tauxCotisationAssuresVolontaires}" maxlength="5" size="2" />	
+								<h:message for="tauxCotisationAssuresVolontaires"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.tauxInteretRetardInitial']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px montantFloat"  id="tauxInteretRetardInitial"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.tauxInteretRetardInitial}" maxlength="5" size="2" />	
+								<h:message for="tauxInteretRetardInitial"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						
+						<tr>
+				<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.montantPlafondRemunAssures']} : " />
+								</td>
+							<td>
+								<h:inputText styleClass="textBleu nbOnly"  id="montantPlafondRemunAssures"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.montantPlafondRemunAssures}" maxlength="5" size="2" />	
+								<h:outputText style="color:red;font-size: large;font-weight: bold;"  />
+							
+								<h:message for="montantPlafondRemunAssures"  style="color:red" />
+							</td>
+							
+							<td colspan="4">&nbsp;</td>
+							
+							</tr>
+				
+				</table>	
+				</div>	
+		   </div>
+			<!-- Fin Panel1 -->	
+			<div style="height:15px;"/>
+			<!-- Debut Panel2 -->
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+					#{msgBundle['cotisation_securitesociale.bloc2']}
+				</div>
+					<div class="clear"></div>
+				</div>
+				<div class="content">
+				<table width="100%">
+				
+				<tr>
+				<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeCotisObligDues']} : " />
+								</td>
+							<td>
+								<h:inputText styleClass="textBleu nbOnly"  id="codeOpeCotisObligDues"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeCotisObligDues}" maxlength="2" size="2" />	
+								<h:outputText style="color:red;font-size: large;font-weight: bold;"  />
+							
+								<h:message for="codeOpeCotisObligDues"  style="color:red" />
+							</td>
+							
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeComplCotisObligDues']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeComplCotisObligDues" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeComplCotisObligDues}"  maxlength="2" size="2"/>	
+								<h:message for="codeOpeComplCotisObligDues"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							</tr>
+							<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeAnnulCotisObligDues']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeAnnulCotisObligDues" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeAnnulCotisObligDues}" maxlength="2" size="2" />	
+								<h:message for="codeOpeAnnulCotisObligDues"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeAnnulComplMajoRetardDepot']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeAnnulComplMajoRetardDepot"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeAnnulComplMajoRetardDepot}" maxlength="2" size="2" />	
+								<h:message for="codeOpeAnnulComplMajoRetardDepot"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						
+						<tr>
+				<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeMajoRetardDepotDecla']} : " />
+								</td>
+							<td>
+								<h:inputText styleClass="textBleu nbOnly"  id="codeOpeMajoRetardDepotDecla"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeMajoRetardDepotDecla}" maxlength="2" size="2" />	
+								<h:outputText style="color:red;font-size: large;font-weight: bold;"  />
+							
+								<h:message for="codeOpeMajoRetardDepotDecla"  style="color:red" />
+							</td>
+							
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeAnnulCotisTaxeesOffice']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeAnnulCotisTaxeesOffice" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeAnnulCotisTaxeesOffice}"  maxlength="2" size="2"/>	
+								<h:message for="codeOpeAnnulCotisTaxeesOffice"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							</tr>
+							<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeAnnulCotisAssuresVolont']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeAnnulCotisAssuresVolont" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeAnnulCotisAssuresVolont}" maxlength="2" size="2" />	
+								<h:message for="codeOpeAnnulCotisAssuresVolont"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeComplMajoRetardDepotDecla']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeComplMajoRetardDepotDecla"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeComplMajoRetardDepotDecla}" maxlength="2" size="2" />	
+								<h:message for="codeOpeComplMajoRetardDepotDecla"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeCotisTaxeeOffice']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeCotisTaxeeOffice" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeCotisTaxeeOffice}" maxlength="2" size="2" />	
+								<h:message for="codeOpeCotisTaxeeOffice"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeCotisAssureVolont']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeCotisAssureVolont"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeCotisAssureVolont}" maxlength="2" size="2" />	
+								<h:message for="codeOpeCotisAssureVolont"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeInterRetardPaiementCotis']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeInterRetardPaiementCotis" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeInterRetardPaiementCotis}" maxlength="2" size="2" />	
+								<h:message for="codeOpeInterRetardPaiementCotis"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeRegulPlusInteretRetardPaiementCotis']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeRegulPlusInteretRetardPaiementCotis"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeRegulPlusInteretRetardPaiementCotis}" maxlength="2" size="2" />	
+								<h:message for="codeOpeRegulPlusInteretRetardPaiementCotis"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeRegulMoinsInteretRetardPaiementCotis']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeRegulMoinsInteretRetardPaiementCotis" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeRegulMoinsInteretRetardPaiementCotis}" maxlength="2" size="2" />	
+								<h:message for="codeOpeRegulMoinsInteretRetardPaiementCotis"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.montantMajoParAssure']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="montantMajoParAssure"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.montantMajoParAssure}" maxlength="3" size="2" />	
+								<h:message for="montantMajoParAssure"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+				<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.plafondMajoParDecla']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="plafondMajoParDecla" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.plafondMajoParDecla}" maxlength="5" size="2" />	
+								<h:message for="plafondMajoParDecla"  style="color:red" />
+							</td>
+							<td colspan="4" >&nbsp;</td>
+							
+						</tr>
+				
+				</table>
+				
+				</div>	
+					
+		   </div>
+			<!-- Fin Panel2 -->	
+			
+			<div style="height:15px;"/>
+			
+			<!-- Debut Panel3 -->
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+					#{msgBundle['cotisation_securitesociale.bloc3']}
+				</div>
+					<div class="clear"></div>
+				</div>
+				<div class="content">
+				<table width="100%">
+				
+				<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpePaiementCotisDues']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"   id="codeOpePaiementCotisDues" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpePaiementCotisDues}" maxlength="2" size="2" />	
+								<h:message for="codeOpePaiementCotisDues"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpePaiementMajoRetard']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpePaiementMajoRetard"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpePaiementMajoRetard}" maxlength="2" size="2" />	
+								<h:message for="codeOpePaiementMajoRetard"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpePaiementIntRetard']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpePaiementIntRetard" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpePaiementIntRetard}" maxlength="2" size="2" />	
+								<h:message for="codeOpePaiementIntRetard"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpePaiementAnticip']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpePaiementAnticip"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpePaiementAnticip}" maxlength="2" size="2" />	
+								<h:message for="codeOpePaiementAnticip"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeMajoRetardNonDepotDecla']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeMajoRetardNonDepotDecla" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeMajoRetardNonDepotDecla}" maxlength="2" size="2" />	
+								<h:message for="codeOpeMajoRetardNonDepotDecla"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeComplMajoRetardNonDepotDecla']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeComplMajoRetardNonDepotDecla"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeComplMajoRetardNonDepotDecla}" maxlength="2" size="2" />	
+								<h:message for="codeOpeComplMajoRetardNonDepotDecla"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeAnnulPaiementNonIdentif']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeAnnulPaiementNonIdentif" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeAnnulPaiementNonIdentif}" maxlength="2" size="2" />	
+								<h:message for="codeOpeAnnulPaiementNonIdentif"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeAnnulMajoRetardNonDepotDecla']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeAnnulMajoRetardNonDepotDecla"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeAnnulMajoRetardNonDepotDecla}" maxlength="2" size="2" />	
+								<h:message for="codeOpeAnnulMajoRetardNonDepotDecla"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeAnnulComplMajoRetardNonDepotDecla']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeAnnulComplMajoRetardNonDepotDecla" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeAnnulComplMajoRetardNonDepotDecla}" maxlength="2" size="2" />	
+								<h:message for="codeOpeAnnulComplMajoRetardNonDepotDecla"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpePaiementNonIdent']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpePaiementNonIdent"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpePaiementNonIdent}" maxlength="2" size="2" />	
+								<h:message for="codeOpePaiementNonIdent"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeInteretRetardCotisEstimes']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeInteretRetardCotisEstimes" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeInteretRetardCotisEstimes}" maxlength="2" size="2" />	
+								<h:message for="codeOpeInteretRetardCotisEstimes"  style="color:red" />
+							</td>
+							<td colspan="4">&nbsp;</td>
+							
+							
+						</tr>
+				</table>
+				</div>	
+					
+		   </div>
+			<!-- Fin Panel3 -->	
+			
+			<div style="height:15px;"/>
+			
+			<!-- Debut Panel4 -->
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+					#{msgBundle['cotisation_securitesociale.bloc4']}
+				</div>
+					<div class="clear"></div>
+				</div>
+				<div class="content">
+				<table width="100%">
+				
+				<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeRegulEnPlusInterRetardCotisEstimes']}  : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeRegulEnPlusInterRetardCotisEstimes" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeRegulEnPlusInterRetardCotisEstimes}" maxlength="2" size="2" />	
+								<h:message for="codeOpeRegulEnPlusInterRetardCotisEstimes"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpeRegulEnMoinsInterRetardCotisEstimes']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpeRegulEnMoinsInterRetardCotisEstimes"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpeRegulEnMoinsInterRetardCotisEstimes}" maxlength="2" size="2" />	
+								<h:message for="codeOpeRegulEnMoinsInterRetardCotisEstimes"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.dateLimiteDeclaMisJourCompteCotisants']}  : " />
+							</td>
+							<td>
+								<rich:calendar styleClass="textBleu margBot10px"  id="dateLimiteDeclaMisJourCompteCotisants" 
+								value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.dateLimiteDeclaMisJourCompteCotisants}" size="2" 
+								enableManualInput="true" validatorMessage="X" maxlength="10" 
+								 locale="fr" popup="#{true}" datePattern="dd/MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+									cellWidth="10px" cellHeight="22px" style="width:200px">
+									</rich:calendar>
+								<h:message for="dateLimiteDeclaMisJourCompteCotisants"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+							
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['cotisation_securitesociale.codeOpePaiementCotisationAssurVolont']} : " />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codeOpePaiementCotisationAssurVolont"
+								 value="#{cotisationSecuriteSocialeService.cotisationSecuriteSocialeEnCreation.codeOpePaiementCotisationAssurVolont}" maxlength="2" size="2" />	
+								<h:message for="codeOpePaiementCotisationAssurVolont"  style="color:red" />
+							</td>
+							<td width="10px;" >&nbsp;</td>
+						</tr>
+				
+				</table>
+				</div>	
+					
+		   </div>
+			<!-- Fin Panel4 -->	
+			
+			<div style="height:15px;"/>
+			
+		</div>	
+	<!-- Fin Panel Principal -->
+						
+		
+	</h:form>	        
+
+	<!-- Fin Form principal -->	
+		
+	</ui:define>
+</ui:composition>

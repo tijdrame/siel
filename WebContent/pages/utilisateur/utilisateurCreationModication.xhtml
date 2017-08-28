@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 04/12/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de Creation d'un Intervenant -->
+	
+    <ui:define name="title">Application Suivi RESTO</ui:define>
+	<ui:define name="body">
+		
+		<!-- Message d'avertissement-->
+		
+		<h:message infoClass="confirmationaccept" errorClass="confirmationaccept" warnClass="confirmationaccept" for="contactMsgInfo"  />
+		<h:message  infoClass="confirmationerror" errorClass="confirmationerror" warnClass="confirmationerror" for="contactMsg"    />
+		
+		<h:messages  globalOnly="true" />
+		<h:inputHidden id="uploadError"  />
+		<h:inputHidden id="contactMsgInfo"  />
+		<h:inputHidden id="contactMsg"  />
+		<!-- Panel principal-->
+		
+		<f:loadBundle basename="messages" var="msgBundle" />
+		
+		
+		
+		<h:form id="noautocomplete"  enctype="multipart/form-data" >
+		
+		<s:validateAll>
+		
+			
+		
+			
+			
+			<div id="zoneRecherche" class="zoneRecherche">
+			
+			<div class="panel">
+				<h2>#{msgBundle['label.saisiedunutilisateur']}</h2>
+				<table  width="100%" class="table"> 
+					<tr>
+						<td width="170px;" >
+							<h:outputLabel for="nomIntervenant"  styleClass="grey" value="#{msgBundle['label.nom']}" />
+						</td>
+						<td>
+							<h:inputText styleClass="req firstFocus" id="nomIntervenant" value="#{utilisateurService.utilisateurCreationModification.nom}" 
+								required="true" maxlength="30" requiredMessage="#{msgBundle['msg.nomObligatoire']}" />
+							
+						</td>
+						<td width="170px;">
+							<h:outputLabel for="prenomIntervenant"  styleClass="grey" value="#{msgBundle['label.prenom']}" />
+						</td>
+						<td>
+							<h:inputText styleClass="req"  id="prenomIntervenant" value="#{utilisateurService.utilisateurCreationModification.prenom}" required="true" 
+								maxlength="30" requiredMessage="#{msgBundle['msg.prenomObligatoire']}" />
+							
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="selectProfile"  styleClass="grey" value="#{msgBundle['label.profile']}" />
+						</td>
+						<td>
+							<h:selectOneMenu id="selectProfile" style="width: 250px;" converter="#{profileConverter}"
+								value="#{utilisateurService.utilisateurCreationModification.profile}" 
+								disabled="#{utilisateurService.isParent}" styleClass="select" >
+								<s:selectItems var="varProfile" label="#{varProfile.libelle}" value="#{utilisateurService.lstProfiles}"  />
+							</h:selectOneMenu>
+						</td>
+						<a:outputPanel rendered="#{s:hasRole('sAdmin')}">
+						<td>
+							<h:outputLabel for="instit"  styleClass="grey" value="Institut:" />
+						</td>
+						<td>
+							<h:selectOneMenu id="instit" style="width: 250px;" converter="#{institutConverter}" 
+								value="#{utilisateurService.utilisateurCreationModification.institut}" styleClass="select" >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="varIns" label="#{varIns.nomInstitut}" value="#{institutService.listInstituts}"  />
+							</h:selectOneMenu>
+						</td>
+						</a:outputPanel>
+					</tr>
+					
+					<tr>
+						<td>
+							<h:outputLabel for="emailIntervenant"  styleClass="grey" value="#{msgBundle['label.email']}" />
+						</td>
+						<td>
+							<h:inputText styleClass="inputTtype2"  id="emailIntervenant"
+							 value="#{utilisateurService.utilisateurCreationModification.email}" />
+						</td>
+					
+						<td>
+							<h:outputLabel for="loginIntervenant"  styleClass="grey" value="#{msgBundle['label.login']}" />
+						</td>
+						<td>
+							<h:inputText autocomplete="off" styleClass="req" id="loginIntervenant" 
+								value="#{utilisateurService.utilisateurCreationModification.login}" required="true" maxlength="30" 
+								requiredMessage="#{msgBundle['msg.loginObligatoire']}" />
+						</td>
+						
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="tel"  styleClass="grey" value="Téléphone:" />
+						</td>
+						<td>
+							<h:inputText styleClass="req tel"  id="tel" required="true"
+							 value="#{utilisateurService.utilisateurCreationModification.tel}" />
+						</td>
+					
+						<td>
+							<h:outputLabel for="adress"  styleClass="grey" value="Adresse:" />
+						</td>
+						<td>
+							<h:inputText autocomplete="off" styleClass="req" id="adress" required="true" 
+								value="#{utilisateurService.utilisateurCreationModification.adresse}" 
+								requiredMessage="X" />
+						</td>
+						
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel rendered="#{utilisateurService.enCreation}" for="passwordIntervenant"
+								styleClass="grey" value="#{msgBundle['label.password']}" />
+						</td>
+						<td>
+							<h:inputSecret autocomplete="off" rendered="#{utilisateurService.enCreation}" styleClass="req"  id="passwordIntervenant" 
+								value="#{utilisateurService.utilisateurCreationModification.password}" required="true" maxlength="30" requiredMessage="#{msgBundle['msg.passwordObligatoire']}"  />
+						
+						</td>
+					
+						<td>
+							<h:outputLabel rendered="#{utilisateurService.enCreation}" for="password2Intervenant"
+								styleClass="grey" value="#{msgBundle['label.confirm']}" />
+						</td>
+						<td>
+							<h:inputSecret autocomplete="off"  rendered="#{utilisateurService.enCreation}" 
+							styleClass="req"  id="password2Intervenant"	value="#{utilisateurService.utilisateurCreationModification.password2}"
+							 required="true" maxlength="30" requiredMessage="#{msgBundle['msg.passwordObligatoire']}" />
+						</td>
+					</tr>
+				</table>	
+				<br/>
+			</div>
+			<br/>
+			<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{utilisateurService.creerModifierUtilisateur}" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="noautocomplete">
+												
+										#{msgBundle['btn.valider']}
+									</a:commandLink></li>
+										<li><a:commandLink value="" styleClass="btn btn-info" rendered="#{not utilisateurService.enCreation}" 
+												action="#{utilisateurService.initialisationPassword()}"
+												reRender="ModificationPassword"
+												oncomplete="javascript:Richfaces.showModalPanel('panelInitPassword',{width:500, top:5, height:300});jQuery('#ModificationPassword\\:prenomEnfant').focus();"
+												>
+												
+										#{msgBundle['btn.initMotPasse']}
+									</a:commandLink></li>
+									<li><a:commandLink value="" styleClass="btn btn-info" 
+												action="#{utilisateurService.retourRechercheUtilisateurs}" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="noautocomplete">
+												
+										#{msgBundle['btn.retour']}
+									</a:commandLink></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+		</div>
+		
+		
+		
+		
+		
+		
+	</s:validateAll>
+	</h:form>
+	
+		<rich:modalPanel id="panelInitPassword" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590; " >
+			<div class="cadreBordOrange margTop30px padLeft30px padRight30px"  >
+			<div class="zoneTitreOrange margTop10px padLeft10px">
+				#{msgBundle['label.initMotPasse']}
+			</div>
+			<br />
+			<div class="margtop30px">
+			<f:facet name="controls">
+				<a onclick="Richfaces.hideModalPanel('panelInitPassword');" style="cursor:pointer" href="#">#{msgBundle['label.fermer']}</a>
+			</f:facet>
+
+
+			<div ><!-- Holds the form -->
+			
+			<h:form class="note-form" id="ModificationPassword">
+				<a:outputPanel ajaxRendered="true">
+					<h:message id="erreur" infoClass="confirmationerror" errorClass="confirmationerror" warnClass="confirmationerror" for="passwordErreur"    />
+        			<h:inputHidden id="passwordErreur" value="" />
+        			<div style="visibility: hidden;display: none;" >
+						<h:messages id="error2"></h:messages>
+					</div>
+				</a:outputPanel>
+			<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#ModificationPassword\\:erreur").text();
+					var retour2 = jQuery("#ModificationPassword\\:error2").text();
+					var resultat =  retour != '' || retour2 != "L'utilisateur a été modifié avec succès";
+					return resultat;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelInitPassword');
+				}
+				
+			</script>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputLabel value="#{msgBundle['label.password']}" styleClass="grey" for="prenomEnfant" />
+					</td>
+					<td>
+						<h:inputSecret  styleClass="req firstFocus"  id="prenomEnfant" value="#{utilisateurService.password1}" required="true" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel value="#{msgBundle['label.confirm']}" styleClass="grey" for="nomEnfant" />
+					</td>
+					<td>
+						<h:inputSecret styleClass="req"  id="nomEnfant" value="#{utilisateurService.password2}" maxlength="30"  required="true" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<br />
+						<hr class="orange"/>
+						
+						<a:commandButton value="Valider" oncomplete="fermerSiOk();"   status="waitStatus" 
+							action="#{utilisateurService.validerPassword()}" reRender="ModificationPassword" styleClass="btn btn-success"/> 
+					</td>
+				</tr>
+			</table>
+			</h:form>
+			</div>
+		</div>
+		<div class="clear"></div>
+		</div>
+		</rich:modalPanel>
+		
+	
+	</ui:define>
+</ui:composition>

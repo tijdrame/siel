@@ -1,0 +1,181 @@
+<div style="width: 100%;" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+
+
+	<rich:modalPanel id="panelModifierAgenceBanque"
+		style="backgqround:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;">
+		<div class="cadreBordOrange margTop10px padLeft30px padRight30px"
+			style="overflow: none">
+			<div class="zoneTitreOrange margTop10px padLeft10px">
+				#{msgBundle['formulaire.banque.modalmodification']}</div>
+			<div class="margtop10px">
+				<f:facet name="controls">
+					<a onclick="Richfaces.hideModalPanel('panelModifierAgenceBanque');"
+						style="cursor: pointer" href="#">Fermer</a>
+				</f:facet>
+
+
+				<div>
+					<!-- Holds the form -->
+
+					<h:form class="note-form" id="frmModifierBanque">
+						<a:outputPanel ajaxRendered="true">
+							<div style="visibility: hidden; display: none">
+								<h:messages id="error"></h:messages>
+							</div>
+						</a:outputPanel>
+						<script>
+							jQuery(document).ready(function() {
+								dateEtHeureInputs();
+							});
+
+							function ajaxRequestContainsErrors() {
+								var retour = jQuery(
+										"#frmModifierBanque\\:error").text();
+								if (retour == 'X')
+									return true;
+								if (retour == 'XX')
+									return true;
+								if (retour == 'XXX')
+									return true;
+								if (retour == 'XXXX')
+									return true;
+								if (retour == 'XXXXX')
+									return true;
+								if (retour == 'XXXXXX')
+									return true;
+								if (retour == 'XXXXXXX')
+									return true;
+								if (retour == 'XXXXXXXX')
+									return true;
+								if (retour == 'XXXXXXXXX')
+									return true;
+								return false;
+							}
+
+							function fermerSiOk() {
+								if (!ajaxRequestContainsErrors())
+									Richfaces
+											.hideModalPanel('panelModifierAgenceBanque');
+							}
+						</script>
+						<s:validateAll>
+							<table border="0" width="100%">
+								<tr>
+								<td colspan="3"><h:outputLabel for="codeBanqueAgence"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebancaire.codebanqueagence']}" /></td>
+								<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+										converter="#{banqueConverter}" id="codebanqueagence"
+										value="#{agenceBancaireService.agenceBancaire.banques}"
+										style="max-width: 150px;" required="true">
+										<s:selectItems noSelectionLabel="Selectionnez ..."
+											value="#{banqueService.listeBanques}"
+											var="banque" label="#{banque.libelle}" />
+									</h:selectOneMenu> <h:outputText
+										style="color:red;font-size: large;font-weight: bold;"
+										value="*" /></td>
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="codeAgence"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.code']}" /></td>
+
+								<td colspan="3"><h:inputText
+										value="#{agenceBancaireService.agenceBancaire.codeAgence}"
+										styleClass="textBleu margBot10px" size="18" required="true"
+										id="codeAgence" maxlength="20" /> <h:outputText
+										style="color:red;font-size: large;font-weight: bold;"
+										value="*"></h:outputText> <h:message for="codeAgence"
+										style="color:red" /></td>
+
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="libelleAgenceBancaire"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.libelleagence']}" /></td>
+								<td colspan="3"><h:inputText
+										value="#{agenceBancaireService.agenceBancaire.libelleAgence}"
+										styleClass="textBleu2 margBot10px" id="libelleAgenceBancaire"
+										maxlength="255" /></td>
+
+							</tr>
+							<tr>
+								<td colspan="3"><h:outputLabel for="libelleCourt"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.libellecourt']}" /></td>
+								<td colspan="3"><h:inputText
+										value="#{agenceBancaireService.agenceBancaire.libelleCourt}"
+										styleClass="textBleu2 margBot10px" id="libelleCourt"
+										maxlength="255" /></td>
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="adresseAgenceBanque"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.adresse']}" /></td>
+								<td colspan="3"><h:inputText
+										value="#{agenceBancaireService.agenceBancaire.adresse}"
+										styleClass="textBleu margBot10px" id="adresseAgenceBanque"
+										maxlength="120" /> <h:message for="adresseAgenceBanque"
+										style="color:red" /></td>
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="codePostalAgence"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.codepostal']}" /></td>
+								<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+										converter="#{codePostauxConverter}"
+										value="#{agenceBancaireService.agenceBancaire.codePostal}"
+										id="codePostalAgence" style="max-width: 150px;">
+										<s:selectItems noSelectionLabel="Selectionnez ..."
+											value="#{codePostauxService.listeCodePostaux}"
+											var="codepostal" label="#{codepostal.libelle}" />
+									</h:selectOneMenu></td>
+
+							</tr>
+							<tr>
+								<td colspan="3"><h:outputLabel for="villeBanque"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.ville']}" /></td>
+								<td colspan="3"><h:inputText
+										styleClass="textBleu margBot10px " size="20" id="tel1"
+										value="#{agenceBancaireService.agenceBancaire.ville}"
+										maxlength="20" /></td>
+
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="localiteAgence"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.localite']}" /></td>
+								<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+										converter="#{localiteConverter}"
+										value="#{agenceBancaireService.agenceBancaire.localite}"
+										id="localiteBanque" style="max-width: 150px;">
+										<s:selectItems noSelectionLabel="Selectionnez ..."
+											value="#{listService.listLocalites}"
+											var="localite" label="#{localite.libelle}" />
+									</h:selectOneMenu></td>
+								<td width="12px" />
+								
+							</tr>
+								<tr>
+									<td colspan="18" align="right"><a:commandButton
+											value="#{msgBundle['pays.valider']}"
+											oncomplete="fermerSiOk();" style="text-align:right;"
+											limitToList="true" status="waitStatus"
+											action="#{agenceBancaireService.ajouterModifierAgenceBancaire()}"
+											reRender="regionAgenceBanque"
+											image="/img2/bouton_valider.jpg" /></td>
+								</tr>
+
+							</table>
+						</s:validateAll>
+					</h:form>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</rich:modalPanel>
+
+</div>

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+<link type="text/css" href="/SIEL/css2/bootstrap.min.css" rel="stylesheet"  />
+<link type="text/css" href="/SIEL/css/login.css" rel="stylesheet"  />
+<link type="text/css" href="/SIEL/css2/font-awesome/css/font-awesome.min.css" rel="stylesheet"  />
+
+<script src="js/modernizr.custom.63321.js"></script>
+<head>
+
+<script type="text/javascript"
+	src="/SIEL/js/DD_roundies_0.0.2a-min.js"></script>
+<script type="text/javascript" src="/SIEL/js/dtjava.js"></script>
+<!-- insert gora -->
+<script type="text/javascript">
+	   function navigateTo(id) {	  		
+	 		//jQuery("#frmTest\\:idHidden").input.val(id);
+	 		//jQuery("#frmTest\\:idHidden").change();		 			
+	 		if(window.location.toString().indexOf('login', 0)!=-1){	  	
+	 			var input = document.getElementById('frmMatriculeUser:idMatriculeUser');
+	 			input.value = id;
+	 			input.onchange();	
+	 			document.getElementById('login:password').focus();		    		    
+	 		}
+	       
+	   }	
+	     function callApp(id) {
+	            //it is safe to call now	            
+	            var a = document.getElementById(id);
+	            alert("a: "+a);
+	            var b= a.test();
+	        	alert(b);            
+	        }     
+        function javafxEmbed() {                          
+          dtjava.embed(
+            {
+            	id: "my", 
+            	url: "#{facesContext.externalContext.requestContextPath}/pages/bio/JavaFXApplication2.jnlp",
+                placeholder : 'javafx-app-placeholder',
+                width : 120,
+                height : 30,
+                jnlp_content : 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxqbmxwIHNwZWM9IjEuMCIgeG1sbnM6amZ4PSJodHRwOi8vamF2YWZ4LmNvbSIgaHJlZj0iSmF2YUZYQXBwbGljYXRpb24yLmpubHAiPg0KICA8aW5mb3JtYXRpb24+DQogICAgPHRpdGxlPkphdmFGWEFwcGxpY2F0aW9uMjwvdGl0bGU+DQogICAgPHZlbmRvcj5Hb3JhPC92ZW5kb3I+DQogICAgPGRlc2NyaXB0aW9uPlNhbXBsZSBKYXZhRlggMi4wIGFwcGxpY2F0aW9uLjwvZGVzY3JpcHRpb24+DQogICAgPG9mZmxpbmUtYWxsb3dlZC8+DQogIDwvaW5mb3JtYXRpb24+DQogIDxyZXNvdXJjZXM+DQogICAgPGpmeDpqYXZhZngtcnVudGltZSB2ZXJzaW9uPSIyLjIrIiBocmVmPSJodHRwOi8vamF2YWRsLnN1bi5jb20vd2ViYXBwcy9kb3dubG9hZC9HZXRGaWxlL2phdmFmeC1sYXRlc3Qvd2luZG93cy1pNTg2L2phdmFmeDIuam5scCIvPg0KICA8L3Jlc291cmNlcz4NCiAgPHJlc291cmNlcz4NCiAgICA8ajJzZSB2ZXJzaW9uPSIxLjYrIiBocmVmPSJodHRwOi8vamF2YS5zdW4uY29tL3Byb2R1Y3RzL2F1dG9kbC9qMnNlIi8+DQogICAgPGphciBocmVmPSJKYXZhRlhBcHBsaWNhdGlvbjIuamFyIiBzaXplPSIyNzc1NSIgZG93bmxvYWQ9ImVhZ2VyIiAvPg0KICAgIDxqYXIgaHJlZj0ibGliL2puYS5qYXIiIHNpemU9Ijk1NzU5MyIgZG93bmxvYWQ9ImVhZ2VyIiAvPg0KICAgIDxqYXIgaHJlZj0ibGliL3BsYXRmb3JtLmphciIgc2l6ZT0iODE2NzE2IiBkb3dubG9hZD0iZWFnZXIiIC8+DQogIDwvcmVzb3VyY2VzPg0KPHNlY3VyaXR5Pg0KICA8YWxsLXBlcm1pc3Npb25zLz4NCjwvc2VjdXJpdHk+DQogIDxhcHBsZXQtZGVzYyAgd2lkdGg9IjEyMCIgaGVpZ2h0PSIzMCIgbWFpbi1jbGFzcz0iY29tLmphdmFmeC5tYWluLk5vSmF2YUZYRmFsbGJhY2siICBuYW1lPSJKYXZhRlhBcHBsaWNhdGlvbjIiID4NCiAgICA8cGFyYW0gbmFtZT0icmVxdWlyZWRGWFZlcnNpb24iIHZhbHVlPSIyLjIrIi8+DQogIDwvYXBwbGV0LWRlc2M+DQogIDxqZng6amF2YWZ4LWRlc2MgIHdpZHRoPSIxMjAiIGhlaWdodD0iMzAiIG1haW4tY2xhc3M9ImphdmFmeGFwcGxpY2F0aW9uMi5KYXZhRlhBcHBsaWNhdGlvbjIiICBuYW1lPSJKYXZhRlhBcHBsaWNhdGlvbjIiID4NCiAgICA8Zng6cGFyYW0gbmFtZT0iY29udGV4dE5hbWUiIHZhbHVlPSJVc2VyIi8+DQogIDwvamZ4OmphdmFmeC1kZXNjPg0KICA8dXBkYXRlIGNoZWNrPSJiYWNrZ3JvdW5kIi8+DQo8L2pubHA+DQo='
+                ,
+                params: {'contextName' :'Benef'}    
+            },
+            {
+                javafx : '2.2+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbed);
+</script>
+
+<title>SIEL</title>
+</head>
+
+<body class="back-login">
+	<div class="container">
+
+	     <h1 id="logo">
+	      <a href=""></a>
+	     </h1>
+	
+	    <div class="row" style="margin-top:7%">
+	      <div class="col-md-4 logo_place">
+	
+	      </div>
+	      <div class="form_connexion col-md-5 col-md-offset-7">
+	        <div class="row">
+	          <div class="col-md-7 center_login">
+	              <h:form id="frmMatriculeUser" class="form-signin">
+	
+	                <div class="form-group">
+	              
+	                  <div class="input-group">
+	                    <div class="input-group-addon">
+	                      <i class="fa fa-user fa-lg"></i>
+	                    </div>    
+	                    <h:inputText id="username" required="true" requiredMessage="X"
+							styleClass="form-control" style="color:black;"
+							value="#{identity.username}" size="30"
+							placeholder="Utilisateur"
+							autocomplete="off"/>
+	                  </div>
+	                  
+	                </div>
+	                <div class="form-group">
+	              
+	                  <div class="input-group">
+	                    <div class="input-group-addon">
+	                      <i class="fa fa-key"></i>
+	                    </div>
+	                    <h:inputSecret id="password" value="#{identity.password}"
+							required="true" requiredMessage="X"
+							placeholder="Mot de passe"
+							autocomplete="off" styleClass="form-control"
+							 style="color:black;" />
+	                  </div>
+	                
+	                </div>
+	
+	                <div class="form-group">
+	                  <p class="submit">
+						<button class="btn btn-info btn-block btn-login" type="submit" name="submit">
+							Connexion
+							<h:commandLink action="#{authenticator.login}" alt=""/>
+							<a4j:support event="oncomplete" reRender="connexion"></a4j:support>	
+							<i class="fa fa-sign-in connec"></i>
+						</button>
+					  </p>
+	                </div>
+	              </h:form>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+    </div> <!-- /container -->
+</body>
+</html>

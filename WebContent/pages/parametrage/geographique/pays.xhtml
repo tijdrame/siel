@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:bp="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml"
+                  xmlns:a4j="http://richfaces.org/a4j">
+	
+    <ui:define name="title">Application Ch@k@</ui:define>
+	<ui:define name="body">
+
+
+
+<div id="pays" class="zoneResultat">
+	     <div class="label2">
+	          #{msgBundle['pays.titre.parametrage']}
+	     </div>
+        <div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['pays.titre.pays']}
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+			<a:outputPanel id="regionPays" >
+		     <h:form id="frmPays">
+				<s:validateAll>
+			<rich:dataTable id="listPays" value="#{listService.listPays}" var="varPays" styleClass="tableauEnfants" 
+					rendered="true" width="100%"  height="100%" rowClasses="row1,row2">
+			
+				    <f:facet name="header" >
+						<rich:columnGroup >
+						    <rich:column>
+				       			#{msgBundle['pays.codepays']}
+				       		</rich:column>						    
+				       		<rich:column>
+				       			#{msgBundle['pays.libelle']}
+				       		</rich:column>
+				       		<rich:column>
+				       			#{msgBundle['pays.libelleCourt']}
+				       		</rich:column>
+				       		<rich:column>
+				       			#{msgBundle['pays.monnaie']}
+				       		</rich:column>
+				       		<rich:column>
+				       			#{msgBundle['pays.nationnalite']}
+				       		</rich:column>
+				       		<rich:column>
+				       			#{msgBundle['pays.commentaire']}
+				       		</rich:column>
+				       		<rich:column>
+					       		Action
+				       		</rich:column>
+				       	</rich:columnGroup>
+				 	</f:facet>
+				 	<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px nbOnly"  id="codePays" 
+									value="#{paysService.pays.codePays}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varPays.codePays}" />	
+					</rich:column>
+						
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="libelle" 
+									value="#{paysService.pays.libelle}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varPays.libelle}" />	
+					</rich:column>
+					
+				 	<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="libelleCourt" 
+									value="#{paysService.pays.libelleCourt}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varPays.libelleCourt}" />	
+					</rich:column>				
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+							    <h:selectOneMenu  value="#{paysService.pays.monnaie}"  id="idMonnaie" styleClass="textBleu2 margBot10px" required="true" converter="#{monnaiesConverter}">
+			              				 <s:selectItems value="#{monnaieService.listMonnaie}" var="varMonnaies" label="#{varMonnaies.libelle}" noSelectionLabel="selectionner..."></s:selectItems>
+			             		</h:selectOneMenu>								
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varPays.monnaie.libelle}" />	
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="nationnalite" 
+									value="#{paysService.pays.nationnalite}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varPays.nationnalite}" />	
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="commentaire" 
+									value="#{paysService.pays.commentaire}" />								
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varPays.commentaire}" />	
+					</rich:column>
+					
+					<rich:column>
+					    <f:facet name="header">
+							<a:commandButton title="#{msgBundle['pays.valider']}" id="validerPays" action="#{paysService.creerOuModifierPays()}"
+								image="/picto/accept.png" status="waitStatus"  
+								reRender="regionPays"   oncomplete="dateEtHeureInputs();"/>
+						</f:facet>
+						<table width="100%">
+							<tr>
+								<td align="center">
+								<a:commandButton  action="#{paysService.supprimerPays(varPays)}"
+								    immediate="true" status="waitStatus" title="#{msgBundle['msg.hint.supprimer']}"
+									id="supprimerUnPays" image="/picto/cross.png" styleClass="sansOmbre"
+									onclick="if (!confirm('#{msgBundle['msg.confirmation']} ? #{varPays.libelle}')) return false"									
+									reRender="regionPays" oncomplete="dateEtHeureInputs();" />
+								 </td>
+								 <td align="center">
+								<a:commandButton  action="#{paysService.versModifierPays(varPays)}"
+								    immediate="true"  title="#{msgBundle['msg.hint.modifier']}" status="waitStatus"
+									id="modifierUnPays" image="/picto/page_edit.png" styleClass="sansOmbre"																		
+									reRender="frmModifierPays" oncomplete="javascript:Richfaces.showModalPanel('panelModifierPays',{width:800, top:5, height:150});"/>
+								 </td>
+							</tr>
+						</table>	
+					</rich:column>
+					
+				 	
+				 	<f:facet name="footer">
+					</f:facet>
+				</rich:dataTable>
+		     </s:validateAll>
+		
+		   </h:form>
+		   		   
+		</a:outputPanel>
+		<ui:include src="./modals/modalPays.xhtml" />
+		</div>
+		</div>
+		<div style="height: 7px;" />	
+				
+        <!-- fin contacts -->    
+</ui:define>
+</ui:composition>      

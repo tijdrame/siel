@@ -1,0 +1,11 @@
+<Context path="/SuiviResto" privileged="true" crossContext="false"
+	reloadable="false">
+	<Manager pathname="" />
+	<Resource name="jdbc/DefaultDS" auth="Container"
+		type="com.mchange.v2.c3p0.ComboPooledDataSource" factory="org.apache.naming.factory.BeanFactory"
+		driverClass="com.mysql.jdbc.Driver" jdbcUrl="jdbc:mysql://localhost:3306/chakadb?autoReconnect=true"
+		user="root" password="" maxPoolSize="35" minPoolSize="2" maxIdleTime="300"
+		acquireIncrement="2" maxStatements="50" />
+	<ResourceLink global="jdbc/DefaultDS" name="jdbc/DefaultDS"
+		type="javax.sql.DataSource" />
+</Context>

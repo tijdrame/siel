@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:bp="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<ui:define name="title">Application Ch@k@</ui:define>
+	<ui:define name="body">
+
+
+
+		<div id="zoneResultat" class="zoneResultat">
+			<div class="label2">
+				#{msgBundle['formulaire.region.titre']}</div>
+			<div class="panel">
+				<div class="head" style='padding-top: 15px;'>
+					<div class="ico"></div>
+					<div class="left perso"></div>
+					<div class="titre">
+						#{msgBundle['formulaire.region.label']}</div>
+					<div class="clear"></div>
+				</div>
+
+				<a:outputPanel id="region">
+					<h:form id="frmRegion">
+						<s:validateAll>
+							<rich:dataTable id="listeRegion"
+								value="#{regionService.listRegion}"
+								var="varRegion" styleClass="tableauEnfants" rendered="true"
+								width="100%" height="100%" rowClasses="row1,row2">
+
+								<f:facet name="header">
+									<rich:columnGroup>
+										<rich:column>
+				       			#{msgBundle['formulaire.region.libelle']}
+				       		</rich:column>
+										<rich:column>
+				       			#{msgBundle['formulaire.region.commentaires']}
+				       		</rich:column>
+										<rich:column>
+					       		Action
+				       		</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+								<rich:column>
+									<f:facet name="header">
+										<h:panelGroup>
+											<h:inputText styleClass="textBleu margBot10px"
+												id="libelleRegion"
+												value="#{regionService.region.libelle}"
+												required="true" />
+											<h:outputText value="*"
+												style="color:red; font-size: large; font-weight: bold;"
+												class="gray" />
+										</h:panelGroup>
+									</f:facet>
+									<h:outputText value="#{varRegion.libelle}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										<h:panelGroup>
+											<h:inputText styleClass="textBleu margBot10px"
+												id="commentairesRegion"
+												value="#{regionService.region.commentaires}" />
+											<h:outputText
+												style="color:red; font-size: large; font-weight: bold;"
+												class="gray" />
+										</h:panelGroup>
+									</f:facet>
+									<h:outputText value="#{varRegion.commentaires}" />
+								</rich:column>
+
+								<rich:column>
+									<f:facet name="header">
+										<a:commandButton title="valider" id="validerregion"
+											action="#{regionService.creerOuModifierRegion()}"
+											image="/picto/add.png" status="waitStatus"
+											reRender="region"
+											oncomplete="dateEtHeureInputs();" />
+									</f:facet>
+									<table width="100%">
+										<tr>
+											<td align="center"><a:commandButton
+													action="#{regionService.versModifierRegion(varRegion)}"
+													immediate="true" title="#{msgBundle['msg.hint.modifier']}"
+													status="waitStatus" id="modifierUnPays"
+													image="/picto/page_edit.png" styleClass="sansOmbre"
+													reRender="frmModifierRegion"
+													oncomplete="javascript:Richfaces.showModalPanel('panelModifierRegion',{width:800, top:5, height:150});" />
+											</td>
+											<td align="center"><a:commandButton
+													action="#{regionService.supprimerRegion(varRegion)}"
+													immediate="true" status="waitStatus"
+													title="#{msgBundle['msg.hint.supprimer']}"
+													id="supprimerUnCodePostal" image="/picto/cross.png"
+													styleClass="sansOmbre"
+													onclick="if (!confirm('#{msgBundle['formulaire.region.btnsuppression']} #{varRegion.libelle} ? ')) return false"
+													reRender="region"
+													oncomplete="dateEtHeureInputs();" /></td>
+										</tr>
+									</table>
+								</rich:column>
+
+
+								<f:facet name="footer">
+								</f:facet>
+							</rich:dataTable>
+						</s:validateAll>
+
+					</h:form>
+
+				</a:outputPanel>
+				<ui:include src="./modals/modalRegion.xhtml" />
+			</div>
+		</div>
+		<div style="height: 7px;" />
+
+		<!-- fin contacts -->
+	</ui:define>
+</ui:composition>

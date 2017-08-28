@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<div style="width: 100%;" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+	
+	<rich:modalPanel id="panelModalInfo2" moveable="true"  >
+			<f:facet name="controls">
+				<a:commandLink value="" status="waitStatus" title="Fermer "
+					onclick="javascript:Richfaces.hideModalPanel('panelModalInfo2')">
+					<s:graphicImage fileName="cross.png" style="border:0px;"
+						value="/picto/cross.png" width="16" height="16" alt="" />
+				</a:commandLink>
+			</f:facet>
+			<f:facet name="header">
+			 <h:outputLabel value=" Ajouter / Modifier Paiement : "  />
+			</f:facet>
+			<rich:spacer height="2px" />
+
+				<!-- Holds the form -->
+
+				<h:form class="note-form" id="formModalInfo2">
+					<a:outputPanel ajaxRendered="true">
+						<div style="visibility: hidden; display: none">
+							<h:messages id="error"></h:messages>
+						</div>
+					</a:outputPanel>
+					<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#formModalInfo\\:error").text();
+					 if (retour == 'X')
+						    return true;
+					 if (retour == 'XX')
+						    return true;
+					 if (retour == 'XXX')
+						    return true;
+					 return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModalInfo');
+				}
+
+				
+				
+			</script>
+				<table width="100%" align="center" class="table" >
+				<tr>
+						<td><h:outputLabel for="acad"  styleClass="grey" value="Année Académique:" /></td>
+								<td>
+								<h:selectOneMenu id="acad" style="width: 250px;" 
+								converter="#{anneeAcademiqueConverter}" styleClass="req"
+								value="#{paiementService.filtreAcademique}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="varAC" 
+								label="#{varAC.anneeAc}" value="#{anneeService.allAcademiques()}"  />
+							</h:selectOneMenu>
+						</td>
+						<td><h:outputLabel for="cycle"  styleClass="grey" value="Cycle :" /></td>
+								<td>
+								<h:selectOneMenu id="cycle" style="width: 250px;" 
+								converter="#{cycleConverter}" styleClass="req"
+								valueChangeListener="#{paiementService.findClasseByCycle}"
+								value="#{paiementService.filtreCycle}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="varCy" 
+								label="#{varCy.libelle}" value="#{inscriptionService.allCycles()}"  />
+								<a:support  event="onchange"  ajaxSingle="true" reRender="classe2" />
+							</h:selectOneMenu>
+						</td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="classe2"  styleClass="grey" value="Classe:" /></td>
+								<td>
+								<h:selectOneMenu id="classe2" style="width: 250px;" 
+								converter="#{classeConverter}" styleClass="req"
+								value="#{paiementService.filtreClasse}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="cla" 
+								label="#{cla.libelle}" value="#{paiementService.listClasses}"  />
+								
+							</h:selectOneMenu>
+								</td>
+							<td><h:outputLabel class="grey"	value="N°Elève:" for="numEle" />
+						</td>
+						<td><h:inputText  id="numEle" required="true" styleClass="req" 
+						valueChangeListener="#{paiementService.findInscription}" reRender="parentPan"
+								value="#{paiementService.filtreEtudiant}" style="width: 250px;">
+								<a:support event="onchange" ajaxSingle="true" reRender="nomBi,naissBi,adrBi,telBi" />
+								</h:inputText></td>
+						
+					</tr>
+					<tr>			
+						<td><h:outputLabel class="grey"	value="Prénom et nom:"  /></td>
+						<td><h:outputLabel class="grey" id="nomBi"
+							value="#{paiementService.paiement.inscription.etudiant.prenom} 
+							#{paiementService.paiement.inscription.etudiant.nom}"  /></td>
+						<td>
+							<h:outputLabel for="naissBi"  styleClass="grey" value="Date naissance:" />
+						</td>
+						<td>
+							<h:outputLabel  id="naissBi"  class="grey"
+								value="#{paiementService.paiement.inscription.etudiant.dateNaissance}" >
+								 <f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputLabel>
+						</td>
+						
+					</tr>
+					<tr>
+						<td><h:outputLabel class="grey"
+								value="Adresse:" for="adrBi" />
+						</td>
+						<td><h:outputLabel id="adrBi" class="grey"
+								value="#{paiementService.paiement.inscription.etudiant.adresse}"/></td>
+						<td>
+							<h:outputLabel for="telBi"  styleClass="grey" value="Téléphone:" />
+						</td>
+						<td>
+							<h:outputLabel  id="telBi"  class="grey"
+								value="#{paiementService.paiement.inscription.etudiant.telephone}" />
+						</td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="mnt"  styleClass="grey" value="Montant:" /></td>
+						<td><h:inputText  id="mnt" required="true" styleClass="req nbOnly"
+						value="#{paiementService.paiement.montant}" /></td>
+						<td><h:outputLabel for="comms"  styleClass="grey" value="Commentaires:" /></td>
+						<td><h:inputText  id="comms" required="false" styleClass="inputType2"
+						value="#{paiementService.paiement.commentaires}" /></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="moisYi"  styleClass="grey" value="Mois Concernés:" /></td>
+						<td colspan="3"><t:selectManyCheckbox value="#{paiementService.listMoisConcernesChoisi}" styleClass="grey" layout="pageDirection"
+			 				converter="#{moisConcerneConverter}" layoutWidth="12" id="moisYi" >
+							<s:selectItems value="#{paiementService.listMoisConcernes}" var="var" label="#{var.moisConcerne}" />
+						</t:selectManyCheckbox></td>
+						
+					</tr>
+					
+				
+					<tr>
+					<td colspan="4" align="center">
+					<a:commandLink   action="#{paiementService.ajout()}"  
+					reRender="searchResultsIntervenants,formModalInfo2" oncomplete="javascript:Richfaces.hideModalPanel('panelModalInfo2')"
+					 status="waitStatus" styleClass="btn btn-success">
+					 <i class="fa fa-check" aria-hidden="true"></i>
+					  Valider
+					</a:commandLink>
+					
+					
+					</td>
+					</tr>
+				</table>
+			
+					
+				</h:form>
+		<div class="clear"></div>
+	</rich:modalPanel>
+</div>

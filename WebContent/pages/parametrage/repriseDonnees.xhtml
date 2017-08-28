@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 04/12/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml">
+	<!-- Page de Creation d'un Intervenant -->
+	
+    <ui:define name="title">Application PROGIS@P</ui:define>
+	<ui:define name="body">
+		
+		
+		<!-- Message d'avertissement-->
+		<h:message infoClass="confirmationaccept" errorClass="confirmationaccept" warnClass="confirmationaccept" for="contactMsgInfo"  />
+		<h:message infoClass="confirmationaccept" errorClass="confirmationaccept" warnClass="confirmationaccept" for="candidatMsgInfo"  />
+		<h:message  infoClass="confirmationwarning" errorClass="confirmationwarning" warnClass="confirmationwarning" for="prospect"    />
+		<h:message  infoClass="confirmationerror" errorClass="confirmationerror" warnClass="confirmationerror" for="contactMsg"    />
+		
+		
+		<h:inputHidden id="candidatMsgInfo"  />	
+	
+		
+		
+		<h:messages globalOnly="true"  />
+		<h:inputHidden id="uploadError"  />
+		<h:inputHidden id="contactMsgInfo"  />
+		<h:inputHidden id="contactMsg"  />
+		
+		<!-- Panel principal-->
+		
+		<f:loadBundle basename="messages" var="msgBundle" />
+		
+
+		<h:form id="prospect"  enctype="multipart/form-data" >
+				<table width="100%" >
+					<tr>
+						<td width="1075px;" >
+							<div id="trd_submenu" class="trd_kb">
+								<ul>
+									<li>
+										<h:commandLink onclick="afficherAttente();" action="#{repriseDonneeService.validerRepriseDonnees}" value="" >
+											<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+											#{msgBundle['menu.rp.valid']} 
+										</h:commandLink>
+									</li>
+								</ul>
+							</div>
+						</td>
+						<td>
+							&#160;
+						</td>	
+					</tr>	
+				</table>
+		
+		
+			<s:validateAll>
+			
+			
+			
+			<div id="zoneRecherche" class="zoneRecherche">
+				<div class="label2">
+					#{msgBundle['menu.repriseDon']}
+				</div>
+				
+				<div class="panel">
+					<div class="head" style='padding-top:15px;'>
+						<div class="ico" ></div>		
+						<div class="edit" ></div>
+						<div class="titre" >
+							#{msgBundle['menu.repriseDon']}
+						</div>
+						<div class="clear"></div>
+					</div>
+					
+					<a:outputPanel id="regionPanel">
+						<table width="100%" > 
+							<tr>
+						<td >
+							<h:outputLabel for="familyGarde2"  styleClass="grey" value="#{msgBundle['menu.rp.fich']} " />
+						</td>
+						<td colspan="1" >
+							<a:outputPanel id="familyGarde" >
+								<h:commandLink rendered="#{not empty repriseDonneeService.data}" immediate="true" 
+									image="/img2/pictovue.jpg"  id="familyGarde2"
+									value="#{repriseDonneeService.nomPieceJointe}" 
+									action="#{repriseDonneeService.afficherPieceJointe()}"/>&#160;
+								<a:commandLink rendered="#{not empty repriseDonneeService.data}" immediate="true" 
+									image="/img2/pictovue.jpg" reRender="familyGarde,regionUploadFamily"
+									title="Supprimer la pièce jointe" status="waitStatus"
+									action="#{repriseDonneeService.supprimerPieceJointe()}" >
+									<s:graphicImage fileName="cross.png" value="/picto/cross.png" 
+											style="border:0px;height:16px;width:16px;" />
+								</a:commandLink>
+							</a:outputPanel>
+							<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+						</td>
+					</tr>
+					<tr style="height: 20%" >
+						<td colspan="8" >
+						<a:outputPanel id="regionUploadFamily" >
+								<rich:fileUpload id="uploadBoxFamilyGarde" addControlLabel="#{msgBundle['menu.rp.telech']} "  styleClass="attachDocsEnabled"
+	        						stopEntryControlLabel="Stop upload" uploadControlLabel="Upload file" immediate="true"
+         							fileUploadListener="#{repriseDonneeService.pieceJointeUploadListener}" status="waitStatus"
+        							maxFilesQuantity="1" listHeight="0" immediateUpload="true" acceptedTypes="xls, xlsx"
+        						 	ontyperejected="alert('le format n\'est pas accepté');" >
+	        						<a:support  event="onuploadcomplete" reRender="familyGarde,regionUploadFamily" status="waitStatus"  />
+								</rich:fileUpload>
+						</a:outputPanel>
+						</td>
+					</tr>
+							<tr>
+								<td>
+									<h:outputText styleClass="grey" value="#{msgBundle['menu.rp.table']}  " />
+								</td>
+								<td >
+									<h:inputText id="table" styleClass="textBleu margBot10px" value="#{repriseDonneeService.nomTable}" required="true"/>
+									<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="table"  style="color:red"/>
+								</td>
+								
+							</tr>
+							<tr>
+								<td>
+									<h:outputText  styleClass="grey" value="#{msgBundle['menu.rp.feuille']}  " />
+								</td>
+								<td>
+									<h:inputText styleClass="textBleu margBot10px nbOnly" id="nbFeuil" value="#{repriseDonneeService.nbFeuil}" converterMessage="X" maxlength="2" size="2" required="true">
+									<s:validate/>
+									</h:inputText>
+									<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="nbFeuil" style="color:red"/>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<h:outputText  styleClass="grey" value="#{msgBundle['menu.rp.start']}  " />
+								</td>
+								<td>
+									<h:inputText styleClass="textBleu margBot10px nbOnly" id="nbLigneDonnees" value="#{repriseDonneeService.nbLigneDonnees}" converterMessage="X" maxlength="2" size="2" required="true">
+										<s:validate/>
+									</h:inputText>
+									<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="nbLigneDonnees" style="color:red"/>
+								</td>
+								<td>
+									<h:outputText  styleClass="grey" value="#{msgBundle['menu.rp.jusq']}  " />
+								</td>
+								<td>
+									<h:inputText styleClass="textBleu margBot10px nbOnly" id="nbLigneDonneesFin" value="#{repriseDonneeService.nbLigneDonneesFin}" converterMessage="X" maxlength="3" size="3">
+										<s:validate/>
+									</h:inputText>
+									<h:message for="nbLigneDonneesFin" style="color:red"/>
+								</td>
+							</tr>
+							<tr>	
+								<td>
+									<h:outputText  styleClass="grey" value="#{msgBundle['menu.rp.col']}  " />
+								</td>
+								<td>
+									<h:inputText styleClass="textBleu margBot10px nbOnly" id="nbColDonnees" value="#{repriseDonneeService.nbColDonnees}" converterMessage="X" maxlength="3" size="3" required="true">
+									<s:validate/>
+									</h:inputText>
+									<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="nbColDonnees" style="color:red"/>
+								</td>
+								<td>
+									<h:outputText  styleClass="grey" value="Identifiant d'agence : " />
+								</td>
+								<td>
+									<h:inputText styleClass="textBleu margBot10px nbOnly" id="idCodeAgence" value="#{repriseDonneeService.idCodeAgence}" converterMessage="X" >
+									<s:validate/>
+									</h:inputText>
+									<h:message for="idCodeAgence" style="color:red"/>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<h:outputText  styleClass="grey" value="#{msgBundle['menu.rp.label']}  " />
+								</td>
+								<td>
+									<h:inputText styleClass="textBleu margBot10px nbOnly" id="nbLigneLabel" value="#{repriseDonneeService.nbLigneLabel}" converterMessage="X" maxlength="2" size="2" required="true">
+									<s:validate/>
+									</h:inputText>
+									<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="nbLigneLabel" style="color:red"/>
+								</td>
+								<td>
+									<h:outputText  styleClass="grey" value="#{msgBundle['menu.rp.labC']}  " />
+								</td>
+								<td>
+									<h:inputText styleClass="textBleu margBot10px nbOnly" id="nbColLabel" value="#{repriseDonneeService.nbColLabel}" converterMessage="X" maxlength="2" size="2" required="true">
+									<s:validate/>
+									</h:inputText>
+									<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="nbColLabel" style="color:red"/>
+								</td>
+							</tr>
+					
+				</table>
+					</a:outputPanel>
+				</div>
+				<div style="height:7px;" />
+			</div>
+		</s:validateAll>
+			<div style="height: 7px;" />
+				<table width="100%" >
+					<tr>
+						<td width="1075px;" >
+							<div id="trd_submenu" class="trd_kb">
+								<ul>
+									<li>
+										<h:commandLink onclick="afficherAttente();" action="#{repriseDonneeService.validerRepriseDonnees}" value="" >
+											<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+											#{msgBundle['menu.rp.valid']} 
+										</h:commandLink>
+									</li>
+								</ul>
+							</div>
+						</td>
+						<td>
+							&#160;
+						</td>	
+					</tr>	
+				</table>
+				
+				<a:outputPanel id="searchResultsIntervenants">
+				<div id="zoneResultat" class="zoneResultat">
+					<div class="label">#{msgBundle['menu.rp.result']} </div>
+					<div class="panel">
+						<div class="head">
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['menu.rp.listE']}</div>
+							<div class="clear"></div>
+						</div>
+						<div class="content">
+							<h:outputText value="#{msgBundle['menu.rp.error']}" styleClass="greyLight"
+								rendered="#{empty repriseDonneeService.erreurs}" />
+							<rich:dataTable id="erreurs" rows="10"
+								value="#{repriseDonneeService.erreurs}" var="erreur"
+								rendered="#{not empty repriseDonneeService.erreurs}"
+								width="50%" rowClasses="row1, row2">
+								<rich:column>
+									<f:facet name="header">
+										#{msgBundle['menu.rp.feuille']}
+									</f:facet>
+									<h:outputText
+											value="#{erreur.nbFeuil}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										#{msgBundle['menu.rp.ligne']}
+									</f:facet>
+									<h:outputText
+											value="#{erreur.nbLigne}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										#{msgBundle['menu.rp.colonne']}
+									</f:facet>
+									<h:outputText
+											value="#{erreur.nbCol}" />
+								</rich:column>
+								
+								<rich:column>
+									<f:facet name="header">
+										#{msgBundle['menu.rp.desc']}
+									</f:facet>
+									<h:outputText
+											value="#{erreur.description}" />
+								</rich:column>
+								
+							</rich:dataTable>
+
+							<rich:datascroller status="waitStatus" stepControls="auto"  styleClass="progipaging" 
+							 style="width:100%" for="erreurs" rendered="#{not empty repriseDonneeService.erreurs}"/>
+
+						</div>
+						<div class="clear"></div>
+						<div class="navigation">
+
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+			</a:outputPanel>
+				
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

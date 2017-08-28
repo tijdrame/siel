@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:bp="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<ui:define name="title">Application Ch@k@</ui:define>
+	<ui:define name="body">
+
+
+
+		<div id="codePostaux" class="zoneResultat">
+			<div class="label2">
+				#{msgBundle['formulaire.codepostaux.titre']}</div>
+			<div class="panel">
+				<div class="head" style='padding-top: 15px;'>
+					<div class="ico"></div>
+					<div class="left perso"></div>
+					<div class="titre">
+						#{msgBundle['formulaire.codepostaux.label']}</div>
+					<div class="clear"></div>
+				</div>
+
+				<a:outputPanel id="regionCodePostaux">
+					<h:form id="frmCodePostaux">
+						<s:validateAll>
+							<rich:dataTable id="listCodePostaux"
+								value="#{codePostauxService.listeCodePostaux}"
+								var="varCodePostaux" styleClass="tableauEnfants" rendered="true"
+								width="100%" height="100%" rowClasses="row1,row2">
+
+								<f:facet name="header">
+									<rich:columnGroup>
+										<rich:column>
+				       			#{msgBundle['formulaire.codepostaux.code']}
+				       		</rich:column>
+										<rich:column>
+				       			#{msgBundle['formulaire.codepostaux.libelle']}
+				       		</rich:column>
+										<rich:column>
+				       			#{msgBundle['formulaire.codepostaux.commentaires']}
+				       		</rich:column>
+										<rich:column>
+					       		Action
+				       		</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+								<rich:column>
+									<f:facet name="header">
+										<h:panelGroup>
+											<h:inputText styleClass="textBleu margBot10px"
+												id="codeCodePostal"
+												value="#{codePostauxService.codePostaux.code}"
+												required="true" />
+											<h:outputText value="*"
+												style="color:red; font-size: large; font-weight: bold;"
+												class="gray" />
+										</h:panelGroup>
+									</f:facet>
+									<h:outputText value="#{varCodePostaux.code}" />
+								</rich:column>
+
+								<rich:column>
+									<f:facet name="header">
+										<h:panelGroup>
+											<h:inputText styleClass="textBleu margBot10px"
+												id="libelleCodePostal"
+												value="#{codePostauxService.codePostaux.libelle}"
+												required="true" />
+											<h:outputText value="*"
+												style="color:red; font-size: large; font-weight: bold;"
+												class="gray" />
+										</h:panelGroup>
+									</f:facet>
+									<h:outputText value="#{varCodePostaux.libelle}" />
+								</rich:column>
+
+								<rich:column>
+									<f:facet name="header">
+										<h:panelGroup>
+											<h:inputText styleClass="textBleu margBot10px"
+												id="commentaires"
+												value="#{codePostauxService.codePostaux.commentaires}" />
+											<h:outputText
+												style="color:red; font-size: large; font-weight: bold;"
+												class="gray" />
+										</h:panelGroup>
+									</f:facet>
+									<h:outputText value="#{varCodePostaux.commentaires}" />
+								</rich:column>
+
+								<rich:column>
+									<f:facet name="header">
+										<a:commandButton title="valider" id="validerCodePostaux"
+											action="#{codePostauxService.creerOuModifierCodePostaux()}"
+											image="/picto/add.png" status="waitStatus"
+											reRender="regionCodePostaux"
+											oncomplete="dateEtHeureInputs();" />
+									</f:facet>
+									<table width="100%">
+										<tr>
+											<td align="center"><a:commandButton
+													action="#{codePostauxService.versModifierCodePostal(varCodePostaux)}"
+													immediate="true" title="#{msgBundle['msg.hint.modifier']}"
+													status="waitStatus" id="modifierUnPays"
+													image="/picto/page_edit.png" styleClass="sansOmbre"
+													reRender="frmModifierCodePostaux"
+													oncomplete="javascript:Richfaces.showModalPanel('panelModifierCodePostal',{width:800, top:5, height:150});" />
+											</td>
+											<td align="center"><a:commandButton
+													action="#{codePostauxService.supprimerCodePostal(varCodePostaux)}"
+													immediate="true" status="waitStatus"
+													title="#{msgBundle['msg.hint.supprimer']}"
+													id="supprimerUnCodePostal" image="/picto/cross.png"
+													styleClass="sansOmbre"
+													onclick="if (!confirm('#{msgBundle['formulaire.codepostaux.btnsuppression']} #{varCodePostaux.code} ? ')) return false"
+													reRender="regionCodePostaux"
+													oncomplete="dateEtHeureInputs();" /></td>
+										</tr>
+									</table>
+								</rich:column>
+
+
+								<f:facet name="footer">
+								</f:facet>
+							</rich:dataTable>
+						</s:validateAll>
+
+					</h:form>
+
+				</a:outputPanel>
+				<ui:include src="./modals/modalCodePostaux.xhtml" />
+			</div>
+		</div>
+		<div style="height: 7px;" />
+
+		<!-- fin contacts -->
+	</ui:define>
+</ui:composition>

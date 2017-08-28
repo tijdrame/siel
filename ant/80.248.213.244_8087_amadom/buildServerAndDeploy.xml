@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SuiviResto" basedir="../.." default="buildall">
+
+	<property name="catalina.home" value="/home/prod/amadom/apache-tomcat-6.0.35" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="build.dir"
+		value="${basedir}/ant/80.248.213.244_8087_amadom/classes" />
+	<property name="dist.dir"
+		value="${basedir}/ant/80.248.213.244_8087_amadom/dist" />
+	<property name="target.dir" value="/ant/80.248.213.244_8087_amadom" />
+	<property name="bundle.dir" value="/ant/80.248.213.244_8087_amadom/war-bundle" />
+	<property name="lib" value="${basedir}/WebContent/WEB-INF/lib" />
+	<property name="war.bundle.name" value="chaka.war" />
+	<fileset id="libraries" dir="${basedir}/WebContent/WEB-INF/lib"
+		includes="**/*.jar" />
+	<fileset id="librariesTomcat" dir="${catalina.home}/lib"
+		includes="**/*.jar" />
+
+
+	<path id="chaka.classpath">
+		<fileset refid="libraries" />
+		<fileset refid="librariesTomcat" />
+	</path>
+
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${basedir}/${bundle.dir}" />
+	</target>
+
+	<target name="cleanEnd">
+		<delete dir="${build.dir}" />
+		<delete dir="${basedir}/${bundle.dir}" />
+	</target>
+
+
+	<target name="compile" depends="clean">
+		<mkdir dir="${build.dir}" />
+
+
+		<javac debug="on" encoding="ISO-8859-15" optimize="true" srcdir="${src.dir}"
+			destdir="${build.dir}" nowarn="true" fork="true" memoryinitialsize="128m"
+			memorymaximumsize="1024m" classpathref="chaka.classpath" compiler="modern">
+			<compilerarg value="-Djava.endorsed.dirs=${catalina.home}/endorsed" />
+		</javac>
+
+		<copy todir="${build.dir}/">
+			<fileset dir="${src.dir}">
+			</fileset>
+		</copy>
+	</target>
+
+
+	<target name="war" depends="compile">
+
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${basedir}/${bundle.dir}" />
+		<copy todir="${basedir}/${bundle.dir}/WEB-INF/classes">
+			<fileset dir="${build.dir}" />
+		</copy>
+		<copy todir="${basedir}/${bundle.dir}/">
+			<fileset dir="${basedir}/WebContent/" includes="**/*.*" />
+		</copy>
+		<copy todir="${basedir}/${bundle.dir}/WEB-INF/classes" overwrite="true">
+			<fileset file="${basedir}/ant/80.248.213.244_8087_amadom/log4j.xml" />
+			<fileset file="${basedir}/ant/80.248.213.244_8087_amadom/chaka.properties" />
+		</copy>
+		<copy todir="${basedir}/${bundle.dir}/META-INF"
+			file="${basedir}/ant/80.248.213.244_8087_amadom/context.xml"
+			overwrite="true">
+		</copy>
+		<war destfile="${dist.dir}/${war.bundle.name}" webxml="${basedir}/WebContent/WEB-INF/web.xml">
+			<fileset dir="${basedir}/${bundle.dir}" excludes="WEB-INF/web.xml" />
+		</war>
+	</target>
+
+	<target name="buildall">
+		<antcall target="war" />
+		<antcall target="cleanEnd" />
+	</target>
+
+
+</project>

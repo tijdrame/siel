@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:bp="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml"
+                  xmlns:a4j="http://richfaces.org/a4j">
+	
+    <ui:define name="title">Application Ch@k@</ui:define>
+	<ui:define name="body">
+
+
+
+<div id="localite" class="zoneResultat">
+	     <div class="label2">
+	          #{msgBundle['localite.titre.parametrage']}
+	     </div>
+        <div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['localite.titre.localite']}
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+			<a:outputPanel id="regionLocalite" >
+		     <h:form id="frmLocalite">
+				<s:validateAll>
+			<rich:dataTable id="listLocalite" value="#{listService.listLocalites}" var="varLocalite" styleClass="tableauEnfants" 
+					rendered="true" width="100%"  height="100%" rowClasses="row1,row2">
+			
+				    <f:facet name="header" >
+						<rich:columnGroup >
+						    <rich:column>
+				       			#{msgBundle['localite.typeLocalite']}
+				       		</rich:column>						    
+				       		<rich:column>
+				       			#{msgBundle['localite.libelle']}
+				       		</rich:column>
+				       		<rich:column>
+				       			#{msgBundle['localite.commentaire']}
+				       		</rich:column>				       	
+				       		<rich:column>
+					       		Action
+				       		</rich:column>
+				       	</rich:columnGroup>
+				 	</f:facet>
+				 	
+				 	<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+							    <h:selectOneMenu  value="#{localiteService.localite.typeLocalite}"  id="idTypeLocalite" required="true" styleClass="textBleu2 margBot10px" converter="#{typeLocaliteConverter}">
+			              				 <s:selectItems value="#{listService.listTypeLocalites}" var="varTypeLocalite" label="#{varTypeLocalite.libelle}" noSelectionLabel="selectionner..."></s:selectItems>
+			             		</h:selectOneMenu>								
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varLocalite.typeLocalite.libelle}" />	
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="libelle" 
+									value="#{localiteService.localite.libelle}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varLocalite.libelle}" />	
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="commentaire" 
+									value="#{localiteService.localite.commentaire}" />								
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varLocalite.commentaire}" />	
+					</rich:column>
+					
+					<rich:column>
+					    <f:facet name="header">
+							<a:commandButton title="#{msgBundle['localite.valider']}" id="validerLocalite" action="#{localiteService.creerOuModifierLocalite()}"
+								image="/picto/accept.png" status="waitStatus"  
+								reRender="regionLocalite"   oncomplete="dateEtHeureInputs();"/>
+						</f:facet>
+						<table width="100%">
+							<tr>
+								<td align="center">
+								<a:commandButton  action="#{localiteService.supprimerLocalite(varLocalite)}"
+								    immediate="true" status="waitStatus" title="#{msgBundle['msg.hint.supprimer']}"
+									id="supprimerUnLocalite" image="/picto/cross.png" styleClass="sansOmbre"
+									onclick="if (!confirm('#{msgBundle['msg.confirmation']} ? #{varLocalite.libelle}')) return false"									
+									reRender="regionLocalite" oncomplete="dateEtHeureInputs();" />
+								 </td>
+								 <td align="center">
+								<a:commandButton  action="#{localiteService.versModifierLocalite(varLocalite)}"
+								    immediate="true" status="waitStatus" title="#{msgBundle['msg.hint.modifier']}"
+									id="modifierUneLocalite" image="/picto/page_edit.png" styleClass="sansOmbre"																		
+									reRender="frmModifierLocalite" oncomplete="javascript:Richfaces.showModalPanel('panelModifierLocalite',{width:800, top:5, height:150});" />
+								 </td>
+							</tr>
+						</table>	
+					</rich:column>
+					
+				 	
+				 	<f:facet name="footer">
+					</f:facet>
+				</rich:dataTable>
+		     </s:validateAll>
+		
+		   </h:form>		   
+		</a:outputPanel>
+		<ui:include src="./modals/modalLocalite.xhtml" />
+		</div>
+		</div>
+		<div style="height: 7px;" />	
+				
+        <!-- fin contacts -->    
+</ui:define>
+</ui:composition>      

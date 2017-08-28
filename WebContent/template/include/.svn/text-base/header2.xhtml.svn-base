@@ -1,0 +1,2432 @@
+<div style="width: 100%;" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+	<style type="text/css">
+		div#copyright {
+			margin: 0 auto;
+			width: 80%;
+			font: 11px 'Trebuchet MS';
+			color: #fff;
+			text-indent: 20px;
+			padding: 40px 0 0 0;
+		}
+		
+		div#copyright a {
+			color: #ff4500;
+		}
+		
+		div#copyright a:hover {
+			color: #fff;
+		}
+	</style>
+
+	
+	
+	<h:form id="frmMenuPrincipalHeader">
+
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<nav class="navbar navbar-default" style="margin-bottom:0px;">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="#">
+		      	#{utilisateur.agence.identification}
+		      </a>
+		    </div>
+		
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav navbar-right">
+		      	<li id="bt_dec_in" >
+				  <h:commandLink
+					action="#{receptionService.versReception}"
+					value="" title="#{msgBundle['rec.dos']}">
+				  </h:commandLink> 
+			    </li>
+			    <li id="bt_dec_out">
+				  <h:commandLink
+					style="border:0px;"
+					action="#{transmissionService.versTransmission}" value=""
+					title="#{msgBundle['trans.doss']}">
+				  </h:commandLink> 
+			    </li>
+			    <li id="bt_dec_user">
+				  <h:commandLink
+					action="#{supervisionDossierService.versSupervisionDossier(false)}"
+					value="" title="#{msgBundle['sup.doss']}">
+				  </h:commandLink> 
+			    </li>
+		        <li>
+		        	<a:commandLink rendered="#{!s:hasRole('chaka')}"
+					onclick="afficherAttente();" status="waitStatus"
+					value=" #{utilisateur.nom} #{utilisateur.prenom}">
+					<i class="fa fa-fw fa-2x fa-user"></i>
+					</a:commandLink>
+		        </li>
+		        <li>
+		        	<a:commandLink
+					action="#{identity.logout}"
+					title="#{msgBundle['btn.decon']}">
+					#{msgBundle['btn.decon']}
+					<i class="fa fa-fw fa-2x fa-power-off"></i>
+					</a:commandLink>	
+		        </li>
+		        
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
+		<nav class="navbar navbar-inverse" style="top:-8px">
+	        <div class="container-fluid">
+	          <div class="navbar-header">
+	            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	              <span class="sr-only">Toggle navigation</span>
+	              <span class="icon-bar"></span>
+	              <span class="icon-bar"></span>
+	              <span class="icon-bar"></span>
+	            </button>
+	          </div>
+	          <a:outputPanel id="idContentMenu" rendered="#{fMenu.init()}">
+	          <div id="navbar" class="navbar-collapse collapse">
+	            <ul class="main-navigation">
+				  <li id="subParametrageNew">
+					<a:commandLink id="except_1">
+						<s:conversationPropagation propagation="none" />
+						<span id="back_param"></span>
+							<br />
+						#{msgBundle['menu.parametrage']}
+					</a:commandLink>
+					<ul>
+						<div id="bout"></div>
+						<li>
+							<a:commandLink id="except_1_1"
+								value="#{msgBundle['menu.administration']}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink>
+							<ul>
+								<li>
+									<a:commandLink id="m_1_1_1"
+										action="#{institutionService.versInstitution}"
+										value="#{msgBundle['menu.institution']}"
+										rendered="#{s:hasRole('admin')}" status="waitStatus">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li><a:commandLink id="m_1_1_11"
+										action="#{utilisateurService.versModifierMDP}"
+										value="#{msgBundle['chgmt.mdp']}" status="waitStatus">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									
+								<li><a:commandLink id="m_1_1_2"
+										action="#{actualiteService.versGestionActualite}"
+										value="#{msgBundle['menu.actu']}" status="waitStatus">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink value="#{msgBundle['menu.gest.droit.acces']}"
+										id="except_1_1_3" status="waitStatus"
+										action="#{profilService.versGestionMenu}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_1_4"
+										value="#{msgBundle['menu.supervision']}" status="waitStatus"
+										action="/pages/Administration.xhtml">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_1_5"
+										value="#{msgBundle['menu.general.zoneVerouille']}"
+										status="waitStatus" rendered="#{s:hasRole('admin')}"
+										action="#{zoneVerouilleeService.versGestionZoneVerouille}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_1_6"
+										value="#{msgBundle['menu.general.choixProprieteAVerouille']}"
+										status="waitStatus"
+										action="#{zoneVerouilleeService.versChoixProprieteAVerouille}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_1_7"
+										value="#{msgBundle['menu.lettres']}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+									<ul>
+										<li><a:commandLink id="m_1_1_7_1"
+												value="#{msgBundle['menu.parametrage.modeleMiseEnDemeure']}"
+												status="waitStatus"
+												action="#{taxationOfficeService.versModeleLettreMiseEnDemeure}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_1_1_7_2"
+												value="#{msgBundle['menu.parametrage.modeleTaxation']}"
+												status="waitStatus"
+												action="#{taxationOfficeService.versModeleLettreTaxation}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_1_1_7_3"
+												value="#{msgBundle['menu.parametrage.modeleMajoration']}"
+												status="waitStatus"
+												action="#{taxationOfficeService.versModeleLettreMajoration}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_1_1_7_4"
+												value="#{msgBundle['menu.parametrage.lettre.valEmp']}"
+												status="waitStatus"
+												action="#{lettreService.versModeleLettreValidationEmployeur}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_1_1_7_5"
+												value="#{msgBundle['menu.parametrage.lettre.rejEmp']}" status="waitStatus"
+												action="#{lettreService.versModeleLettreRejetEmployeur}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_1_1_7_6"
+												value="#{msgBundle['menu.parametrage.lettre.notifSimEmp']}"
+												status="waitStatus"
+												action="#{lettreService.versModeleLettreEmployeurSimil}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_1_1_7_7"
+												value="#{msgBundle['menu.parametrage.lettre.notifRp']}" status="waitStatus"
+												action="#{lettreService.versModeleLettreNotificationRP}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+									</ul>
+								</li>
+
+								<li><a:commandLink id="m_1_1_8" value="#{msgBundle['menu.cste']}"
+										status="waitStatus"
+										action="#{constanteService.versConstantes}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_1_1_9" value="#{msgBundle['menu.msg']}"
+										status="waitStatus"
+										action="#{messagesService.versMessagesBundles}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_1_10" value="#{msgBundle['menu.rapport']}"
+										status="waitStatus"
+										action="#{rapportService.versCreerModeleDemande()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="except_1_1_12"
+										value="#{msgBundle['menu.hierarch.profil']}" status="waitStatus"
+										action="#{supervisionDossierService.versSupervisionDossier(true)}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+							</ul></li>
+						<li><a:commandLink id="m_1_2"
+								value="#{msgBundle['menu.generaux']}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink>
+							<ul>
+								<li><a:commandLink id="m_1_2_1"
+										value="#{msgBundle['menu.general.signataire']}"
+										status="waitStatus"
+										action="#{signataireService.versSignataireDocument}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_2"
+										value="#{msgBundle['menu.general.langue']}"
+										status="waitStatus"
+										action="#{langueService.versGestionLangue}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_3"
+										value="#{msgBundle['menu.general.monnaie']}"
+										status="waitStatus"
+										action="#{monnaieService.versGestionMonnaie}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_4"
+										value="#{msgBundle['menu.general.lien']}"
+										status="waitStatus"
+										action="#{lienParenteService.versGestionLienParente}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li><a:commandLink id="m_1_2_6"
+										value="#{msgBundle['menu.general.paramrdv']}"
+										status="waitStatus"
+										action="#{sysParamRendezVousService.versGestionParamRendezVous}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_7"
+										value="#{msgBundle['menu.general.cree']}"
+										status="waitStatus"
+										action="#{siegeService.versRechercheSiege}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_8"
+										value="#{msgBundle['menu.general.modePaiment']}"
+										status="waitStatus"
+										action="#{modePaiementService.verModePaiement}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_1_2_9" value="#{msgBundle['menu.generaux.organigramme']}"
+										status="waitStatus"
+										action="#{subDivisionService.versGestionSubDivision}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_10"
+										value="#{msgBundle['libell.immatriculation.typCorr']}"
+										status="waitStatus"
+										action="#{typeCorrespondanceService.versGestionTypeCorrespondance}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_11"
+										value="#{msgBundle['msg.situatMat']}" status="waitStatus"
+										action="#{sysSituatMatService.versGestionSysSituationMat}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_12"
+										value="#{msgBundle['menu.finance.banque']}"
+										status="waitStatus"
+										action="#{sysBanqueService.versGestionSysBanque}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_13"
+										value="#{msgBundle['menu.general.position']}"
+										status="waitStatus"
+										action="#{positionService.versGestionPosition}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_1_2_14"
+										value="#{msgBundle['menu.general.loi']}"
+										status="waitStatus" action="#{loiService.versGestionLoi}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_1_2_15"
+										value="#{msgBundle['menu.emploi']}" status="waitStatus"
+										action="#{emploiService.versGestionEmploi}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_1_2_16" rendered="false"
+										value="#{msgBundle['menu.changementDivers']}"
+										status="waitStatus"
+										action="#{changementDiversService.versGestionChangementDivers}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_1_2_17"
+										value="#{msgBundle['msg.jourFerie']}" status="waitStatus"
+										action="#{jourFerieService.versGestionJourFerie}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+
+								<li><a:commandLink id="m_1_2_18"
+										value="#{msgBundle['menu.general.pramRemiseGracieuse']}"
+										status="waitStatus"
+										action="#{pramRemiseGracieuseService.versGestionPramRemiseGracieuse}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink status="waitStatus" id="m_1_2_19"
+										value="#{msgBundle['msg.autreRegime']}"
+										action="#{autreRegimeService.versGestionAutreRegime()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink status="waitStatus" id="m_1_2_20"
+										value="#{msgBundle['msg.motifRejet']}"
+										action="#{sysMotifRejetService.versGestionSysMotifRejet()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_1_2_21"
+										value="#{msgBundle['msg.rchivage.emp']}" status="waitStatus"
+										action="#{archivageService.versGestionArchivage}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+
+							</ul> <!-- ul >
+									
+							</ul --></li>
+
+						<li>
+							<a:commandLink id="m_1_3"
+								value="#{msgBundle['menu.drc']}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink>
+							<ul>
+
+								<li>
+									<a:commandLink id="m_1_3_1"
+										value="#{msgBundle['menu.general.chefRedressement']}"
+										status="waitStatus"
+										action="#{chefRedressementService.versChefRedressement}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_2"
+										value="#{msgBundle['menu.general.typemoratoire']}"
+										status="waitStatus"
+										action="#{typemoratoireService.versGestionTypeMoratoire}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_3"
+										value="#{msgBundle['menu.general.origine']}"
+										status="waitStatus"
+										action="#{sysOrigineAffiliationService.versGestionOrigineAffiliation}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_4"
+										value="#{msgBundle['menu.general.organismepayeur']}"
+										status="waitStatus"
+										action="#{organismePayeurService.versGestionOrganismePayeur}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_5"
+										value="#{msgBundle['menu.general.typecontribu']}"
+										status="waitStatus"
+										action="#{typeContribuService.versTypeContribuable}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_6"
+										value="#{msgBundle['menu.general.tutelle']}"
+										status="waitStatus"
+										action="#{tutellesService.versGestionTutelles}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_7"
+										value="#{msgBundle['menu.drc.catTravailleur']}"
+										status="waitStatus"
+										action="#{structureService.versStructure}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_8"
+										value="#{msgBundle['menu.general.typePenalite']}"
+										status="waitStatus"
+										action="#{typePenaliteService.versGestionTypePenalite}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_9"
+										value="#{msgBundle['menu.general.typeRemiseGracieuse']}"
+										status="waitStatus"
+										action="#{typeRemiseGracieuseService.versGestionTypeRemiseGracieuse}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_10"
+										value="#{msgBundle['menu.general.typeControle']}"
+										status="waitStatus"
+										action="#{sysTypeControleService.versGestionTypeControle}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_11"
+										value="#{msgBundle['menu.general.typeDTS']}"
+										status="waitStatus"
+										action="#{sysTypeDTSService.versGestionTypeDTS}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_12"
+										value="#{msgBundle['msg.typeEmployeur']}"
+										status="waitStatus"
+										action="#{sysTypeEmployeurService.versGestionRegime}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_13"
+										value="#{msgBundle['menu.professions']}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+									<ul>
+										<li>
+											<a:commandLink id="m_1_3_13_1"
+												value="#{msgBundle['msg.niveau']}" status="waitStatus"
+												action="#{sysNiveauEtudeService.versGestionNiveauEtude}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink>
+										</li>
+										<li>
+											<a:commandLink id="m_1_3_13_2"
+												value="#{msgBundle['msg.specialite']}"
+												status="waitStatus"
+												action="#{sysSpecialiteService.versGestionSpecialite}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink>
+										</li>
+										<li>
+											<a:commandLink id="m_1_3_13_3"
+												value="#{msgBundle['msg.profession']}"
+												status="waitStatus"
+												action="#{sysProfessionService.versGestionProfession}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink>
+										</li>
+										<li>
+											<a:commandLink id="m_1_3_13_4"
+												value="#{msgBundle['msg.groupeSpecialites']}"
+												status="waitStatus"
+												action="#{groupeSpecialitesService.versGroupeSpecialites}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_14"
+										value="#{msgBundle['menu.general.groupeRisqueTaux']}"
+										status="waitStatus"
+										action="#{groupeRisqueTauxService.versGroupeRisqueTaux}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_15"
+										value="#{msgBundle['menu.general.histo.branche.plaf']}" status="waitStatus"
+										action="#{histoSysBranchePlafondService.versGesionHistoSysBranchePlafond}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_3_16"
+										value="#{msgBundle['menu.TypeRequeteMoratoire.titre']}"
+										status="waitStatus"
+										action="#{typeRequeteMoratoirService.versTypeRequeteMoratoirService}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+
+							</ul> <!-- ul >
+									
+							</ul --></li>
+						<li>
+							<a:commandLink id="m_1_4"
+								value="#{msgBundle['menu.geographiques']}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink>
+							<ul>
+								<li>
+									<a:commandLink id="m_1_4_1"
+										value="#{msgBundle['msg.Syspays']}" status="waitStatus"
+										action="#{paysService.versGestionPays}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+
+								<li>
+									<a:commandLink id="m_1_4_2"
+										value="#{msgBundle['msg.Sysquartier']}" status="waitStatus"
+										action="#{provinceService.versGestionProvince}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a:commandLink id="m_1_5"
+								value="#{msgBundle['menu.juridique_economique']}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink>
+							<ul>
+								<li>
+									<a:commandLink id="m_1_5_1"
+										value="#{msgBundle['menu.general.secteurActivite']}"
+										status="waitStatus"
+										action="#{secteurActiviteService.versGestionSecteurActivite}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_5_2"
+										value="#{msgBundle['menu.general.natJur']}"
+										status="waitStatus"
+										action="#{sysActiviteEconomiqueService.versNatureJuridique}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+							</ul>
+						</li>
+						<li><a:commandLink id="m_1_8" value="#{msgBundle['menu.ref.PT']}" />
+							<ul>
+							<li><a:commandLink id="m_1_8_1"
+										value="#{msgBundle['menu.ref.PT.RP']}" />
+									<ul>
+										<li>
+									    <a:commandLink id="m_1_8_1_1" value="#{msgBundle['menu.para.med']}"
+										status="waitStatus"
+										action="#{medecinService.versCreermedecin}">
+										<s:conversationPropagation propagation="none" />
+									     </a:commandLink>
+										</li>
+										<li>
+									<a:commandLink id="m_1_8_1_2"
+										value="#{msgBundle['menu.para.natLes.etatVic']}"
+										status="waitStatus"
+										action="#{sysNatureLesionService.versGestionSysNatureLesion}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_1_3" value="#{msgBundle['menu.para.nat.mal']}"
+										status="waitStatus"
+										action="#{sysNatureMaladieService.versGestionSysNatureMaladie}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_1_4" value="#{msgBundle['menu.para.causeRP']}"
+										status="waitStatus"
+										action="#{sysCauseRPService.versGestionSysCauseRP()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_1_5"
+										value="#{msgBundle['menu.general.sequencerp']}"
+										status="waitStatus"
+										action="#{sysSequencesRPService.versGestionSequenceRP}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_1_6"
+										value="#{msgBundle['menu.incap.prof']}" status="waitStatus"
+										action="#{incapacitesProfessionelsService.versGestionIncapacitesProfessionels}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_1_7"
+										value="#{msgBundle['menu.general.lieureconnu']}"
+										status="waitStatus"
+										action="#{lieuReconnuService.versGestionLieuReconnu}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_1_8"
+										value="#{msgBundle['menu.param.frais']}" status="waitStatus"
+										action="#{sysTypeFraisService.versGestionTypeFrais}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_1_9" value="#{msgBundle['menu.param.parts']}"
+										status="waitStatus"
+										action="#{sysPartsService.versGestionSysParts}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								</ul>
+								</li>
+								<li><a:commandLink id="m_1_8_2"
+										value="#{msgBundle['menu.ref.PT.commons']}" />
+									<ul>
+										<li>
+									<a:commandLink id="m_1_8_2_1"
+										value="#{msgBundle['menu.para.formule']}" status="waitStatus"
+										action="#{parametresFormulesService.versGestionParametresFormules}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+										<li>
+									<a:commandLink id="m_1_8_2_2"
+										value="#{msgBundle['menu.para.cond.ass']}" status="waitStatus"
+										action="#{sysConditionsAssureService.versSysConditionsAssure}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+										<li>
+									<a:commandLink id="m_1_8_2_3"
+										value="#{msgBundle['menu.para.etabScol']}" status="waitStatus"
+										action="#{etablissementScolaireService.versGestionEtablissement}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_2_4" value="#{msgBundle['menu.para.prest']}"
+										status="waitStatus"
+										action="#{sysprestationService.versGestionPrestation}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_2_5"
+										value="#{msgBundle['menu.general.motifsdeduction']}"
+										status="waitStatus"
+										action="#{sysMotifsDeductionService.versGestionMotifsDeduction}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_2_6"
+										value="#{msgBundle['menu.general.typesbeneficiaire']}"
+										status="waitStatus"
+										action="#{sysTypesBeneficiaireService.versGestionTypesBeneficiaire}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li><a:commandLink id="m_1_8_2_7"
+										value="#{msgBundle['menu.param.base.calc.prest']}" status="waitStatus"
+										action="#{sysprestationBaseCalculService.versGestionPrestationBC}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									<li>
+									<a:commandLink id="m_1_8_2_8"
+										value="#{msgBundle['menu.param.comp.assu']}" status="waitStatus"
+										action="#{sysCompagnieAssService.versGestionSysCompagnieAss()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_2_9" value="#{msgBundle['menu.param.motif.enq']}"
+										status="waitStatus"
+										action="#{motifEnqueteService.versGestionSysMotifEnquete}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_2_10"
+										value="#{msgBundle['menu.param.Bareme.coefAge']}" status="waitStatus"
+										action="#{sysBaremeMntCaptRenteService.versGestionSysBareme()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_2_11"
+										value="#{msgBundle['forcage']}" status="waitStatus"
+										action="#{motifAFService.versMotifForcage}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_8_2_12"
+										value="#{msgBundle['menu.param.dpt.prelevementPrest']}"
+										status="waitStatus"
+										action="#{prelevementSurPrestationService.versGestionPrelevementSurPrest}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+									</ul>
+								</li>
+								<li><a:commandLink id="m_1_8_3"
+										value="#{msgBundle['menu.ref.PT.PVID']}" />
+									<ul>
+										<li>
+									<a:commandLink id="m_1_8_3_1"
+										value="#{msgBundle['menu.conditionPVID']}"
+										status="waitStatus"
+										action="#{conditionPVIDService.versConditionsPVID}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+									<li>
+									<a:commandLink id="m_1_8_3_2" value="#{msgBundle['menu.para.conv']}"
+										status="waitStatus"
+										action="#{sysOptionsConventionService.versGestionSysOptionsConvention}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>	
+									<li>
+									<a:commandLink id="m_1_8_3_3"
+										value="#{msgBundle['menu.para.condBenefAss']}" status="waitStatus"
+										action="#{conditionBenefAssService.versGestionConditionAge}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>	
+								
+								<li><a:commandLink id="m_1_8_3_4"
+										             value="#{msgBundle['motif.rec']}"
+										             status="waitStatus"
+										             action="#{MotifReclamationService.versSaisieMotifReclamation}">
+										             <s:conversationPropagation propagation="none" />
+										            </a:commandLink></li>
+								<li><a:commandLink id="m_1_8_3_5"
+										             value="#{msgBundle['menu.param.dpt.motif.attestionPension']}"
+										             status="waitStatus"
+										             action="#{motifDAPService.versGestionMotif}">
+										             <s:conversationPropagation propagation="none" />
+										            </a:commandLink></li>
+								<li><a:commandLink id="m_1_8_3_6"
+										             value="#{msgBundle['lab.motif.rejet.reclam']}"
+										             status="waitStatus"
+										             action="#{MotifReclamationService.versRejetReclamation}">
+										             <s:conversationPropagation propagation="none" />
+										            </a:commandLink></li>
+								
+									</ul>
+								</li>
+								
+							</ul>
+									<ul>
+								</ul>
+									
+								</li>
+						
+						
+						<li>
+						
+						
+						
+						</li>
+						<li>
+							<a:commandLink id="m_1_6"
+								value="#{msgBundle['menu.workflow']}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink>
+							
+							
+							
+							
+							<ul>
+								<li>
+									<a:commandLink id="m_1_6_1"
+										value="#{msgBundle['menu.workflow.traitementProcessus']}"
+										status="waitStatus"
+										action="#{sysTypeDepotService.versTypeDepot}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+								<li>
+									<a:commandLink id="m_1_6_2"
+										value="#{msgBundle['menu.general.statut']}"
+										status="waitStatus"
+										action="#{statutService.versGestionStatut}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a:commandLink id="m_1_7"
+								value="#{msgBundle['menu.fichier']}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink>
+							<ul>
+								<li>
+									<a:commandLink id="m_1_7_1"
+										value="#{msgBundle['menu.fichier.fichier']}"
+										status="waitStatus"
+										action="#{sysFichierService.versSysFichier}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				  </li>
+				  
+				  
+				   <li id="subControle">
+						<a:commandLink id="m_13"
+							value="">
+							<span id="back_controle"></span>
+							<br />
+							#{msgBundle['menu.controleEmployeur']}
+							<s:conversationPropagation propagation="none" />
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+									<li><a:commandLink
+											value="#{msgBundle['menu.gestionSessionsEmplyeurs']}"
+											status="waitStatus" id="m_13_1"
+											action="#{sessionDeControleService.versSessionDeControle}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink
+											value="#{msgBundle['menu.supervisionEquipeMission']}"
+											status="waitStatus" id="m_13_2"
+											action="#{equipeMissionDeControleService.versSupervisionEquipeMission()}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink
+											value="#{msgBundle['menu.demandesMissionControle']}"
+											status="waitStatus" id="m_13_3"
+											action="#{missionDeControleService.versIndexMissionDeControle()}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink id="m_13_7" status="waitStatus"
+											value="#{msgBundle['menu.controle.approbationDemandeMission']}"
+											action="#{missionDeControleService.versGestionMissionControle}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_13_8" status="waitStatus"
+												value="#{msgBundle['menu.controle.validationDemandeMission']}"
+												action="#{missionDeControleService.versValidationMissionControle}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+
+									<li><a:commandLink
+											value="#{msgBundle['menu.rapportMissionControle']}"
+											status="waitStatus" id="m_13_4"
+											action="#{missionDeControleService.versSaisieRetourMissionControle}">
+											<!-- missionDeControleService.versSaisieRetourMissionControle -->
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink
+											value="#{msgBundle['menu.consultationRapport']}"
+											status="waitStatus" id="m_13_5"
+											action="#{missionDeControleService.versConsulRetourMissionControle}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink id="m_13_6"
+											value="#{msgBundle['menu.controle.dtsAdditive']}"
+											action="#{missionDeControleService.versGenerationDts}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<!-- Next   m_7_2_8 -->
+									</ul>
+								</li>
+							
+							
+							
+							
+				  <li id="subCaisse">
+						<a:commandLink id="m_8"
+							value="">
+							<span id="back_encaisse"></span>
+							<br />
+							#{msgBundle['menu.encaissement.coti']}
+							<s:conversationPropagation propagation="none" />
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+							<li><a:commandLink id="m_8_1"
+									value="#{msgBundle['menu.passation.fond']}"
+									status="waitStatus"
+									action="#{passationService.versGestionPassation}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							<li><a:commandLink id="m_8_2"
+									value="#{msgBundle['menu.encaisement']}" status="waitStatus"
+									action="#{encaissementService.versEncaissement}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							<li><a:commandLink id="m_8_3"
+										value="#{msgBundle['menu.affect.enc']}" status="waitStatus"
+										action="#{affectationEncaissementService.versAffectEnc}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>	
+									
+								<li><a:commandLink id="m_8_12"
+										value="#{msgBundle['menu.autres.enc']}" status="waitStatus"
+										action="#{encaissementService.versAffectEnc}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>	
+								
+								<li><a:commandLink id="m_8_4"
+										value="#{msgBundle['parametre.caisse']}" status="waitStatus"
+										action="#{caisseService.versGestionCaisse}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_8_5"
+										value="#{msgBundle['parametre.compta']}" status="waitStatus"
+										action="#{comptaService.versGestionCompta}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink value="#{msgBundle['journal.oper']}"
+										status="waitStatus" id="m_8_6"
+										action="#{croetecriturecptService.versJournal}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink
+										value="#{msgBundle['menu.forma.du.journal.des.op']}"
+										status="waitStatus" id="m_8_7"
+										action="#{importFichierService.versImportFichier}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_8_8"
+										value="#{msgBundle['annulation.enc']}" status="waitStatus"
+										action="#{annulEncaissementService.versAnnulEncaissement}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_8_9"
+										value="#{msgBundle['deduc.regul']}" status="waitStatus"
+										action="#{autreDeductionService.versGestionDeduction}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									<li><a:commandLink id="m_8_10"
+										value="#{msgBundle['menu.journal.des.enc']}" status="waitStatus"
+										action="#{journalEncaissementService.versJournalEnc}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									
+									<li><a:commandLink id="m_8_11"
+										value="#{msgBundle['menu.gene.des.ecritures']}" status="waitStatus"
+										action="#{generationEcritureChargesService.versGenerationEcriture}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>	
+									
+									<li><a:commandLink id="m_8_13"
+										value="#{msgBundle['menu.exporter.reglemt']}" status="waitStatus"
+										action="#{journalEncaissementService.versJournalEnc2}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>	
+						</ul>
+					</li>
+				  <li id="subFrontOffice"><a:commandLink id="m_2"
+						value="">
+						<span id="back_front"></span>
+							<br />
+							#{msgBundle['menu.front.office']}
+						<s:conversationPropagation propagation="none" />
+					</a:commandLink>
+					<ul>
+						<div id="bout"></div>
+						<li><a:commandLink id="m_2_1"
+								value="#{msgBundle['menu.front.office.demande']}"
+								status="waitStatus"
+								action="#{frontOfficeService.versPriseenChargeDemande}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							
+						<li><a:commandLink id="m_2_3"
+								value="#{msgBundle['menu.front.office.demandePrestation']}"
+								status="waitStatus"
+								action="#{frontOfficeServiceDPT.versPriseenChargeDemandeDPT}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+
+						<li><a:commandLink id="m_2_5"
+								value="#{msgBundle['menu.front.office.demandePrestation1']}"
+								status="waitStatus"
+								action="#{frontOfficeServiceDPT.versDispatchingDemande}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+
+						<li><a:commandLink id="m_2_6"
+								value="#{msgBundle['menu.front.office.pretSar']}"
+								status="waitStatus" action="#{sarService.versSimulationPret}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+
+						<li><a:commandLink id="m_2_7"
+								value="#{msgBundle['menu.rec.saisie']}" status="waitStatus"
+								action="#{reclamationService.versSaisieReclamation}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+
+						<li><a:commandLink id="m_2_8"
+								value="#{msgBundle['menu.sitd']}" status="waitStatus"
+								action="#{situationDemandeService.versSituationDemande}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+						<li><a:commandLink id="m_2_9"
+					           value="#{msgBundle['menu.cessation.embauche']}" status="waitStatus"
+					           action="#{cessationEmbaucheService.versCessationEmbauche}">
+					           <s:conversationPropagation propagation="none" />
+					          </a:commandLink></li>
+					          
+					          <li><a:commandLink id="m_2_10"
+					          value="#{msgBundle['menu.certificatDeNonPerception']}" status="waitStatus"
+					          action="#{certificatDeNonPerceptionService.versCertificatDeNonPerception}">
+					          <s:conversationPropagation propagation="none" />
+					         </a:commandLink></li> 
+					         
+					         <li><a:commandLink id="m_2_11"
+					          value="#{msgBundle['menu.ConsulterPieces']}" status="waitStatus"
+					          action="#{consulterPiecesService.versConsulterPiece}">
+					          <s:conversationPropagation propagation="none" />
+					         </a:commandLink></li>
+					         
+					         <li><a:commandLink id="m_2_12"
+					          value="#{msgBundle['menu.front.office.liste']}" status="waitStatus"
+					          action="#{frontOfficeServiceDPT.voirListeDemandeBis()}">
+					          <s:conversationPropagation propagation="none" />
+					         </a:commandLink></li>
+					         
+					         <li><a:commandLink id="m_2_13"
+															value="#{msgBundle['menu.chgmt.divers.assure']}" status="waitStatus"
+															action="#{changementDiversAssureService.versChangementDiversAssure}">
+															<s:conversationPropagation propagation="none" />
+							 </a:commandLink></li>
+														
+							<li><a:commandLink id="m_2_14" value="#{msgBundle['menu.recherche.chgmt.div.ass']}" status="waitStatus"
+															action="#{changementDiversAssureService.versListeChangementDiversAssure}">
+															<s:conversationPropagation propagation="none" />
+						    </a:commandLink></li>
+						     <li><a:commandLink id="m_2_15" value="#{msgBundle['menu.certfi.cess.de.paiemt']}" status="waitStatus"
+															action="#{cessationPaiementService.versCessationPaiement}">
+															<s:conversationPropagation propagation="none" />
+						    </a:commandLink></li>
+						      <li><a:commandLink id="m_2_16" value="#{msgBundle['menu.gestion.demande.rejetee']} " status="waitStatus"
+															action="#{demandeRejeteService.versNotification}">
+															<s:conversationPropagation propagation="none" />
+	   						 </a:commandLink></li>
+	   						 <li><a:commandLink id="m_2_17"
+						           value="#{msgBundle['menu.sitd']}" status="waitStatus"
+						           action="#{frontOfficeServiceDPT.voirListeDemandeBis()}">
+						           <s:conversationPropagation propagation="none" />
+					          </a:commandLink></li>
+					</ul>
+				  </li>
+				  <li id="subImmatriculationNew">
+				  	<a:commandLink id="m_3"
+						value="">
+						<span id="back_immat"></span>
+							<br />
+							#{msgBundle['menu.immatriculation']}
+						<s:conversationPropagation propagation="none" />
+					</a:commandLink>
+					<ul>
+						<div id="bout"></div>
+						<li><a:commandLink id="m_3_1"
+								value="#{msgBundle['menu.employeurs']}" />
+							<ul>
+								<li><a:commandLink id="m_3_1_1" status="waitStatus"
+										value="#{msgBundle['menu.immatriculation.employer']}"
+										action="#{employeurService.versRechercheEmployeur()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_3_1_6"
+										value="#{msgBundle['menu.list.chgmt.position']}" status="waitStatus"
+										action="#{changementPositionEmpService.versListeChangerPosition}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_3_1_7"
+										value="#{msgBundle['menu.list.chgmt.raisSoc']}"
+										status="waitStatus"
+										action="#{chgtRaisonSocialeService.versListeChangerRaison}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_3_1_8"
+										value="#{msgBundle['menu.suspens.radiation.suite.dj']}"
+										status="waitStatus"
+										action="#{changementPositionEmpService.versListeChangerPositionSuiteJustice}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_3_1_9"
+										value="#{msgBundle['menu.val.suspens.radiation.suite.dj']}"
+										status="waitStatus"
+										action="#{changementPositionEmpService.versValiderChangerPositionSuiteDecision}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_3_1_3"
+										value="#{msgBundle['menu.general.validation']}"
+										status="waitStatus"
+										action="#{validationService.versValidationModifEmployeur}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_3_1_4"
+										value="#{msgBundle['label.affectationEmployeur']}"
+										status="waitStatus"
+										action="#{affectationEmployeurService.versGestionAffectationEmployeur()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+									
+								<li><a:commandLink id="m_3_1_5"
+										value="#{msgBundle['label.observationEmployeur.titre']}"
+										status="waitStatus"
+										action="#{affectationEmployeurService.versObservationGestionnaire()}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+								</li>
+							</ul>
+						</li>
+						
+						<li><a:commandLink id="m_3_2"
+								value="#{msgBundle['menu.immat.assure']}" />
+							<ul>
+								<li><a:commandLink id="m_3_2_1"
+										value="#{msgBundle['immat_assures.rechercheAssures']}"
+										status="waitStatus"
+										action="#{assureService.versListeAssures}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+
+								<li><a:commandLink id="m_3_2_2"
+										value="#{msgBundle['label.immat.chgment']}" />
+									<ul>
+										<li><a:commandLink id="m_3_2_2_1"
+												value="#{msgBundle['menu.immatriculation.ChangeP']}"
+												status="waitStatus"
+												action="#{changementPositionService.versGestionChgmtPosition}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink status="waitStatus" id="m_3_2_2_2"
+												value="#{msgBundle['immat_assures.chgmntcentreassure.modal']}"
+												action="#{changementCentreService.versGestionChgmtCentre()}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink status="waitStatus" id="m_3_2_2_3"
+												value="#{msgBundle['menu.cessation.attente']}"
+												action="#{nouvelEmployeurService.versGestionChgmt()}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+
+									</ul></li>
+								<li><a:commandLink id="m_3_2_3"
+										value="#{msgBundle['label.immat.ValAnul']}" />
+									<ul>
+
+
+										<li><a:commandLink status="waitStatus" id="m_3_2_3_1"
+												value="#{msgBundle['label.immat.ValAnulPosition']}"
+												action="#{changementPositionService.versValidationAnnChgmtPosition}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink status="waitStatus" id="m_3_2_3_2"
+												value="#{msgBundle['label.immat.ValAnulCentre']}"
+												action="#{changementCentreService.versValidationAnnChgmtCentre()}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+									</ul>
+									</li>
+								<li><a:commandLink id="m_3_2_4"
+										value="#{msgBundle['menu.general.validation']}"
+										status="waitStatus"
+										action="#{validationService.versValidationModifAssure}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_3_2_5" value="#{msgBundle['menu.saisie.embauche']}"
+										status="waitStatus"
+										action="#{nouvelEmployeurService.versnouvelEmployeur}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_3_2_6" value="#{msgBundle['menu.saisie.cessation']}"
+										status="waitStatus"
+										action="#{affectationDiversService.versCessation}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_3_2_7"
+										value="#{msgBundle['menu.histo.position.assure']}" status="waitStatus"
+										action="#{changementPositionService.versHistoriquePositionAssure}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								</ul>
+							</li>
+						
+								
+
+							<li><a:commandLink id="m_3_3"
+									value="#{msgBundle['menu.grappeFamiliale']}" />
+								<ul>
+									<li><a:commandLink id="m_3_3_1"
+											value="#{msgBundle['menu.grappeFamilialeRecherche']}"
+											status="waitStatus"
+											action="#{grappefamilialeService.versRechercheGrappe}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_3_3_2"
+											value="#{msgBundle['menu.grappeFamilialeReclamation']}"
+											status="waitStatus"
+											action="#{grappefamilialeService.versReclamation}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_3_3_3"
+											value="#{msgBundle['menu.general.validation']}"
+											status="waitStatus"
+											action="#{validationService.versValidationModifGrappe}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_3_3_4" value="#{msgBundle['menu.blocage.membre']}"
+											status="waitStatus"
+											action="#{grappefamilialeService.versBlocage}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_3_3_5"
+											value="#{msgBundle['menu.val.blocage.membre']}" status="waitStatus"
+											action="#{grappefamilialeService.versValidationBlocage}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_3_3_6"
+											value="#{msgBundle['menu.suppress.doublon']}" status="waitStatus"
+											action="#{grappefamilialeService.versSuppressionDoublonGrappe}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									
+						</ul>
+					</li>
+					</ul>
+					</li>
+					
+					
+					
+					
+
+				  <li id="subAllocationFamilliale">
+						<a:commandLink id="m_5"
+							value="">
+							<span id="back_pf"></span>
+							<br />
+							#{msgBundle['menu.allocfamill']}
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+							<li><a:commandLink id="m_5_1" rendered="false"
+									value="#{msgBundle['menu.requete.enquete']}"
+									status="waitStatus"
+									action="#{requeteEnqueteService.versGestionRequeteEnquete}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+
+							<li><a:commandLink id="m_5_2" value="#{msgBundle['menu.grossesse']}" />
+								<ul>
+									<li><a:commandLink id="m_5_2_1" status="waitStatus"
+											value="#{msgBundle['menu.rech.grossesse']}"
+											action="#{dossierAGService.versRechercheDossierAG}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+								</ul></li>
+
+							<li><a:commandLink id="m_5_5"
+									value="#{msgBundle['menu.alloc.fam']}" />
+								<ul>
+									<li><a:commandLink id="m_5_5_1" status="waitStatus"
+											value="#{msgBundle['menu.rech.af']}"
+											action="#{dossierAFService.versRechercheDossierAF}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+								</ul></li>
+							<li><a:commandLink id="m_5_4" rendered="false"
+									value="#{msgBundle['menu.requete.validerenquete']}"
+									status="waitStatus"
+									action="#{validerEnqueteService.versGestionValidationEnquete}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+
+							<li><a:commandLink id="m_5_7" rendered="false"
+									value="#{msgBundle['menu.requete.etablissementenquete']}"
+									status="waitStatus"
+									action="#{enqueteEtablissementService.versGestionEnqueteEtablissement}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+
+							<li><a:commandLink id="m_5_11" rendered="false"
+									value="#{msgBundle['menu.retenquete.etablissement']}" status="waitStatus"
+									action="#{retourEnqueteEtabService.versGestionRetourEnqueteEtab}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+
+							<li><a:commandLink id="m_5_12" rendered="false"
+									value="#{msgBundle['menu.retenquete.objet']}" status="waitStatus"
+									action="#{retourEnqueteObjetService.versGestionRetourEnqueteObjet}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							<li><a:commandLink id="m_5_13" rendered="false"
+									value="#{msgBundle['menu.envoyer.doss.enq']}"
+									status="waitStatus"
+									action="#{envoieDossierEnqueteService.versGestionEnvoie}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+							</li>
+						</ul>
+					</li>
+				  <li id="GPMD">
+						<a:commandLink id="m_10"
+							value="">
+							<s:conversationPropagation propagation="none" />
+							<span id="back_piece"></span>
+							<br />
+							#{msgBundle['menu.gpmd']}
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+							<li><a:commandLink id="m_10_1"
+										value="#{msgBundle['menu.gpmd.saisie']}" status="waitStatus"
+										action="#{saisiePicesGpmdService.versSaisiePieceGPMD}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									<li><a:commandLink id="m_10_7"
+										value="#{msgBundle['menu.retrait.de.piece']}" status="waitStatus"
+										action="#{retraitPieceMDService.versRetraitPiece}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									
+									<li><a:commandLink id="m_10_8"
+										value="#{msgBundle['menu.corr.piece']}" status="waitStatus"
+										action="#{situationLotApresSaisiService.versCorrection}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									
+									<li><a:commandLink id="m_10_9"
+										value="#{msgBundle['menu.ed.bordereau.journalier']}" status="waitStatus"
+										action="#{editionBorderauxPMDService.versBoredereauxPMD}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									
+								    <li><a:commandLink id="m_10_10"
+										value="#{msgBundle['menu.edition.piece.par.etab']}" status="waitStatus"
+										action="#{editionPMDparEtablissementService.versPMDEtablissement}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+
+								<li><a:commandLink id="m_10_2"
+										value="#{msgBundle['menu.gpmd.validation']}"
+										status="waitStatus"
+										action="#{validationPicesGpmdService.versValidationPieceGPMD}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_10_3"
+										value="#{msgBundle['menu.benef.chgment']}" />
+									<ul>
+										<li><a:commandLink id="m_10_3_1"
+												value="#{msgBundle['menu.benef.ChangeRB']}"
+												status="waitStatus"
+												action="#{changementRibService.versGestionChangementRib}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink status="waitStatus" id="m_10_3_2"
+												value="#{msgBundle['menu.benef.ChangePB']}"
+												action="#{changementPositionBenefService.versChangementPositionBeneficiaire}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+											<li><a:commandLink id="m_10_3_3"
+												value="#{msgBundle['menu.benef.ChangePD']}"
+												status="waitStatus"
+												action="#{changementPositionDroitBenefService.versChangementPositionDroitBeneficiaire}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+
+									</ul></li>
+								<li><a:commandLink id="m_10_4"
+										value="#{msgBundle['menu.benef.Validation']}" />
+									<ul>
+										<li><a:commandLink id="m_10_4_1"
+												value="#{msgBundle['menu.benef.ValidationPD']}"
+												status="waitStatus"
+												action="#{validationPositionDroitBenefService.versValidationChangementPositionDroitBeneficaire}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink status="waitStatus" id="m_10_4_2"
+												value="#{msgBundle['menu.benef.ValidationPB']}"
+													action="#{validationPositionBenefService.versValidationChangementPositionBeneficaire}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+											
+											
+
+									</ul></li>
+									
+									<li><a:commandLink id="m_10_5"
+										value="#{msgBundle['menu.benef.EditionResgistre']}" />
+									<ul>
+									<li><a:commandLink id="m_10_5_1"
+												value="#{msgBundle['menu.benef.EditionResgistrePB']}"
+												status="waitStatus"
+												action="#{validationPositionDroitBenefService.versRegistrePDB}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+									<li><a:commandLink status="waitStatus" id="m_10_5_2"
+												value="#{msgBundle['menu.benef.EditionResgistrePD']}"
+												action="#{validationPositionBenefService.versRegistrePB}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										
+
+									</ul></li>
+									
+									<li><a:commandLink status="waitStatus" id="m_10_6"
+												value="#{msgBundle['menu.pmgsta']}"
+													action="#{etatSuiviPMDService.versEtatSuiviPMD}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+						</ul>
+					</li>
+				  
+				  <li id="subRiskProf">
+					    <a:commandLink id="m_6"
+							value="">
+							<span id="back_risques"></span>
+							<br />
+							#{msgBundle['menu.RiskProf']}
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+							<li><a:commandLink id="m_6_1"
+									value="#{msgBundle['dossierRP.gestion']}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+
+								<ul>
+									<li><a:commandLink id="m_6_1_4"
+											value="#{msgBundle['dossierRP.recherche']}"
+											status="waitStatus"
+											action="#{rechDossiersRPService.versRechercheDossier}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_6_1_1"
+											value="#{msgBundle['dossierRP.reprise']}"
+											status="waitStatus"
+											action="#{rechercherDossierRPService.versGestionListeDossierRP}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_6_1_5"
+										value="#{msgBundle['menu.rech.frais.medicaux']}"
+										status="waitStatus"
+										action="#{rechercheFraisService.versRechercheDossier}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									<li><a:commandLink id="m_6_1_6"   
+											value="#{msgBundle['menu.reprise.ancien.dossier.rp']}"
+											status="waitStatus"
+											action="#{dossierRPService.versGestionRepriseDossierRP}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink id="m_6_1_2"
+											value="#{msgBundle['dossierRP.gestionCertif']}"
+											status="waitStatus"
+											action="#{dossierRPService.versPrisEnChargeCertificat}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+								<li><a:commandLink id="m_6_1_3" rendered="false"
+										value="#{msgBundle['menu.gest.frais']}"
+										status="waitStatus"
+										action="#{dossierRPService.versGestionFraisDossier}">
+										<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+								<li><a:commandLink id="m_6_1_7" 
+											value="#{msgBundle['menu.certif.medicaux.par.dossierrp']}"
+											status="waitStatus"
+											action="#{dossierRPService.versGestionListCertificat}">
+											<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+										
+								</ul>
+							</li>
+						</ul>
+					</li>
+				  <li id="subPaiementEtRecouvrement">
+						<a:commandLink id="m_7"
+							value="">
+							<span id="back_cotise"></span>
+							<br />
+							#{msgBundle['menu.PaiementEtRecouvrement']}
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+
+							<!--     sous menu     -->
+
+							<li><a:commandLink id="m_7_1"
+									value="#{msgBundle['menu.PaiementEtRecouvrement.gestionCarriere']}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								<ul>
+									<li><a:commandLink id="m_7_1_2"
+											value="#{msgBundle['menu.carrier.validationMoisAssurance']}"
+											status="waitStatus"
+											action="#{validationAssuranceService.versRecherche}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_1_3"
+											value="#{msgBundle['menu.carrier.editercarriere']}"
+											status="waitStatus"
+											action="#{reconstitutionCarriereService.versReconstituerCarriereDetails}">
+
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink id="m_7_1_5"
+											value="#{msgBundle['menu.carrier.carriereConvention']}"
+											status="waitStatus"
+											action="#{carriereConventionService.versCreerCarriereConvention}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_1_6"
+											value="#{msgBundle['menu.carrier.validationCarriereConvention']}"
+											status="waitStatus"
+											action="#{carriereConventionService.versValidationCarriereConvention}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_1_7"
+										value="#{msgBundle['menu.etat.car']}"
+										status="waitStatus"
+										action="#{etatSalaireEmployeurService.versEtatdesSalairesParEmployeur}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									<li><a:commandLink id="m_7_1_8"
+											value="#{msgBundle['menu.cess.embauche']}" status="waitStatus"
+											action="#{cessationService.versCessation}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+								</ul></li>
+
+							<!--     sous menu  CONTROLE EMPLOYEUR   -->
+
+
+							
+
+							<!--     fin sous menu   -->
+
+
+							<!-- SOUS MENU STATISTIQUES -->
+
+							<li><a:commandLink id="m_7_3" rendered="false"
+									value="#{msgBundle['menu.statistiquesControle']}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								<ul>
+									<li><a:commandLink id="m_7_3_1"
+											value="#{msgBundle['menu.statistiquesControle']}"
+											status="waitStatus"
+											action="#{traitementService.versGestionTraitement}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+								</ul>
+							</li>
+
+							<!-- Fin SOUS MENU STATISTIQUES -->
+							<!-- SOUS MENU APPEL COTISATION -->
+							<li><a:commandLink id="m_7_4"
+									value="#{msgBundle['menu.appelCotisation']}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								<ul>
+									<li><a:commandLink id="m_7_4_1"
+											value="#{msgBundle['appel_cotisation.Traitement']}"
+											status="waitStatus"
+											action="#{appelCotisationService.versAppelCotisation}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_4_2"
+											value="#{msgBundle['appel_cotisation.Edition']}"
+											status="waitStatus"
+											action="#{appelCotisationService.versAppelCotisationEdition}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink>
+									</li>
+
+								</ul>
+							</li>
+														<!-- SOUS MENU DTS -->
+
+							<li><a:commandLink id="m_7_5" value="#{msgBundle['menu.dts']}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								<ul>
+									<!-- ******************************************************************** -->
+
+									<li><a:commandLink id="m_7_5_5"
+											value="#{msgBundle['menu.dts.recherche']}" status="waitStatus"
+											action="#{dtsService.versRechercheDTS}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_5_6"
+											value="#{msgBundle['menu.affectationDetailDTS']}"
+											status="waitStatus"
+											action="#{dtsService.versAffectationDetailDTS}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink value="#{msgBundle['menu.taxation']}"
+											status="waitStatus" id="m_7_5_7"
+											action="#{taxationOfficeService.versEmployeursEnTaxation}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink
+												value="#{msgBundle['menu.migration']}"
+												rendered="false"
+												status="waitStatus" id="m_7_5_8"
+												action="#{migrationService.versMigrationDts}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+									<li><a:commandLink
+											value="#{msgBundle['menu.import.e.declaration']}"
+											status="waitStatus" id="m_7_5_9"
+											action="#{dtsService.versAutoImport}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_5_10"
+													value="#{msgBundle['menu.tableau.bord.dts.periode']}"
+													status="waitStatus"
+													action="#{dtsService.versTbDtsPeriode}">
+													<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_5_11"
+													value="#{msgBundle['menu.tableau.bord.dts.employeur']}"
+													status="waitStatus"
+													action="#{dtsService.versTbDtsCotisant}">
+													<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_5_26"
+														value="#{msgBundle['menu.tab.de.bord.des.dts.par.province']}"
+														status="waitStatus" rendered="false"
+														action="#{dtsService.versTbDtsProvince}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>												
+										<li><a:commandLink id="m_7_5_12"
+														value="#{msgBundle['menu.edition.suivi.dts.annee']}"
+														status="waitStatus" rendered="false"
+														action="#{dtsService.versEtatSuiviDtsParAnnee}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>		
+										<li><a:commandLink id="m_7_5_30"
+														value="#{msgBundle['menu.edit.suivi.des.dts.par.periode']}"
+														status="waitStatus" rendered="false"
+														action="#{dtsService.versEtatSuiviDtsParPeriode}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>																						
+										<li><a:commandLink id="m_7_5_13"
+														value="#{msgBundle['menu.edition.etat.var.annee']}"
+														status="waitStatus" rendered="false"
+														action="#{dtsService.versEtatVariationEffectifParAnnee}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_7_5_14"
+														value="#{msgBundle['menu.edition.etat.ecart.dec.calc']}"
+														status="waitStatus" rendered="false"
+														action="#{dtsService.versEtatEcart}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>	
+										<li><a:commandLink id="m_7_5_15"
+														value="#{msgBundle['menu.auto.imp.des.dts']}"
+														status="waitStatus"
+														rendered="true"
+														action="#{dtsService.versAutoImport}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>		
+										<li><a:commandLink id="m_7_5_16"
+														value="#{msgBundle['menu.migration']}"
+														rendered="false"
+														status="waitStatus"
+														action="#{migrationService.versMigrationDts}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>	
+										<li><a:commandLink id="m_7_5_28"
+														value="#{msgBundle['menu.importer.une.dts.multiple']}"
+														status="waitStatus"
+														action="#{dtsMultipleService.versImportDtsMultiple}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>												
+										<li><a:commandLink id="m_7_5_17"
+														value="#{msgBundle['menu.importation.des.teledeclarations']}"
+														status="waitStatus"
+														action="#{dtsService.versDtsSite}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>		
+										<li><a:commandLink id="m_7_5_21"
+														value="#{msgBundle['menu.corbeille.des.dts']}"
+														status="waitStatus"
+														action="#{edeclarationService.versCorbeilleEdeclaration}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>	
+										<li><a:commandLink id="m_7_5_23"
+														value="#{msgBundle['menu.etat.de.vos.valid.dts']}"
+														status="waitStatus"
+														action="#{dtsService.versEtatUserValidation}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>																					
+										<li><a:commandLink id="m_7_5_18"
+														value="#{msgBundle['menu.saisi.des.soldes.douvert']}"
+														status="waitStatus"
+														action="#{dtsService.versSaisieSolde}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>	
+										<li><a:commandLink id="m_7_5_29"
+														value="#{msgBundle['menu.saisi.des.accuses.de.recep.des.etats.de.sommes.dues']}"
+														status="waitStatus"
+														action="#{dtsService.versSaisiAccuseSolde}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>											
+										<li><a:commandLink id="m_7_5_19"
+														value="#{msgBundle['menu.val.des.soldes.douv']}"
+														status="waitStatus"
+														action="#{dtsService.versListSolde}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>	
+										<li><a:commandLink id="m_7_5_20"
+														value="#{msgBundle['menu.etat.des.soldes']}"
+														status="waitStatus"
+														action="#{dtsService.versEtatSaisie}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>		
+										<li><a:commandLink id="m_7_5_27"
+														value="#{msgBundle['menu.modif.de.solde.douv']}"
+														status="waitStatus"
+														action="#{dtsService.versModifierSolde}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>		
+																					
+										<li><a:commandLink id="m_7_5_22"
+														value="#{msgBundle['menu.gest.acces.teledeclarations']}"
+														status="waitStatus"
+														action="#{dtsService.versEtatSaisie}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>		
+										<li><a:commandLink id="m_7_5_24"
+														value="#{msgBundle['menu.cont.dts.anticipees']}"
+														status="waitStatus"
+														action="#{dtsService.versDtsAnticipe}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>	
+										<li><a:commandLink id="m_7_5_25"
+														value="#{msgBundle['menu.gest.acces.edeclarations']}"
+														status="waitStatus"
+														action="#{dtsService.versGestionAccesEdeclaration}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>									
+								</ul>
+							</li>
+							<!-- Fin SOUS MENU DTS -->
+							<li><a:commandLink id="m_7_6"
+									value="#{msgBundle['menu.remiseGracieuse']}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								<ul>
+
+									<li><a:commandLink id="m_7_6_1"
+											value="#{msgBundle['menu.rechercherRemiseGracieuse']}"
+											status="waitStatus"
+											action="#{remiseGracieuseRechercheService.versRecherche}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink id="m_7_6_2"
+											value="#{msgBundle['menu.validationRemiseGracieuseUlterieure']}"
+											status="waitStatus"
+											action="#{remiseGracieuseValidationService.versValidationAnnulationUlterieure}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+								</ul></li>
+
+							<!-- Moratoire -->
+							<li><a:commandLink id="m_7_7"
+									value="#{msgBundle['menu.moratoire']}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								<ul>
+									<li><a:commandLink id="m_7_7_1"
+											value="#{msgBundle['menu.traitementMoratoire']}"
+											status="waitStatus"
+											action="#{moratoireService.versPayementAcompte}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_7_2"
+											value="#{msgBundle['menu.rechercheMoratoire']}"
+											status="waitStatus"
+											action="#{moratoireService.versListMoratoire}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+
+									<li><a:commandLink id="m_7_7_3"
+											value="#{msgBundle['moratoire.suivi']}" status="waitStatus"
+											action="#{moratoireService.versAnnulationMoratoire}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+								</ul></li>
+							<!-- FIN Moratoire -->
+
+							<li><a:commandLink id="m_7_8"
+									value="#{msgBundle['menu.planificationEquipeRecouvrement']}"
+									status="waitStatus"
+									action="#{taxationOfficeService.versEmployeursEnDemeure}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							<li><a:commandLink id="m_7_9"
+									value="#{msgBundle['menu.retourFicheRecouvrement']}"
+									status="waitStatus"
+									action="#{taxationOfficeService.versEmployeursEnDemeure}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							<li><a:commandLink id="m_7_10" rendered="false"
+									value="#{msgBundle['menu.enquete']}" status="waitStatus">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								<ul>
+									<li><a:commandLink id="m_7_10_1"
+											value="#{msgBundle['menu.plan.enquete']}" status="waitStatus"
+											action="#{equipeEnqueteService.versOngletEnquete}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_10_2" value="#{msgBundle['menu.porte.feuille']}"
+											status="waitStatus"
+											action="#{equipeEnqueteService.versOngletEtatEnquete}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+									<li><a:commandLink id="m_7_10_3" value="#{msgBundle['menu.retour.enquete']}"
+											status="waitStatus"
+											action="#{equipeEnqueteService.versOngletRetourEnquete}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink>
+									</li>
+								</ul>
+							</li>
+
+							<!-- *************************SOUS MENU COTISANT******************************* -->
+								<li><a:commandLink id="m_7_11"
+										value="#{msgBundle['menu.situation.cotisant']}" status="waitStatus"
+										action="#{situationCotisantService.versSituationCotisant}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+								<li><a:commandLink id="m_7_12"
+										value="#{msgBundle['menu.inventaires.comptes']}" status="waitStatus"
+										action="#">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+									<ul>
+										<li><a:commandLink id="m_7_12_1"
+												value="#{msgBundle['menu.repertoriage']}" status="waitStatus"
+												action="#{dtsService.versRepertoriage}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_7_12_2" value="#{msgBundle['menu.saisie.creance']}"
+												status="waitStatus"
+												action="#{dtsService.versSaisieCreance}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_7_12_3" value="#{msgBundle['menu.list.creances']}"
+												status="waitStatus"
+												action="#{dtsService.versSListCreance}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink id="m_7_12_4" value="#{msgBundle['menu.etat.avancemt']}"
+												status="waitStatus"
+												action="#{dtsService.versAvancementCreance}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>											
+									</ul>
+									
+									
+									
+									</li>
+								<!-- *************************************************************** -->
+								<!--     sous menu  Relances Precontentieux   -->
+
+
+								<li><a:commandLink id="m_7_13"
+										value="#{msgBundle['menu.relance.precontentieux']}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink>
+
+									<ul>
+										<li><a:commandLink
+												value="#{msgBundle['menu.emission.somme.dus']}"
+												status="waitStatus" id="m_7_13_1"
+												action="#{prepareSommesDuesService.versSommesDues}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+											<li><a:commandLink
+												value="#{msgBundle['menu.gest.recouv']}"
+												status="waitStatus" id="m_7_13_3"
+												action="#{gestionCtxService.versGestionRecouvrement}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										<li><a:commandLink
+												value="#{msgBundle['menu.gest.precontentieux']}"
+												status="waitStatus" id="m_7_13_2"
+												action="#{gestionCtxService.versGestionPrecontentieux}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										
+										<li><a:commandLink
+												value="#{msgBundle['menu.gest.contentieux']}"
+												status="waitStatus" id="m_7_13_4"
+												action="#{gestionCtxService.versGestionContentieux}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+									</ul>
+								</li>
+								
+								
+							
+
+						</ul>
+					</li>
+				  <li id="Rec">
+						<a:commandLink id="m_11" value="">
+							<s:conversationPropagation propagation="none" />
+							<span id="back_reclam"></span>
+							<br />
+							#{msgBundle['menu.rec']}
+						</a:commandLink>
+						<ul>
+							<li><a:commandLink id="m_11_1"
+									value="#{msgBundle['menu.rec.saisie1']}" status="waitStatus"
+									action="#{reclamationService.versListeReclamation}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							<li><a:commandLink id="m_11_2"
+								value="#{msgBundle['menu.suivi.reclam']}" status="waitStatus"
+								action="#{suiviReclamationService.versSuiviReclamation}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+						</ul>
+				  </li>
+				  <li id="subPension">
+			    		<a:commandLink id="m_4"
+							value="">
+							<span id="back_pension"></span>
+							<br />
+							#{msgBundle['label.pvid.menu']}
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+							<li>
+								<a:commandLink id="m_4_1" status="waitStatus"
+									value="#{msgBundle['label.pvid.rech']}"
+									action="#{rechDossiersService.versRechercheDossier}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+							</li>								
+						</ul>
+				  </li>
+
+				  <li id="Paiement">
+						<a:commandLink id="m_12"
+							value="">
+							<span id="back_pay_pf"></span>
+							<br />
+							#{msgBundle['menu.paiementPrestation']}
+							<s:conversationPropagation propagation="none" />
+						</a:commandLink>
+						<ul>
+							
+							<li>
+						     <a:commandLink id="m_12_80"  value="#{msgBundle['lib.trai']}" />
+							    <ul>
+							    	<li><a:commandLink id="m_12_80_1"
+									value="#{msgBundle['chgmt.st.paiement']}" status="waitStatus"
+									action="#{suspensionRadiationService.versGestionSuspRadia}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+								
+								<li><a:commandLink id="m_12_80_2"
+									value="#{msgBundle['lab.susp.radiation']}" status="waitStatus"
+									action="#{choixPrestationerviceAPayerService.versGestionPrestatationAPayer}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							
+							<li><a:commandLink id="m_12_80_3"
+									value="#{msgBundle['choixPrestation']}" status="waitStatus"
+									action="#{choixPrestationerviceAPayerService.versChoixPrestatationAPayer}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+								
+							<li><a:commandLink id="m_12_80_4"
+									value="#{msgBundle['chgmtAdrTemporaire']}" status="waitStatus"
+									action="#{chgmtAdrTemporaireService.versChgmtAdrTemporaire}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							    </ul>
+						    </li>
+						    <li>
+						     <a:commandLink id="m_12_62"  value="#{msgBundle['menu.divers']}" />
+							    <ul>
+							    	<li><a:commandLink id="m_12_62_1"
+									value="#{msgBundle['generationFichier']}" status="waitStatus"
+									action="#{generationFichierService.versGenererFichier}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+							</li>
+							<li><a:commandLink id="m_12_62_2"
+								value="#{msgBundle['menu.gest.mt.droit']}" status="waitStatus"
+								action="#{gestionDiffMontantService.versGestionDiffMontantBenef}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							
+							<li><a:commandLink id="m_12_62_3"
+								value="#{msgBundle['menu.migration.droits']}" status="waitStatus"
+								action="#{migrationDroitService.versMigrationDroit}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_62_4"
+								value="#{msgBundle['menu.rech.droit.migres']}  " status="waitStatus"
+								action="#{migrationDroitService.versListeDroitMigres}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_62_5"
+								value="#{msgBundle['menu.histo.chgmt.mod.paiemt']}" status="waitStatus"
+								action="#{histoChangementAdressePaiementService.versHistoChgmt}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							
+							<li><a:commandLink id="m_12_62_6"
+								value="#{msgBundle['menu.remise.bordereau']}" status="waitStatus"
+								action="#{genererBordereauService.versGenerationBordereau}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_62_7"
+								value="#{msgBundle['menu.grabataire']}" status="waitStatus"
+								action="#{gestionAssistantSocialService.versGestionGrabataire}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							
+							<li><a:commandLink id="m_12_62_8"
+								value="#{msgBundle['menu.chgmtAttributaire']}" status="waitStatus"
+								action="#{changementAttributaireService.verChangementAttributaire}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							
+							<li><a:commandLink id="m_12_62_9"
+								value="#{msgBundle['menu.gest.retour.impayes']}" status="waitStatus"
+								action="#{gestionRetourBordereauService.versGestionRetourBordereau}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_62_10"
+								value="#{msgBundle['menu.radiation.droit.compte.dormant']}" status="waitStatus"
+								action="#{radiationDroitBanqueService.versRadiationDroitBanque}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							    </ul>
+						    </li>
+						    
+						    <li>
+						     <a:commandLink id="m_12_40"  value="#{msgBundle['menu.siege.identification']}" />
+							    <ul>
+							    <li><a:commandLink id="m_12_40_1"
+									value="#{msgBundle['identifManuelle']}" status="waitStatus"
+									action="#{identificationManuelleService.versIdentificationManuelle}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							    <li><a:commandLink id="m_12_40_2"
+								value="#{msgBundle['autreIdentif']}" status="waitStatus"
+								action="#{autreIdentificationService.versAutreIdentification}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_40_3"
+								value="#{msgBundle['identifAssSoc']}" status="waitStatus"
+								action="#{identifAssSocService.versIdentificationAssSoc}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							    </ul>
+						    </li>
+							
+							<li>
+						     <a:commandLink id="m_12_60"  value="#{msgBundle['menu.pecp.paiement']}" />
+							    <ul>
+							    	<li><a:commandLink id="m_12_60_1"
+									value="#{msgBundle['paiementPrestation']}" status="waitStatus"
+									action="#{paiementDroitsService.versGestionPaiment}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							    	<li><a:commandLink id="m_12_60_2"
+										value="#{msgBundle['autrePaiement']}" status="waitStatus"
+										action="#{autrePaiementService.versAutrePaiment}">
+										<s:conversationPropagation propagation="none" />
+									</a:commandLink></li>
+									<li><a:commandLink id="m_12_60_3"
+								value="#{msgBundle['menu.annul.paimnt']}" status="waitStatus"
+								action="#{annulerPaiementService.versAnnulerPaiement}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+								    <li><a:commandLink id="m_12_60_4"
+									value="#{msgBundle['paiementAssistanteSociale']}" status="waitStatus"
+									action="#{paiementAssistantService.versPaiementAssistante}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							    	<li><a:commandLink id="m_12_60_5" rendered="true"
+									value="#{msgBundle['menu.suivipaiement']}"
+									status="waitStatus"
+									action="#{suiviPaiementService.versSuiviPaiement}">
+									<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+								<li><a:commandLink id="m_12_60_6"
+								value="#{msgBundle['menu.gen.borderaux']}" status="waitStatus"
+								action="#{genererBordereauService.versPaiementBordereau}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							    </ul>
+						    </li>
+							<li>
+						     <a:commandLink id="m_12_70"  value="#{msgBundle['menu.stat.paiemt']}" />
+							    <ul>
+							    	<li><a:commandLink id="m_12_70_1"
+								value="#{msgBundle['incidencePaiement']}" status="waitStatus"
+								action="#{incidencePaiementService.versIncidencePaiement}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_70_2"
+								value="#{msgBundle['menu.paimt.cnamgs']}" status="waitStatus"
+								action="#{impressionCnamgsService.versImpressCnamgs}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_70_3"
+								value="#{msgBundle['menu.controle.paimt.par.zone']}" status="waitStatus"
+								action="#{controlePaiementParZoneService.versContPaiemtParZone}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_70_4"
+								value="#{msgBundle['menu.paimt.par.periode']}" status="waitStatus"
+								action="#{paiementParPeriodeService.versPaiementParPeriode}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							    </ul>
+						    </li>
+							
+							
+							<li>
+						     <a:commandLink id="m_12_50"  value="#{msgBundle['menu.gestion.cheque']}" />
+							    <ul>
+							    	<li><a:commandLink id="m_12_50_1"
+								value="#{msgBundle['menu.annulationChequeAssure']}" status="waitStatus"
+								action="#{annulationChequeService.versAnnulationChequeAssure}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_50_2"
+								value="#{msgBundle['menu.editionChequeEmployeur']}" status="waitStatus"
+								action="#{editionChequeService.versEditionChequeEmployeur}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							<li><a:commandLink id="m_12_50_3"
+								value="#{msgBundle['menu.editionCheque']}" status="waitStatus"
+								action="#{editionChequeService.versEditionCheque}">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink></li>
+							    </ul>
+							    </li>
+							<li>
+							     <a:commandLink id="m_12_17"  value="#{msgBundle['menu.Etatpaiement']}" />
+								    <ul>
+								      
+
+										<li><a:commandLink id="m_12_17_2"
+												value="#{msgBundle['etatjournalCaisse']}" status="waitStatus"
+												action="#{generationBPPService.versEtatPaiementJournalCentre}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink>
+										</li>
+										<li><a:commandLink id="m_12_17_3"
+												value="#{msgBundle['etatPaiement']}" status="waitStatus"
+												action="#{generationBPPService.versEtatPaiementParAttributaire}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink>
+										</li>
+										
+										<li><a:commandLink id="m_12_17_4"
+												value="#{msgBundle['etatPaiementPeriode']}" status="waitStatus"
+												action="#{editionChequeService.versEtatDePaiementParPeroide}">
+												<s:conversationPropagation propagation="none" />
+											</a:commandLink>
+										</li>
+									</ul>
+							</li>
+							<li>
+							     <a:commandLink id="m_12_61"  value="#{msgBundle['menu.gest.edition']}" />
+								    <ul>
+										<li><a:commandLink id="m_12_61_1"
+											value="#{msgBundle['menu.imp.attest.viremt']}" status="waitStatus"
+											action="#{imprimerAttestationVirPensionService.versImpress}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+										
+										
+										<li><a:commandLink id="m_12_61_2"
+											value="#{msgBundle['reeditionBulletins']}" status="waitStatus"
+											action="#{reeditionBulletin.versReedition}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+										<li><a:commandLink id="m_12_61_3"
+											value="#{msgBundle['menu.generer.bpp']}" status="waitStatus"
+											action="#{generationBPPService.versGenerationBPP}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+										<li><a:commandLink id="m_12_61_4"
+											value="#{msgBundle['etat_recap_paiement']}" status="waitStatus"
+											action="#{recapPaiementExcuterNonExcuterService.versEtatPaiementRecap}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink></li>
+										<li><a:commandLink id="m_12_61_5"
+									value="#{msgBundle['chgmtAdrTemporaireet']}" status="waitStatus"
+									action="#{etatPaiementService.versEtatPaiement}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+								    </ul>
+						    </li>
+						</ul>
+					</li>
+
+				  <li id="statistique">
+						<a:commandLink id="m_9" value="">
+							<s:conversationPropagation propagation="none" />
+							<span id="back_stat"></span>
+							<br />
+							#{msgBundle['menu.tab.de.bord']}
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+							<li><a:commandLink id="m_9_1" rendered="false"
+									value="#{msgBundle['stat.immat']}" status="waitStatus"
+									action="#{statistiqueService.versAccueilStatistique}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink></li>
+							<li><a:commandLink id="m_9_2"
+													value="#{msgBundle['menu.stat.trtmt.dossier']}" status="waitStatus"
+													action="#{sessionControl.versTraitementDossier}">
+													<s:conversationPropagation propagation="none" />
+									 </a:commandLink></li>
+									 
+									   <li><a:commandLink id="m_9_3"
+													value="#{msgBundle['menu.rec.bord.par.mode.paiemnt']}" status="waitStatus"
+													action="#{etatBordereauxModePaiementService.versEtatBordModePaiement}">
+													<s:conversationPropagation propagation="none" />
+									 </a:commandLink></li>
+									 
+									   <li><a:commandLink id="m_9_4"
+													value="#{msgBundle['menu.indic.prest.techn']}" status="waitStatus"
+													action="#{tableauDeBordDTP.versIndicateur}">
+													<s:conversationPropagation propagation="none" />
+									 </a:commandLink></li>
+									 <li><a:commandLink id="m_9_5"
+													value="#{msgBundle['menu.etat.comp']}" status="waitStatus"
+													action="#{etatsComparatifService.versEtatsComparatif}">
+													<s:conversationPropagation propagation="none" />
+									 </a:commandLink></li>
+									 <li><a:commandLink id="m_9_6"
+											value="#{msgBundle['menu.immatriculation']}" status="waitStatus"
+											action="#{statImmatService.versStat}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink>
+									</li>
+									<li><a:commandLink id="m_9_7"
+											value="#{msgBundle['menu.eta.affect']}" status="waitStatus"
+											action="#{statEncaissementService.versStatAffectations}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink>
+									</li>
+									<li><a:commandLink id="m_9_8" value="#{msgBundle['menu.indic.dts']}">
+											<s:conversationPropagation propagation="none" />
+										</a:commandLink>
+										<ul>
+											<li><a:commandLink id="m_9_8_1"
+														value="#{msgBundle['menu.tableau.bord.dts.periode']}"
+														status="waitStatus"
+														action="#{dtsService.versTbDtsPeriode}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+											<li><a:commandLink id="m_9_8_2"
+														value="#{msgBundle['menu.tableau.bord.dts.employeur']}"
+														status="waitStatus"
+														action="#{dtsService.versTbDtsCotisant}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+											<li><a:commandLink id="m_9_8_3"
+														value="#{msgBundle['menu.tab.de.bord.des.dts.par.province']}"
+														status="waitStatus"
+														action="#{dtsService.versTbDtsProvince}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>												
+											<li><a:commandLink id="m_9_8_4"
+														value="#{msgBundle['menu.edition.suivi.dts.annee']}"
+														status="waitStatus"
+														action="#{dtsService.versEtatSuiviDtsParAnnee}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>		
+											<li><a:commandLink id="m_9_8_5" rendered="false"
+														value="#{msgBundle['menu.edit.suivi.des.dts.par.periode']}"
+														status="waitStatus"
+														action="#{dtsService.versEtatSuiviDtsParPeriode}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>																						
+											<li><a:commandLink id="m_9_8_6"
+														value="#{msgBundle['edit.et.var.eff.parAn']}"
+														status="waitStatus"
+														action="#{dtsService.versEtatVariationEffectifParAnnee}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+											<li><a:commandLink id="m_9_8_7"
+														value="#{msgBundle['menu.edition.etat.ecart.dec.calc']}"
+														status="waitStatus"
+														action="#{dtsService.versEtatEcart}">
+														<s:conversationPropagation propagation="none" />
+											</a:commandLink></li>
+										</ul>
+									</li>
+						</ul>
+					</li>
+				</ul>
+	          </div><!--/.nav-collapse -->
+	          </a:outputPanel>
+	        </div><!--/.container-fluid -->
+	      </nav>
+		
+		<div id="zoneTitre" class="container zoneTitre">
+
+			<table align="center" width="100%">
+				<tr>
+					<!--<td width="20%" ></td>-->
+					<td width="33%"><a:outputPanel id="panelLangues">
+
+
+							<h:selectOneMenu value="#{localeSelector.language}"
+								styleClass="selectPays" rendered="false">
+								<a:support event="onchange" reRender="panelLangues"
+									status="waitStatus" />
+								<f:selectItem itemLabel="English" itemValue="en" />
+								<f:selectItem itemLabel="Francais" itemValue="fr" />
+							</h:selectOneMenu>
+
+						</a:outputPanel>
+					</td>
+					<td align="center" width="33%">				
+						<div>
+						
+							<!--
+							 <a:commandLink id="flagLink" styleClass="open">
+								<s:graphicImage id="flagfr" value="/flags/flag_fr.png"
+									rendered="#{localeSelector.language == 'fr'}" height="35px;" />
+								<s:graphicImage id="flagen" value="/flags/flag_en.png"
+									rendered="#{localeSelector.language == 'en'}" height="35px;" />
+							</a:commandLink>-->
+							<div class='collapse'>
+								<div class='box'>
+									<div class='arrow'></div>
+									<div class='arrow-border'></div>
+
+									<table>
+										<tr>
+											<td><a:commandLink
+													action="#{serviceLangue.passerEnFrancais()}">
+													<s:graphicImage id="flagfr2" value="/flags/flag_fr.png" height="35px;" />
+												</a:commandLink></td>
+											<td>FranÃ§ais</td>
+										</tr>
+										<tr>
+											<td><a:commandLink
+													action="#{serviceLangue.passerEnAnglais()}">
+													<s:graphicImage id="flagen2" value="/flags/flag_fr.png" height="35px;" />
+												</a:commandLink></td>
+											<td>English</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</h:form>
+</div>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<components xmlns="http://jboss.com/products/seam/components"
+	xmlns:core="http://jboss.com/products/seam/core" xmlns:pdf="http://jboss.com/products/seam/pdf"
+	xmlns:persistence="http://jboss.com/products/seam/persistence"
+	xmlns:security="http://jboss.com/products/seam/security"
+	xmlns:transaction="http://jboss.com/products/seam/transaction"
+	xmlns:document="http://jboss.com/products/seam/document" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mail="http://jboss.com/products/seam/mail" xmlns:web="http://jboss.com/products/seam/web"
+
+
+	xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.0.xsd 
+                http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.0.xsd
+                http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-2.1.xsd   
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
+                 http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.0.xsd">
+
+	<core:init debug="false" distributable="true" />
+	<!--<transaction:entity-transaction/> -->
+	<core:manager conversation-timeout="120000"
+		concurrent-request-timeout="2000" conversation-id-parameter="cid" />
+
+
+	<persistence:hibernate-session-factory
+		name="hibernateSessionFactory" />
+	<persistence:managed-hibernate-session
+		name="dataSource" session-factory="#{hibernateSessionFactory}"
+		auto-create="true">
+	</persistence:managed-hibernate-session>
+	<transaction:hibernate-transaction
+		session="#{dataSource}" />
+
+	<web:ajax4jsf-filter force-parser="false"
+		enable-cache="true" log4j-init-file="log4j.xml" url-pattern="*.seam" />
+
+
+	<security:identity authenticate-method="#{authenticator.authenticate}" />
+	<component name="org.jboss.seam.document.documentStore">
+		<property name="useExtensions">true</property>
+		<property name="errorPage">/pdfMissing.seam</property>
+	</component>
+	<document:document-store use-extensions="true" />
+	<component class="org.jboss.seam.web.MultipartFilter">
+		<property name="createTempFiles">true</property>
+		<property name="maxRequestSize">10485760</property>
+	</component>
+	<web:character-encoding-filter encoding="UTF-8"
+		override-client="true" url-pattern="*.xhtml" />
+
+
+
+
+</components>

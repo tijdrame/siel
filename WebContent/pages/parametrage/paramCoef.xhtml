@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml">
+	<ui:define name="title">Application SunuECOLE</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+
+		<a:outputPanel id="msg">
+			<h:message infoClass="confirmationerror"
+				errorClass="confirmationerror" warnClass="confirmationerror"
+				for="intervenantErreur" />
+			<h:message infoClass="confirmationwarning"
+				errorClass="confirmationwarning" warnClass="confirmationwarning"
+				for="intervenantMsgWarning" />
+			<h:inputHidden id="intervenantMsgWarning" value="" />
+			<h:inputHidden id="intervenantErreur" value="" />
+		</a:outputPanel>
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<div id="zoneRecherche" class="zoneRecherche">
+		
+					<a:form>
+					
+					
+					<a:outputPanel id="searchResultsIntervenants">
+					<h2 class="titre-tab">Liste des Classesp</h2>
+
+						<div class="panel">
+							
+							<div class="content">
+								
+								<rich:dataTable id="intervenants" rows="1"
+									value="#{classeMatiereService.listClasses}"
+									var="it"
+									width="100%"   >
+									
+									<f:facet name="header">
+									<rich:columnGroup  >
+										<rich:column >
+											Classe
+										</rich:column> 
+										<rich:column >
+											Disciplines
+										</rich:column>
+										<rich:column  >
+											Action
+										</rich:column>
+										
+										</rich:columnGroup>
+									</f:facet>
+									<rich:column>
+										<h:outputText value="#{it.libelle}"/>
+									</rich:column>
+									<rich:column width="60%">
+										<rich:dataTable value="#{it.listLnkCoefMatieres}" var="lnk" 
+										rendered="#{not empty it.listLnkCoefMatieres}" >
+                                        <rich:column width="80%">
+                                        
+                                            <h:outputText value="#{lnk.matiere.libelleCourt}" />
+                                        </rich:column>
+                                        <rich:column >
+                                        
+                                            <h:outputText value="#{lnk.valCoef}" />
+                                        </rich:column>
+                                    </rich:dataTable>
+                                    </rich:column>
+
+									<rich:column width="5%">
+										
+										<table align="center">												
+										<tr>
+										<td>
+										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="panelModalInfo"
+											action="#{classeMatiereService.consulerClasse(it)}" image="/picto/page_edit.png" 
+											styleClass="sansOmbre"	title="Voir Matiéres"
+											oncomplete="javascript:Richfaces.showModalPanel('panelModalInfo',{width:950, top:150, height:400})" >
+										</a:commandButton>
+										
+										</td>
+										<td>
+										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="panelModalInfo2"
+											action="#{classeMatiereService.consulerClasse(it)}" image="/picto/page_edit.png" 
+											styleClass="sansOmbre"	title="Voir Coefficients"
+											oncomplete="javascript:Richfaces.showModalPanel('panelModalInfo2',{width:950, top:150, height:400})">
+										</a:commandButton>
+										</td>
+										
+											</tr> 
+										</table>
+										
+									</rich:column>
+								</rich:dataTable>
+								
+								<rich:datascroller status="waitStatus" stepControls="auto"  styleClass="textBleu2" 
+				 style="width:100%; " for="intervenants"  align="center" />
+						
+							</div>
+							<div class="clear"></div>
+							<div class="navigation">
+								<div class="clear"></div>
+							</div>
+						</div>
+
+					</a:outputPanel>
+				
+		</a:form>
+	</div>
+	
+	<rich:modalPanel id="panelModalInfo2" 
+		
+		moveable="true" styleClass="popupAttente" >
+			<f:facet name="controls">
+				<a:commandLink value="" status="waitStatus" title="Fermer "
+					onclick="javascript:Richfaces.hideModalPanel('panelModalInfo2')">
+					<s:graphicImage fileName="cross.png" style="border:0px;"
+						value="/picto/cross.png" width="16" height="16" alt="" />
+				</a:commandLink>
+			</f:facet>
+			<f:facet name="header">
+			 <h:outputLabel value=" Ajouter / Modifier Cofficients : #{classeMatiereService.classet.libelle}"  />
+			</f:facet>
+			<rich:spacer height="2px" />
+
+				<!-- Holds the form -->
+
+				<h:form class="note-form" id="formModalInfo2">
+					<a:outputPanel ajaxRendered="true">
+						<div style="visibility: hidden; display: none">
+							<h:messages id="error"></h:messages>
+						</div>
+					</a:outputPanel>
+					<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#formModalInfo\\:error").text();
+					 if (retour == 'X')
+						    return true;
+					 if (retour == 'XX')
+						    return true;
+					 if (retour == 'XXX')
+						    return true;
+					 return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModalInfo');
+				}
+
+				
+				
+			</script>
+				
+				<rich:dataTable value="#{classeMatiereService.classet.listLnkCoefMatieres}" var="it" >
+                        <rich:column headerText="Disciplines" width="70%">
+                            <h:outputText value="#{it.matiere.libelle}"/>
+                        </rich:column>
+                        <rich:column headerText="Coefficient" >
+                            <h:inputText id="ssn" value="#{it.valCoef}" styleClass="nbOnly" size="1" maxlength="1"/>
+                        </rich:column>
+                    </rich:dataTable>
+                    
+				<table width="100%" align="center" class="table" >
+					<tr>
+					<td>
+					<a:commandButton   action="#{classeMatiereService.ajoutCOef()}"  
+					reRender="searchResultsIntervenants,formModalInfo2" value="Valider" oncomplete="fermerSiOk();"
+					 status="waitStatus" styleClass="btn btn-info">
+						
+					</a:commandButton>
+					
+					
+					</td>
+					</tr>
+				</table>
+			
+					
+				</h:form>
+		<div class="clear"></div>
+	</rich:modalPanel>
+	
+	
+
+	<!-- Debut Panel1 -->
+
+	<rich:modalPanel id="panelModalInfo" 
+		
+		moveable="true" styleClass="popupAttente" >
+			<f:facet name="controls">
+				<a:commandLink value="" status="waitStatus" title="Fermer "
+					onclick="javascript:Richfaces.hideModalPanel('panelModalInfo')">
+					<s:graphicImage fileName="cross.png" style="border:0px;"
+						value="/picto/cross.png" width="16" height="16" alt="" />
+				</a:commandLink>
+			</f:facet>
+			<f:facet name="header">
+			 <h:outputLabel value=" Ajouter / Modifier matières : #{classeMatiereService.classet.libelle}"  />
+			</f:facet>
+			<rich:spacer height="2px" />
+
+				<!-- Holds the form -->
+
+				<h:form class="note-form" id="formModalInfo">
+					<a:outputPanel ajaxRendered="true">
+						<div style="visibility: hidden; display: none">
+							<h:messages id="error"></h:messages>
+						</div>
+					</a:outputPanel>
+					<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#formModalInfo\\:error").text();
+					 if (retour == 'X')
+						    return true;
+					 if (retour == 'XX')
+						    return true;
+					 if (retour == 'XXX')
+						    return true;
+					 return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModalInfo');
+				}
+
+				
+				
+			</script>
+				<table width="100%" align="left" class="table" >
+
+				<tr>
+				<td><h:outputLabel  value="Matieres: "  /></td>
+                  <td>  
+                  <t:selectManyCheckbox value="#{classeMatiereService.listMatieresChoisi}"
+                              layout="pageDirection" layoutWidth="5" converter="#{matiereConverter}">
+                        <s:selectItems value="#{classeMatiereService.listMatieres}" var="matiere"
+                                       label="#{matiere.libelleCourt}" />
+                    </t:selectManyCheckbox>
+                    </td>
+					</tr>
+					<tr>
+					<td colspan="2">
+					<a:commandButton   action="#{classeMatiereService.ajoutMatieresClasse()}"  
+					reRender="searchResultsIntervenants,formModalInfo" value="Valider" oncomplete="fermerSiOk();"
+					 status="waitStatus" styleClass="btn btn-info">
+						
+					</a:commandButton>
+					
+					</td>
+					</tr>
+				</table>
+			
+					
+				</h:form>
+		<div class="clear"></div>
+	</rich:modalPanel>
+
+	
+</ui:define>
+</ui:composition>

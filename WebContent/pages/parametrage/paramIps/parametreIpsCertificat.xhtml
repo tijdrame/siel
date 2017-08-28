@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 12/11/2013 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage des Vehicules -->
+    <ui:define name="title">Application Am@domCim@p</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<center><h:messages style="color:red;"/></center>
+		<a:loadScript src="/js/common.js"/>
+		<!-- Panel principal-->
+		
+		
+		<div id="zoneResultat" class="zoneResultat">
+			<div class="label2">
+				#{msgBundle['label2.certificat']}
+			</div>
+			
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['titre.certificat']} 
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+				<div class="content">
+				<h:form id="form1">
+				<a:outputPanel id="panelIntitules" >
+					<rich:dataTable id="ongletModele"  value="#{certificatService.listDesCertificats}" var="varCertificat" 
+						width="80%" rowClasses="row1,row2">
+						<f:facet name="header">
+							<rich:columnGroup>
+								<rich:column>
+									#{msgBundle['label.libelle']}
+								</rich:column>
+								
+								<rich:column>
+									#{msgBundle['label.libelleCourt']}
+								</rich:column>
+								
+								<rich:column>
+									#{msgBundle['label.nBMoisDeValidite']}
+								</rich:column>
+								
+					
+								<rich:column width="100px;" >
+									Action
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+						<rich:column>
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="libelle" value="#{certificatService.certificatEnCreation.libelle}" required="true" 
+										styleClass="firstFocus textBleu2" maxlength="255" size="150" />
+									<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="libelle" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							
+							
+							#{varCertificat.libelle}
+						</rich:column>
+						
+						<rich:column>
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="libelleC" value="#{certificatService.certificatEnCreation.libelleCourt}" required="true" 
+										styleClass="firstFocus textBleu2" maxlength="255" size="150" />
+									<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="libelleC" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							
+							
+							#{varCertificat.libelleCourt}
+						</rich:column>
+						
+						<rich:column>
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="nBMoisDeValidite" value="#{certificatService.certificatEnCreation.nBMoisDeValidite}" required="true" 
+									 styleClass="nbOnly" size="15"  />
+									<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="nBMoisDeValidite" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							
+							
+							#{varCertificat.nBMoisDeValidite}
+						</rich:column>
+						
+						
+						<rich:column>
+							<f:facet name="header">
+								<a:commandButton  image="/picto/accept.png" style="height:16px;width:16px;border:0px;" 
+									reRender="panelIntitules" status="waitStatus" styleClass="sansOmbre"
+									action="#{certificatService.ajouterCertificat()}"/>
+							</f:facet>
+							<table width="100%">
+								<tr>
+									<td align="center" width="50%" >
+										<a:commandButton immediate="true" style="height:16px;width:16px;border:0px;"
+											action="#{certificatService.consulterCertificat(varCertificat)}" 
+											reRender="ModificationForfait" image="/picto/page_edit.png" 
+											status="waitStatus"  styleClass="sansOmbre"
+											oncomplete="javascript:Richfaces.showModalPanel('panelModifierForfait',{width:750, top:50, height:250})">
+										</a:commandButton>
+									</td>
+									<td align="center">
+										<a:commandButton immediate="true" style="height:16px;width:16px;border:0px;" reRender="panelIntitules"
+											onclick="if (!confirm('#{msgBundle['mess.SuppCertificat']}')) return false" 
+											image="/picto/cross.png"  styleClass="sansOmbre"
+											action="#{certificatService.supprimerCertificat(varCertificat)}"  status="waitStatus" />
+									</td>
+								</tr>
+							</table>
+						</rich:column>
+					</rich:dataTable>
+					</a:outputPanel>
+				</h:form>
+			</div>
+		</div>
+	</div>
+						
+						
+						
+						
+		<rich:modalPanel id="panelModifierForfait" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;" >
+			<div class="cadreBordOrange margTop10px padLeft30px padRight30px"  style="overflow: none" >
+			<div class="zoneTitreOrange margTop10px padLeft10px">
+				#{msgBundle['panelModif.certificat']}
+			</div>
+			<div class="margtop10px">
+			<f:facet name="controls">
+				<a onclick="Richfaces.hideModalPanel('panelModifierForfait');" style="cursor:pointer" href="#">Fermer</a>
+			</f:facet>
+
+
+			<div ><!-- Holds the form -->
+			
+			<h:form class="note-form" id="ModificationForfait">
+			<a:outputPanel ajaxRendered="true">
+				<div style="visibility: hidden; display: none" >
+					<h:messages id="error"></h:messages>
+				</div>
+			</a:outputPanel>
+			<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#ModificationForfait\\:error").text();
+					 if (retour == 'X')
+						    return true;
+					 if (retour == 'XX')
+						    return true;
+					 if (retour == 'XXX')
+						    return true;
+					 return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModifierForfait');
+				}
+
+				
+				
+			</script>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputLabel value="#{msgBundle['label.libelle']} : " for="libModifLibelle" />  
+					</td>
+					<td colspan="2" >
+						<h:inputText styleClass="textBleu margBot10px"  id="libModifLibelle" 
+							value="#{certificatService.certificatEnModification.libelle}" maxlength="80" 
+							size="20" required="true" />
+						<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+						<h:message for="libModifLibelle" style="color:red" />
+					</td>
+					
+					<td>
+						<h:outputLabel value="#{msgBundle['label.libelleCourt']}: " for="libModifLibelleCourt" />  
+					</td>
+					<td>
+						<h:inputText styleClass="textBleu margBot10px"  id="libModifLibelleCourt" 
+							value="#{certificatService.certificatEnModification.libelleCourt}" maxlength="20" 
+							size="20" required="true" />
+						<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+						<h:message for="libModifLibelleCourt" style="color:red" />
+					</td>
+					
+					<td>
+						<h:outputLabel value="#{msgBundle['label.nBMoisDeValidite']} : " for="libModifnBMoisDeValidite" />  
+					</td>
+					<td>
+						<h:inputText styleClass="textBleu margBot10px"  id="libModifnBMoisDeValidite" 
+							value="#{certificatService.certificatEnModification.nBMoisDeValidite}" maxlength="50" 
+							size="20" required="true" />
+						<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+						<h:message for="libModifnBMoisDeValidite" style="color:red" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="7" align="center">
+						<br />
+						<hr class="orange"/>
+						<a:commandButton value="Modifier"  oncomplete="fermerSiOk();" style="text-align:right;" status="waitStatus" 
+							action="#{certificatService.modifierCertificat(certificatService.certificatEnModification)}" 
+							reRender="ModificationForfait,panelIntitules" image="/img2/bouton_valider.jpg"/> 
+					</td>
+				</tr>
+			</table>
+			</h:form>
+			</div>
+		</div>
+		<div class="clear"></div>
+		</div>
+		</rich:modalPanel>				
+						
+						
+		
+		        
+
+		
+		
+	</ui:define>
+</ui:composition>

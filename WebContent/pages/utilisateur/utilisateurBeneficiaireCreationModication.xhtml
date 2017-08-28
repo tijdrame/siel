@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 04/12/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de Creation d'un Intervenant -->
+	
+    <ui:define name="title">Application Ch@k@</ui:define>
+	<ui:define name="body">
+		
+		<!-- Message d'avertissement-->
+		
+		<h:message infoClass="confirmationaccept" errorClass="confirmationaccept" warnClass="confirmationaccept" for="contactMsgInfo"  />
+		<h:message  infoClass="confirmationerror" errorClass="confirmationerror" warnClass="confirmationerror" for="contactMsg"    />
+		
+		<h:messages  globalOnly="true" />
+		<h:inputHidden id="uploadError"  />
+		<h:inputHidden id="contactMsgInfo"  />
+		<h:inputHidden id="contactMsg"  />
+		<!-- Panel principal-->
+		
+		<f:loadBundle basename="messages" var="msgBundle" />
+		
+		
+		
+		<h:form id="noautocomplete"  enctype="multipart/form-data"  >
+		<s:validateAll>
+		
+			
+		
+		<div id="zoneRecherche" class="zoneRecherche">
+			<div class="label1">
+				Creation accès client
+			</div>
+			
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="edit" ></div>
+					<div class="titre" >
+						Saisie d'un utilisateur
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+				<table  border="0"> 
+					<tr>
+						<td>
+							<h:outputText  styleClass="grey" value="Client : " />
+						</td>
+						<td>
+							<h:selectOneMenu id="select-search_modif_intervenants" styleClass="textBleu"
+								value="#{utilisateurService.utilisateurCreationModification.beneficiaire}" converter="#{beneficiaireConverter}" >
+								<s:selectItems value="#{beneficiaireList.lstBeneficiaireActifs}" var="beneficiaireConcerne" label="#{beneficiaireConcerne.nomComplet}"/>
+							</h:selectOneMenu>
+						</td>
+						<td width="10px"/>
+						<td>
+							<h:outputText styleClass="grey" value="Email : " />
+						</td>
+						<td>
+							<h:inputText styleClass="textBleu margBot10px" size="40"  id="emailIntervenant" value="#{utilisateurService.utilisateurCreationModification.email}" />
+							<h:message for="emailIntervenant" style="color:red"/>
+						</td>
+						<td width="10px"/>
+						<td>
+							<h:outputText styleClass="grey" value="Actif : " />
+						</td>
+						<td>
+							<h:selectBooleanCheckbox value="#{utilisateurService.utilisateurCreationModification.actif}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputText  styleClass="grey" value="Login : " />
+						</td>
+						<td>
+							<h:inputText autocomplete="off" styleClass="textBleu2 margBot10px noAutoComplete" id="loginIntervenant" value="#{utilisateurService.utilisateurCreationModification.login}" required="true" maxlength="30" />
+							<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+							<h:message for="loginIntervenant" style="color:red"/>
+						</td>
+						<td width="10px"/>
+						<td>
+							<h:outputText   rendered="#{utilisateurService.enCreation}" styleClass="grey"  value="Mot de passe : "  />
+						</td>
+						<td>
+							<h:inputSecret autocomplete="off" rendered="#{utilisateurService.enCreation}" styleClass="textBleu2 margBot10px noAutoComplete"  id="passwordIntervenant" value="#{utilisateurService.utilisateurCreationModification.password}" required="true" maxlength="30"  />
+							<h:outputText  rendered="#{utilisateurService.enCreation}" style="color:red;font-size: large;font-weight: bold;" value=" *" />
+							<h:message for="passwordIntervenant" style="color:red"/>
+						</td>
+						<td width="10px"/>
+						<td>
+							<h:outputText  rendered="#{utilisateurService.enCreation}" styleClass="grey" value="Confirmation mot de passe : " />
+						</td>
+						<td>
+							<h:inputSecret autocomplete="off"  rendered="#{utilisateurService.enCreation}" styleClass="textBleu2 margBot10px"  id="password2Intervenant" value="#{utilisateurService.utilisateurCreationModification.password2}" required="true" maxlength="30"  />
+							<h:outputText  rendered="#{utilisateurService.enCreation}" style="color:red;font-size: large;font-weight: bold;" value=" *" />
+							<h:message for="password2Intervenant" style="color:red"/>
+						</td>
+					</tr>
+					
+				</table>	
+				<br/>
+			</div>
+			<br/>
+		</div>
+		
+		
+		
+		<div style="height: 7px;" />
+		<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+								<li>
+									<h:commandLink  action="#{utilisateurService.creerModifierUtilisateur}" onclick="afficherAttente();"  value="">
+										<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										Valider
+									</h:commandLink>
+								</li>
+								<li>
+									
+									<a:commandLink immediate="true" status="waitStatus"  rendered="#{not utilisateurService.enCreation}" 
+										action="#{utilisateurService.initialisationPassword()}" value=""
+										reRender="ModificationPassword" styleClass="lienSansSoulignement"
+										oncomplete="javascript:Richfaces.showModalPanel('panelInitPassword',{width:500, top:5, height:300});jQuery('#ModificationPassword\\:prenomEnfant').focus();">
+										<s:graphicImage fileName="lock_edit.png" style="border:0px;" value="/picto/lock_edit.png" width="16" height="16" alt="" />
+										Réinitialiser mot de passe
+									</a:commandLink>
+								</li>
+								<li>
+									<h:commandLink immediate="true" action="#{utilisateurService.retourRechercheUtilisateurs}" onclick="afficherAttente();"  value="">
+										<s:graphicImage fileName="arrow_left.png" style="border:0px;" value="/picto/arrow_left.png" width="16" height="16" alt="" />
+										Retour
+									</h:commandLink>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+		
+		
+	</s:validateAll>
+	</h:form>
+	
+	<rich:modalPanel id="panelInitPassword" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590; " >
+			<div class="cadreBordOrange margTop30px padLeft30px padRight30px"  >
+			<div class="zoneTitreOrange margTop10px padLeft10px">
+				Réinitialisation du mot de passe
+			</div>
+			<br />
+			<div class="margtop30px">
+			<f:facet name="controls">
+				<a onclick="Richfaces.hideModalPanel('panelInitPassword');" style="cursor:pointer" href="#">Fermer</a>
+			</f:facet>
+
+
+			<div ><!-- Holds the form -->
+			
+			<h:form class="note-form" id="ModificationPassword">
+				<a:outputPanel ajaxRendered="true">
+					<h:message id="erreur" infoClass="confirmationerror" errorClass="confirmationerror" warnClass="confirmationerror" for="passwordErreur"    />
+        			<h:inputHidden id="passwordErreur" value="" />
+        			<div style="visibility: hidden;display: none;" >
+						<h:messages id="error2"></h:messages>
+					</div>
+				</a:outputPanel>
+			<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#ModificationPassword\\:erreur").text();
+					var retour2 = jQuery("#ModificationPassword\\:error2").text();
+					var resultat =  retour != '' || retour2 != "L'utilisateur a été modifié avec succès";
+					return resultat;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelInitPassword');
+				}
+				
+			</script>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						Mot de passe :
+					</td>
+					<td>
+						<h:inputSecret  styleClass="textBleu margBot10px firstFocus"  id="prenomEnfant" value="#{utilisateurService.password1}" required="true" />
+						<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+						<h:message for="prenomEnfant" style="color:red" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Confirmation :  
+					</td>
+					<td>
+						<h:inputSecret styleClass="textBleu margBot10px"  id="nomEnfant" value="#{utilisateurService.password2}" maxlength="30"  required="true" />
+						<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+						<h:message for="nomEnfant" style="color:red" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<br />
+						<hr class="orange"/>
+						<a:commandButton value="Valider" oncomplete="fermerSiOk();" style="text-align:right;"  status="waitStatus" 
+							action="#{utilisateurService.validerPassword()}" reRender="ModificationPassword" image="/img2/bouton_valider.jpg"/> 
+					</td>
+				</tr>
+			</table>
+			</h:form>
+			</div>
+		</div>
+		<div class="clear"></div>
+		</div>
+		</rich:modalPanel>
+		
+	
+	</ui:define>
+</ui:composition>

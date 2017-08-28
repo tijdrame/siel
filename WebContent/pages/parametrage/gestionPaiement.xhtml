@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<ui:define name="title">Application SunuECOLE</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+
+		<a:outputPanel id="msg">
+			<h:message infoClass="confirmationerror"
+				errorClass="confirmationerror" warnClass="confirmationerror"
+				for="intervenantErreur" />
+			<h:message infoClass="confirmationwarning"
+				errorClass="confirmationwarning" warnClass="confirmationwarning"
+				for="intervenantMsgWarning" />
+			<h:inputHidden id="intervenantMsgWarning" value="" />
+			<h:inputHidden id="intervenantErreur" value="" />
+		</a:outputPanel>
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<div id="zoneRecherche" class="zoneRecherche">
+		<h:form id="formInsc">
+
+			<!-- Fieldset de recherche -->
+
+			<a:outputPanel id="searchIntervenantCriteria">
+
+				
+						<div class="panel">
+	<h2 class="titre-tab">Critéres de recherche</h2>
+							<table width="100%" class="table">
+								<tr>
+								<td><h:outputLabel for="acad"  styleClass="grey" value="Année Académique:" /></td>
+								<td>
+								<h:selectOneMenu id="acad" style="width: 250px;" 
+								converter="#{anneeAcademiqueConverter}" styleClass="select"
+								value="#{paiementService.filtreAcademique}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="varAC" 
+								label="#{varAC.anneeAc}" value="#{anneeService.allAcademiques()}"  />
+							</h:selectOneMenu>
+								</td>
+								<td><h:outputLabel for="cycle"  styleClass="grey" value="Cycle :" /></td>
+								<td>
+								<h:selectOneMenu id="cycle" style="width: 250px;" 
+								converter="#{cycleConverter}" styleClass="select"
+								valueChangeListener="#{paiementService.findClasseByCycle}"
+								value="#{paiementService.filtreCycle}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="varCy" 
+								label="#{varCy.libelle}" value="#{inscriptionService.allCycles()}"  />
+								<a:support  event="onchange"  ajaxSingle="true" reRender="classe" />
+							</h:selectOneMenu>
+								</td>
+								</tr>
+								
+								<tr>
+								<td><h:outputLabel for="classe"  styleClass="grey" value="Classe:" /></td>
+								<td>
+								<h:selectOneMenu id="classe" style="width: 250px;" 
+								converter="#{classeConverter}" styleClass="select"
+								value="#{paiementService.filtreClasse}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="cla" 
+								label="#{cla.libelle}" value="#{paiementService.listClasses}"  />
+							</h:selectOneMenu>
+								</td>
+								<td><h:outputLabel for="etud"  styleClass="grey" value="N°Elève:" /></td>
+								<td><h:inputText styleClass="inputType2" required="false"
+											id="etud" value="#{paiementService.filtreEtudiant}"
+											style="width: 250px;"/>
+											</td>
+								</tr>
+								
+								
+								
+								
+							</table>
+					
+					<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{paiementService.findPaiement()}" status="waitStatus"
+												ignoreDupResponses="true"
+												requestDelay="0" reRender="searchResultsIntervenants, searchIntervenantCriteria">
+												<i class="fa fa-search" aria-hidden="true"></i>
+										Rechercher
+									</a:commandLink></li>
+									<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="panelModalInfo2"
+												oncomplete="javascript:Richfaces.showModalPanel('panelModalInfo2',{width:850, 
+												top:50, height:400})">
+												
+												<i class="fa fa-plus" aria-hidden="true"></i>
+										Ajouter
+									</a:commandLink></li>
+										
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+					</div>
+					
+					</a:outputPanel>
+					</h:form>
+					<a:form>
+					
+					
+					<a:outputPanel id="searchResultsIntervenants">
+					<h2 class="titre-tab">Liste des Paiements</h2>
+
+						<div class="panel">
+							
+							<div class="content">
+								
+								<rich:dataTable id="intervenants" rows="10"
+									value="#{paiementService.listPaiements}"
+									var="it"
+									
+									width="100%"   >
+									<rich:column filterBy="#{it.inscription.numInscription}" filterEvent="onkeyup">
+										<f:facet name="header">
+											N°Inscription
+										</f:facet>
+										<h:outputText value="#{it.inscription.numInscription}"/>
+										
+									</rich:column>
+									<rich:column filterBy="#{it.inscription.etudiant.prenom}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Prénom
+										</f:facet>
+										<h:outputText value="#{it.inscription.etudiant.prenom}"/>
+										
+									</rich:column>
+									<rich:column filterBy="#{it.inscription.etudiant.nom}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Nom
+										</f:facet>
+										<h:outputText value="#{it.inscription.etudiant.nom}"/>
+									</rich:column>
+									<rich:column filterBy="#{it.inscription.etudiant.numEleve}" filterEvent="onkeyup">
+										<f:facet name="header">
+											N°Eléve
+										</f:facet>
+										<h:outputText value="#{it.inscription.etudiant.numEleve}"/>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Date naissance
+										</f:facet>
+										<h:outputText value="#{it.inscription.etudiant.dateNaissance}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Classe
+										</f:facet>
+										<h:outputText value="#{it.inscription.classe.libelle}"/>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Année Acad.
+										</f:facet>
+										<h:outputText value="#{it.inscription.anneeAcademique.anneeAc}"/>
+									</rich:column>
+
+									<rich:column>
+										<f:facet name="header">
+											#{msgBundle['col.action']}
+										</f:facet>
+										<table align="center">												
+										<tr>
+										<td>
+										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="formModalInfo2"
+											action="#{paiementService.consuler(it)}" title="Voir détails" image="/picto/page_edit.png" 
+											styleClass="sansOmbre"	oncomplete="javascript:Richfaces.showModalPanel('panelModalInfo2',{width:850, 
+												top:50, height:400})">
+										</a:commandButton>
+										</td>
+										<td width="15px"></td>
+										<td>
+										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  
+											action="#{paiementService.imprim(it)}" title="Imprimer" image="/picto/ip.png" 
+											styleClass="sansOmbre"	oncomplete="javascript:Richfaces.showModalPanel('modalPdf')">
+										</a:commandButton>
+										</td>
+										
+											</tr> 
+										</table>
+										
+									</rich:column>
+								</rich:dataTable>
+								
+								<rich:datascroller status="waitStatus" stepControls="auto"  styleClass="textBleu2" 
+				 style="width:100%; " for="intervenants"  align="center" />
+						
+							</div>
+							<div class="clear"></div>
+							<div class="navigation">
+								<div class="clear"></div>
+							</div>
+						</div>
+
+					</a:outputPanel>
+				
+		</a:form>
+	</div>
+	<ui:include src="/pages/parametrage/modalPaiement.xhtml" />
+</ui:define>
+
+</ui:composition>

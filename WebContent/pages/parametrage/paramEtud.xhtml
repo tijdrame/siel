@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<ui:define name="title">Application SunuECOLE</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+
+		<a:outputPanel id="msg">
+			<h:message infoClass="confirmationerror"
+				errorClass="confirmationerror" warnClass="confirmationerror"
+				for="intervenantErreur" />
+			<h:message infoClass="confirmationwarning"
+				errorClass="confirmationwarning" warnClass="confirmationwarning"
+				for="intervenantMsgWarning" />
+			<h:inputHidden id="intervenantMsgWarning" value="" />
+			<h:inputHidden id="intervenantErreur" value="" />
+		</a:outputPanel>
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<div id="zoneRecherche" class="zoneRecherche">
+		<a:form>
+
+			<!-- Fieldset de recherche -->
+
+			<a:outputPanel id="searchIntervenantCriteria">
+
+				
+						<div class="panel">
+	<h2 class="titre-tab">Critéres de recherche</h2>
+							<table width="100%" class="table">
+								<tr>
+									<td>
+										<h:outputLabel for="instit"  styleClass="grey" value="Prénom:" />
+									</td>
+									<td>
+										<h:inputText  id="instit" required="false"
+											styleClass="inputType2"
+											value="#{etudiantService.filtrePrenom}"
+											style="width: 250px;"/>
+									</td>
+									<td><h:outputLabel class="grey"
+											value="Nom:" for="nomIn" />
+									</td>
+									<td><h:inputText id="nomIn" required="false"
+											styleClass="inputType2"
+											value="#{etudiantService.filtreNom}"
+											style="width: 250px;">
+											
+										</h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:outputLabel class="grey" value="N° Etudiant:" for="tel" /></td>
+									<td><h:inputText styleClass="inputType2" required="false"
+											id="tel" value="#{etudiantService.filtreNum}"
+											style="width: 250px;"/>
+									</td>
+									
+									<td>
+                  		
+					  </td>
+									
+								</tr>
+								
+							</table>
+					
+					<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{etudiantService.findEtudiant()}" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="searchResultsIntervenants, searchIntervenantCriteria">
+												<i class="fa fa-search" aria-hidden="true"></i>
+										Rechercher
+									</a:commandLink></li>
+									<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{etudiantService.versNewEl}" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="panelModalInfo2">
+												
+												<i class="fa fa-plus" aria-hidden="true"></i>
+										Ajouter
+									</a:commandLink></li>
+										
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+					</div>
+					
+					</a:outputPanel>
+					</a:form>
+					<a:form>
+					
+					
+					<a:outputPanel id="searchResultsIntervenants">
+					<h2 class="titre-tab">Liste des Etudiants</h2>
+
+						<div class="panel">
+							
+							<div class="content">
+								
+								<rich:dataTable id="intervenants" rows="10"
+									value="#{etudiantService.listEtudiants}"
+									var="it"
+									
+									width="100%"   >
+									<rich:column filterBy="#{it.prenom}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Prénom
+										</f:facet>
+										<h:outputText value="#{it.prenom}"/>
+										
+									</rich:column>
+									<rich:column filterBy="#{it.nom}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Nom
+										</f:facet>
+										<h:outputText value="#{it.nom}"/>
+									</rich:column>
+									<rich:column filterBy="#{it.numEleve}" filterEvent="onkeyup">
+										<f:facet name="header">
+											N°Eléve
+										</f:facet>
+										<h:outputText value="#{it.numEleve}"/>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Date naissance
+										</f:facet>
+										<h:outputText value="#{it.dateNaissance}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</rich:column>
+									
+
+									<rich:column>
+										<f:facet name="header">
+											#{msgBundle['col.action']}
+										</f:facet>
+										<table align="center">												
+										<tr>
+										<td>
+										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="searchIntervenantCriteria"
+											action="#{etudiantService.consuler(it)}" title="Voir détails" image="/picto/page_edit.png" 
+											styleClass="sansOmbre"	>
+										</a:commandButton>
+										</td>
+										
+											</tr> 
+										</table>
+										
+									</rich:column>
+								</rich:dataTable>
+								
+								<rich:datascroller status="waitStatus" stepControls="auto"  styleClass="textBleu2" 
+				 style="width:100%; " for="intervenants" align="center" />
+						
+							</div>
+							<div class="clear"></div>
+							<div class="navigation">
+								<div class="clear"></div>
+							</div>
+						</div>
+
+					</a:outputPanel>
+				
+		</a:form>
+	</div>
+	<ui:include src="/pages/parametrage/modalEleve.xhtml" />
+</ui:define>
+<ui:define name="buttonImg">
+      <div id="trd_submenu" class="trd_kb">
+		<ul>
+         <li>
+			<h:commandLink value=""  action="#{etudiantService.selectCurrentImage}" onclick="afficherAttente();">
+				<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+					#{msgBundle['btn.valider']}
+					<a:support event="oncomplete" reRender="regionButton" oncomplete="Richfaces.hideModalPanel('modalDocument');"/>
+			</h:commandLink>
+		</li>
+      </ul>
+     </div>       
+   </ui:define>
+</ui:composition>

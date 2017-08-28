@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<div style="width: 100%;" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+	
+	<rich:modalPanel id="panelModalInfo2" 
+		
+		moveable="true" styleClass="popupAttente" >
+			<f:facet name="controls">
+				<a:commandLink value="" status="waitStatus" title="Fermer "
+					onclick="javascript:Richfaces.hideModalPanel('panelModalInfo2')">
+					<s:graphicImage fileName="cross.png" style="border:0px;"
+						value="/picto/cross.png" width="16" height="16" alt="" />
+				</a:commandLink>
+			</f:facet>
+			<f:facet name="header">
+			 <h:outputLabel value=" Ajouter / Modifier Elève : "  />
+			</f:facet>
+			<rich:spacer height="2px" />
+
+				<!-- Holds the form -->
+
+				<h:form class="note-form" id="formModalInfo2">
+					<a:outputPanel ajaxRendered="true">
+						<div style="visibility: hidden; display: none">
+							<h:messages id="error"></h:messages>
+						</div>
+					</a:outputPanel>
+					<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#formModalInfo\\:error").text();
+					 if (retour == 'X')
+						    return true;
+					 if (retour == 'XX')
+						    return true;
+					 if (retour == 'XXX')
+						    return true;
+					 return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModalInfo');
+				}
+
+				
+				
+			</script>
+				<table width="100%" align="center" class="table" >
+					<tr>
+						<td><h:outputLabel class="grey"	value="Parent:" for="parent" />
+						</td>
+						<td><h:inputText  id="parent" required="true" styleClass="req" 
+						valueChangeListener="#{etudiantService.findParent}" reRender="parentPan"
+								value="#{etudiantService.filtreParent}" style="width: 250px;">
+								<a:support event="onchange" ajaxSingle="true" reRender="parentPan" />
+								</h:inputText></td>
+						
+						<td><h:outputLabel class="grey"	value="Nom Parent:"  /></td>
+						<td><h:outputLabel class="grey" id="parentPan"
+							value="#{etudiantService.etudiant.parent.nom} #{etudiantService.etudiant.parent.prenom}"  /></td>
+						
+						
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="prenom"  styleClass="grey" value="Prénom:" />
+						</td>
+						<td>
+							<h:inputText  id="prenom" required="true" styleClass="req"
+								value="#{etudiantService.etudiant.prenom}" style="width: 250px;"/>
+						</td>
+						<td><h:outputLabel class="grey"
+								value="Nom:" for="nom" />
+						</td>
+						<td><h:inputText id="nom" required="true"
+								styleClass="req"
+								value="#{etudiantService.etudiant.nom}"
+								style="width: 250px;"/></td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="tel"  styleClass="grey" value="Téléphone:" />
+						</td>
+						<td>
+							<h:inputText  id="tel" required="flase"
+								styleClass="inputType2"
+								value="#{etudiantService.etudiant.telephone}"
+								style="width: 250px;"/>
+						</td>
+						<td><h:outputLabel class="grey"
+								value="EMail:" for="mail" />
+						</td>
+						<td><h:inputText id="mail" required="false" styleClass="inputType2"
+							value="#{etudiantService.etudiant.email}" style="width: 250px;"/></td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="dateN"  styleClass="grey" value="Date naissance:" />
+						</td>
+						<td>
+						<rich:calendar id="dateN" enableManualInput="true" validatorMessage="X"
+						 maxlength="10"  styleClass="textBleu2" value="#{etudiantService.etudiant.dateNaissance}" 
+						 locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" required="true"
+							datePattern="dd/MM/yyyy" showApplyButton="#{false}"  requiredMessage="X"
+							cellWidth="1px" cellHeight="22px" style="width:200px" />
+							
+						</td>
+						<td><h:outputLabel class="grey"
+								value="Lieu naissance:" for="lieu" />
+						</td>
+						<td><h:inputText id="lieu" required="true" styleClass="req"
+							value="#{etudiantService.etudiant.lieuNaiss}" style="width: 250px;"/></td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="adress"  styleClass="grey" value="Adresse:" />
+						</td>
+						<td>
+						<h:inputText id="adress" required="true" styleClass="req"
+							value="#{etudiantService.etudiant.adresse}" style="width: 250px;"/>
+							
+						</td>
+						<td>
+							<h:outputLabel for="photo"  styleClass="grey" value="Photo:" />
+						</td>
+						<td>
+                  		<a:outputPanel id="regionButton" >
+					  		<a:commandLink 
+						    status="waitStatus" title="#{msgBundle['label.fileUpload.modifierPhoto']}"
+							id="addDetail1"  styleClass="sansOmbre"	
+							onclick="Richfaces.showModalPanel('modalDocument');" reRender="regionUpload,img">
+	    							<div >
+       									<a:mediaOutput element="img" id="img" style="width:80px;height:80px;overflow:auto;" 
+        									rendered="#{etudiantService.etudiant.photo != null}"
+           								cacheable="false" session="true"
+           								createContent="#{etudiantService.paint}"
+           								mimeType="image/jpeg" 
+           								value="#{fileUploadService.id}"/> 
+    									</div>
+							<s:graphicImage fileName="page_excel.png" style="border:0px;" 
+							rendered="#{etudiantService.etudiant.photo == null}"
+							 title="Photo"
+										value="/picto/default_photo.jpg" width="80px" height="80px" alt="" />
+							</a:commandLink>				
+					  </a:outputPanel>
+					  </td>
+					</tr>
+                    
+				
+					<tr>
+					<td colspan="4" align="center">
+					<a:commandButton   action="#{etudiantService.ajout()}"  
+					reRender="searchResultsIntervenants,formModalInfo2" value="Valider" oncomplete="fermerSiOk();"
+					 status="waitStatus" styleClass="btn btn-info">
+						
+					</a:commandButton>
+					
+					
+					</td>
+					</tr>
+				</table>
+			
+					
+				</h:form>
+		<div class="clear"></div>
+	</rich:modalPanel>
+</div>

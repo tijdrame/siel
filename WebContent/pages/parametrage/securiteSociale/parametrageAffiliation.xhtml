@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 20/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage des Vehicules -->
+    <ui:define name="title">Application CNSS</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<center><h:messages style="color:red;"/></center>
+		<a:loadScript src="/js/common.js"/>
+		<!-- Panel principal-->
+		
+		
+		
+		<div id="zoneResultat" class="zoneResultat">
+			<div class="label2">
+				#{msgBundle['label.administrationAffiliation']}
+			</div>
+			
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['label.Affiliation']}
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+				<div class="content">
+				<h:form id="form1">
+				<a:outputPanel id="panelAffiliation" >
+					<rich:dataTable id="listeData"  value="#{affiliationService.listAffiliations}" var="varAffiliation" width="80%" rowClasses="row1,row2">
+						<f:facet name="header">
+							<rich:columnGroup>
+								<rich:column>
+									#{msgBundle['label.libelle']}
+								</rich:column>
+								
+								<rich:column>
+									#{msgBundle['label.libelleCourt']}
+								</rich:column>
+								
+								<rich:column>
+									#{msgBundle['label.commentaires']}
+								</rich:column>
+								
+								<rich:column width="100px;" >
+									#{msgBundle['col.action']}
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+						<rich:column style="text-align:center;" >
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="libTutelle" value="#{affiliationService.affiliationEnCreation.libelle}" required="true"
+										styleClass="firstFocus textBleu" maxlength="80" size="80" requiredMessage=""/>
+									<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="libTutelle" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							#{varAffiliation.libelle}
+						</rich:column>
+						
+						<rich:column style="text-align:center;" >
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="libCourtTutelle" value="#{affiliationService.affiliationEnCreation.libelleCourt}" required="true"
+									styleClass="textBleu" maxlength="255" size="20" requiredMessage=""/>
+									<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="libCourtTutelle" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							#{varAffiliation.libelleCourt}
+						</rich:column>
+						
+						<rich:column style="text-align:center;" >
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="libCom" value="#{affiliationService.affiliationEnCreation.commentaire}" 
+										styleClass="textBleu" maxlength="255" size="30" />
+									<h:message for="libCom" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							#{varAffiliation.commentaire}
+						</rich:column>
+						<rich:column width="100px;" >
+							<f:facet name="header">
+										<a:commandButton image="/picto/accept.png" style="height:16px;width:16px;border:0px;" reRender="panelAffiliation" status="waitStatus"
+											styleClass="sansOmbre" action="#{affiliationService.creerAffiliation()}" />
+									</f:facet>
+							<table width="100%">
+								<tr>
+									<td align="center" width="50%">
+										<a:commandButton immediate="true" style="height:16px;width:16px;border:0px;"
+											action="#{affiliationService.consulterAffiliation(varAffiliation)}" 
+											reRender="modificationAffiliation" image="/picto/page_edit.png" 
+											status="waitStatus" styleClass="sansOmbre"
+											oncomplete="javascript:Richfaces.showModalPanel('panelModifierAffiliation',{width:750, top:50, height:250})">
+										</a:commandButton>
+									</td>
+									<td align="center">
+										<a:commandButton immediate="true" style="height:16px;width:16px;border:0px;" reRender="panelAffiliation"
+											onclick="if (!confirm('#{msgBundle['msg.affiliation.confirmSuppression']}')) return false" 
+											image="/picto/cross.png" action="#{affiliationService.supprimerAffiliation(varAffiliation)}" styleClass="sansOmbre"
+											 status="waitStatus" />
+									</td>
+								</tr>
+							</table>
+						
+		   		    </rich:column>
+					</rich:dataTable>
+					</a:outputPanel>
+				</h:form>
+			</div>
+			
+			<rich:modalPanel id="panelModifierAffiliation" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;">
+					<div class="cadreBordOrange margTop30px padLeft30px padRight30px">
+						<div class="zoneTitreOrange margTop10px padLeft10px">#{msgBundle['label.modificationAffiliation']}</div>
+						<br />
+						<div class="margtop30px">
+							<f:facet name="controls">
+								<a onclick="Richfaces.hideModalPanel('panelModifierAffiliation');" style="cursor: pointer" href="#">#{msgBundle['label.fermer']}</a>
+							</f:facet>
+
+
+							<div>
+								<!-- Holds the form -->
+
+								<h:form class="note-form" id="modificationAffiliation">
+									<a:outputPanel ajaxRendered="true">
+										<div style="visibility: hidden; display: none">
+											<h:messages id="error"></h:messages>
+										</div>
+									</a:outputPanel>
+									<script>
+
+			jQuery(document).ready(function()
+					{
+						dateEtHeureInputs();
+					});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#modificationAffiliation\\:error").text();
+				    return  retour == 'X';
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModifierAffiliation');
+				}
+				
+			</script>
+									<s:validateAll>
+										<table border="0" width="100%">
+											<tr>
+												<td>#{msgBundle['label.libelle']} :</td>
+												<td><h:inputText styleClass="textBleu2 margBot10px nomFamilleStyle" id="nomContact3" value="#{affiliationService.affiliationEnModification.libelle}"
+														maxlength="30" required="true" /> <h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" /> <h:message
+														style="color:red" /></td>
+												<td width="10px" />
+												<td>#{msgBundle['label.libelleCourt']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px prenomStyle" id="prenomContact3" value="#{affiliationService.affiliationEnModification.libelleCourt}"
+														maxlength="30" /></td>
+												<td width="10px" />
+												<td>#{msgBundle['label.commentaires']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px prenomStyle" id="tel1Contact3" value="#{affiliationService.affiliationEnModification.commentaire}"
+														maxlength="15" size="15" /> </td>
+
+											</tr>
+																						
+											<tr>
+												<td colspan="8" align="center">
+													<!-- The green submit button: --> <br />
+													<hr class="orange" /> <a:commandButton value="Modifier" style="text-align:right;" oncomplete="fermerSiOk();" status="waitStatus"
+														action="#{affiliationService.modifierAffiliation(affiliationService.affiliationEnModification)}" reRender="modificationAffiliation,panelAffiliation"
+														image="/img2/bouton_valider.jpg" />
+												</td>
+											</tr>
+										</table>
+									</s:validateAll>
+								</h:form>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</rich:modalPanel>
+		</div>
+		<br/>
+	</div>
+		
+	</ui:define>
+</ui:composition>

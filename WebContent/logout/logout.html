@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Application Ch@k@</title>
+    <link rel="shortcut icon" href="/amadom/css2/favicon3.ico" />
+    <link rel="STYLESHEET" type="text/css" href="/amadom/css2/styleChaka_1.00.css"/>
+	<style>		
+		.rich-panel
+		{
+	  		border-color:#505559;
+			-moz-border-radius:3ex;
+			-webkit-border-radius:3ex;
+		}
+
+		.rich-panel-header
+		{
+			background: #FA8804 repeat scroll 0 0;
+			-moz-border-radius-topright:3ex;
+			-moz-border-radius-topleft:3ex;
+			-webkit-border-top-right-radius:3ex;
+			-webkit-border-top-left-radius:3ex;
+		}	
+	</style>
+	<a4j:loadScript src="resource://jquery.js" />
+	<script type="text/javascript" src="/amadom/js/DD_roundies_0.0.2a-min.js" ></script>
+	<script type="text/javascript" >
+		jQuery(document).ready(function()
+		{
+			DD_roundies.addRule('.zoneRecherche', '10px');
+			DD_roundies.addRule('.zoneLogin .formLogin', '10px');
+			DD_roundies.addRule('.zoneLogin .logo', '10px');
+			DD_roundies.addRule('.zoneLogin .formLogin .message', '10px');
+			
+			
+			jQuery("#login\\:username").focus();
+		});
+	</script>	
+	</head>
+	<body>
+	<form id="login"  >
+	
+	<div class="zoneLogin">
+			<div class="logo">
+			</div>
+			<div class="formLogin2"  >
+				<div  >
+					<div class="left grosperso">
+					</div>
+					<div style="font-size:14px;color:red;padding-top: 10px;padding-left: 100px;width:100%" >
+					Bonjour, vous avez été déconnecté de l'application.
+					<br/>
+					Cliquez <a href="../login.seam" >ici</a> pour vous reconnecter.
+				</div> 
+					<div class="clear"></div>
+				</div>
+				
+				
+				<br />
+				
+				
+				<br />
+				
+					
+
+			</div>
+				
+		</div>
+	
+		</form>
+		</body>
+		
+</html>

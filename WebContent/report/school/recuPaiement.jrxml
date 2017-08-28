@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recuPaiement" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="89275be2-7014-4fcf-99ac-d986feebf17c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/tidiane/IdeaProjects/SunuEcole/src/main/webapp/report/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<queryString language="hql">
+		<![CDATA[from Paiement]]>
+	</queryString>
+	<field name="commentaires" class="java.lang.String"/>
+	<field name="datePaiement" class="java.util.Date"/>
+	<field name="idPaiement" class="java.lang.Long"/>
+	<field name="inscription" class="com.tidiane.model.Inscription"/>
+	<field name="listMoisConcerne" class="java.util.List"/>
+	<field name="montant" class="java.lang.Double"/>
+	<field name="userSaisie" class="com.chaka.projet.entity.Utilisateur"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="184" splitType="Stretch">
+			<textField>
+				<reportElement x="172" y="0" width="383" height="28" uuid="f4ada8bd-eba7-4687-8611-5a8ffbc65d13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{inscription}.getEtudiant().getInstitut().getNomInstitut()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="28" width="241" height="20" uuid="8a00ecc4-c775-4fcf-8563-45a3b8d1c264"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{inscription}.getEtudiant().getInstitut().getAdresse()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="28" width="100" height="20" uuid="96d0ee72-65be-4cb4-bdd5-44bbc033ab57"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" - "+$F{inscription}.getEtudiant().getInstitut().getEmail()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="28" width="115" height="20" uuid="d60fefd0-199c-44a0-a4e6-33677f26288b"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" - "+$F{inscription}.getEtudiant().getInstitut().getTelephone()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="157" y="49" width="241" height="20" uuid="b63befbb-1dac-48c8-aeba-3419a2ec8f7c"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REÇU PAIEMENT]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="466" y="48" width="89" height="20" uuid="0beedee0-38b1-4d72-aa35-5b470828c685"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{datePaiement}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="68" width="100" height="20" uuid="ee17d3b7-b6dc-431d-953a-17c475a5e44e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Matricule:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="87" width="100" height="20" uuid="46c6445e-5e99-495f-8590-fa49ac105dfa"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Nom:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="106" width="100" height="20" uuid="9e7ab415-2261-414c-9796-4950278747ce"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Prénom:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="126" width="100" height="20" uuid="25195869-904c-48b9-b334-7479dfa03d30"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Année Académique:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="146" width="100" height="20" uuid="2b378b5c-06c1-4ee8-997e-9127fd5b0c7d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Classe:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="88" width="178" height="20" uuid="bc57b405-c59b-4853-a702-4f40b503da65"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{inscription}.getEtudiant().getNom()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="107" width="178" height="20" uuid="8e1e95ee-bda6-4bc3-9a2b-df16838447aa"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{inscription}.getEtudiant().getPrenom()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="67" width="178" height="20" uuid="fcaa6ee9-5f76-4c2b-a2a8-f6e56c3ce434"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{inscription}.getEtudiant().getNumEleve()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="127" width="178" height="20" uuid="43374de5-a91a-4496-9254-c88ca0eb99c0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{inscription}.getAnneeAcademique().getAnneeDebut()+"-"+$F{inscription}.getAnneeAcademique().getAnneeFin()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="146" width="178" height="20" uuid="4bfd5f50-195d-4d57-8ffc-d81932a6d7a1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{inscription}.getClasse().getLibelle()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="325" y="69" width="72" height="20" uuid="e6d8bed4-58b3-4cd3-a118-a1408b633297"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Montant:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="396" y="69" width="130" height="20" uuid="72ef13b2-5b87-403f-a995-6611f8302ba2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{montant}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="325" y="136" width="72" height="20" uuid="5e0135a2-b174-4ca8-9955-551916df7c45"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="396" y="136" width="130" height="20" uuid="5f18caa0-f5c6-4411-9ea9-4441b2e823ff"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{montant}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="307" y="181" width="244" height="1" uuid="41bd5725-b317-48ed-a0e8-ea34ada61cfe"/>
+			</line>
+			<line>
+				<reportElement x="305" y="156" width="244" height="1" uuid="47cbd475-6147-4e6c-8ce1-d393492b6c33"/>
+			</line>
+			<staticText>
+				<reportElement x="307" y="159" width="236" height="20" uuid="112859d9-df15-4f01-b823-89ef3fd1644b"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[LA SCOLARITE]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="272" y="89" width="50" height="17" uuid="2a0e6cf7-00f6-4854-853d-28968eff028e"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listMoisConcerne})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "moisConcerne.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

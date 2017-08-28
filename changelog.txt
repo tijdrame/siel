@@ -1,0 +1,56 @@
+Progisap Changelog
+==================
+
+Release Notes - Progisap - Version 1.0.4 - 17/11/2010
+
+** Evolution
+	* Note : affichage de plus de 10 notes
+	* Note : ajout filtre sur destinataire (on affiche les notes sans destinataire + les notes qui nous sont destinées)
+	* Intervenant : prise en compte des date d'entrée et de sortie lors de la création/modification de l'intervenant
+    * Intervenant : champs dateCT, numéro sécu et coefficient deviennent optionnels
+    * Intervenant : bouton valider modifié et remonté
+    * Bénéficiaire : bouton valider modifié et remonté
+    * Général : diminution du timeout de 4h à 1h
+    * Général : modification de l'affichage des confirmation/erreurs
+    * Plan d'aide : modification de longueurs de champs pour les volumes horaires
+    * Ajax : passage du paramètre "concurrent-request-timeout" de 500 à 2000
+    * Intervention : ajout des volumes horaires dans la recherche intervenant
+
+
+Release Notes - Progisap - Version 1.0.3 - 14/11/2010
+
+** Evolution
+	* Intervention : clarification des statuts
+    * Bénéficiaire : mise en place des taux horaires dynamiques
+    * Prospect : ajout du taux majoré et de la tva dans les taux horaires
+    * Général : changement de couleur de texte pour les résultats de recherche
+
+
+Release Notes - Progisap - Version 1.0.2 - 11/11/2010
+
+** Evolution
+    * Skypeout
+    * Correspondance : ajout de l'auteur
+    * Correspondance : ajout du destinataire
+    * Correspondance : ajout date de réponse
+    * Bénéficiaire : ajout champ facture simple/détaillée
+    * Bénéficiaire : ajout champ code comptable
+    * Candidat/Prospect/Intervenant : ajout question comment nous avez vous connu ?
+    * Prospect : ajout filtre sur date de création
+    * Prospect : ajout booléen demande ponctuelle/régulière
+    * Prospect : ajout date du rendez-vous
+    * Prospect : ajout raison de non validation
+    * Contact/Prospect/Intervenant/Bénéficiaire : ajout upload de pièces jointes
+    * Bénéficiaire : design écran création/modification
+    * Intervention : ajout champ facturable éditable en création/modification d'intervention ds les popups de plannings
+    * Devis prospect : ajout champ frais de gestion
+    * Gestion interventions : remplacement de case à cocher tous les secteurs par liste de secteurs géographique
+    * Candidat : ajout zone commentaire dans les références
+    * Contact : ajout champ typeContact (table lsttypecontact à alimenter)
+
+** Bug
+    * Fix : plantage aléatoire en recherche intervenant après création intervention
+    * Fix : plantage en recherche de disponibilités d'intervenant
+    * Fix : Alignement à droite des infos sur planning intervenant et bénéficiaire
+    * Fix : Modification écran gestionInterventionStd pour supprimer le choix des desmandes de prestation
+    * Fix : Problème lors de la recopie de plage horaire en ajout de plan d'aide

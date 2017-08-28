@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<ui:define name="title">Application Suivi RESTO</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+
+		<a:outputPanel id="msg">
+			<h:message infoClass="confirmationerror"
+				errorClass="confirmationerror" warnClass="confirmationerror"
+				for="intervenantErreur" />
+			<h:message infoClass="confirmationwarning"
+				errorClass="confirmationwarning" warnClass="confirmationwarning"
+				for="intervenantMsgWarning" />
+			<h:inputHidden id="intervenantMsgWarning" value="" />
+			<h:inputHidden id="intervenantErreur" value="" />
+		</a:outputPanel>
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<a:form>
+
+			<!-- Fieldset de recherche -->
+
+			<a:outputPanel id="searchIntervenantCriteria">
+
+				<div id="zoneRecherche" class="zoneRecherche">
+						<div class="panel-body">
+    <div class="col-md-12">
+	
+							<table width="100%" class="table">
+								<tr>
+									<td><h:outputLabel class="grey"
+											value="#{msgBundle['label.nom']}" for="nameSearchString" />
+									</td>
+									<td><h:inputText id="nameSearchString"
+											styleClass="inputTtype2 firstFocus"
+											value="#{utilisateurService.nomSearchString}"
+											style="width: 165px;">
+											<a:support event="onchange"
+												actionListener="#{utilisateurService.find2}"
+												limitToList="true" ignoreDupResponses="true"
+												status="waitStatus"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="searchResultsIntervenants" />
+										</h:inputText></td>
+									<td width="10px" />
+									<td><h:outputLabel class="grey"
+											value="#{msgBundle['label.prenom']}"
+											for="firstnameSearchString" /></td>
+									<td><h:inputText styleClass="inputTtype2"
+											id="firstnameSearchString"
+											value="#{utilisateurService.prenomSearchString}"
+											style="width: 165px;">
+											<a:support event="onchange"
+												actionListener="#{utilisateurService.find2}"
+												limitToList="true" ignoreDupResponses="true"
+												status="waitStatus"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="searchResultsIntervenants" />
+										</h:inputText></td>
+									
+								</tr>
+							</table>
+						</div>
+					</div>
+					<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										<li><a:commandLink value="" styleClass="btn btn-info"
+												action="#{utilisateurService.find2}" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="searchResultsIntervenants">
+												
+										#{msgBundle['btn.rechercher']}
+									</a:commandLink></li>
+										
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<hr class="hr_separation"/>				
+					<br/>
+					<a:outputPanel id="searchResultsIntervenants">
+					<h4 class="titre-tab">#{msgBundle['list.users']}</h4>
+
+						<div class="panel">
+							
+							<div class="content">
+								<h:outputText value="#{msgBundle['label.aucunutilisateur']}"
+									rendered="#{utilisateurService.listeUtilisateurs.size()==0}" />
+								<rich:dataTable id="intervenants" rows="10"
+									value="#{utilisateurService.listeUtilisateurs}"
+									var="hotUtilisateur"
+									rendered="#{utilisateurService.listeUtilisateurs.size()>0}"
+									width="100%"   >
+									<rich:column filterBy="#{hotUtilisateur.institut.nomInstitut}" filterEvent="onblur">
+										<f:facet name="header">
+								Institut
+							</f:facet>
+										<h:commandLink 
+											styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+											onclick="afficherAttente();"
+											action="#{utilisateurService.consulterUtilisateur2(hotUtilisateur)}">
+											<h:outputText value="#{hotUtilisateur.institut.nomInstitut}"  styleClass="black"/>
+										</h:commandLink>
+									</rich:column>
+									<rich:column filterBy="#{hotUtilisateur.nom}" filterEvent="onblur">
+										<f:facet name="header">
+								#{msgBundle['col.nom']}
+							</f:facet>
+										<h:commandLink title="Modifier"
+											styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+											onclick="afficherAttente();"
+											action="#{utilisateurService.consulterUtilisateur2(hotUtilisateur)}">
+											<h:outputText value="#{hotUtilisateur.nom}"  styleClass="black"/>
+										</h:commandLink>
+									</rich:column>
+									<rich:column filterBy="#{hotUtilisateur.prenom}" filterEvent="onblur">
+										<f:facet name="header">
+								#{msgBundle['col.prenom']}
+							</f:facet>
+										<h:commandLink title="Modifier"
+											styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+											onclick="afficherAttente();"
+											action="#{utilisateurService.consulterUtilisateur2(hotUtilisateur)}">
+											<h:outputText value="#{hotUtilisateur.prenom}" />
+										</h:commandLink>
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">
+								#{msgBundle['col.email']}
+							</f:facet>
+										<h:outputText
+											styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+											value="#{hotUtilisateur.email}"></h:outputText>
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">
+								#{msgBundle['col.login']}
+							</f:facet>
+										<h:outputText
+											styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+											value="#{hotUtilisateur.login}"></h:outputText>
+									</rich:column>
+									<rich:column filterBy="#{hotUtilisateur.profile.libelle}" filterEvent="onblur">
+										<f:facet name="header">
+								#{msgBundle['col.profil']}
+							</f:facet>
+										<h:outputText
+											styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+											value="#{hotUtilisateur.profile.libelle}"></h:outputText>
+									</rich:column>
+									
+									
+									
+									
+									
+									
+
+									<rich:column>
+										<f:facet name="header">
+								#{msgBundle['col.action']}
+							</f:facet>
+										<table align="center">
+											<tr>
+												<td align="center"><a:commandLink
+														styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+														value="#{msgBundle['btn.activer']}" requestDelay="0"
+														reRender="searchResultsIntervenants"
+														action="#{utilisateurService.activer(hotUtilisateur)}"
+														status="waitStatus" ignoreDupResponses="true"
+														rendered="#{not hotUtilisateur.actif}" /> <a:commandLink
+														styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+														value="#{msgBundle['btn.desactiver']}" requestDelay="0"
+														reRender="searchResultsIntervenants"
+														action="#{utilisateurService.desactiver(hotUtilisateur)}"
+														status="waitStatus" ignoreDupResponses="true"
+														rendered="#{hotUtilisateur.actif}" /></td>
+											</tr>
+										</table>
+									</rich:column>
+								</rich:dataTable>
+								
+								<rich:datascroller status="waitStatus" stepControls="auto"  styleClass="textBleu2" 
+				 style="width:100%; " for="intervenants" rendered="#{not empty utilisateurService.listeUtilisateurs}" align="center" />
+						
+							</div>
+							<div class="clear"></div>
+							<div class="navigation">
+								<div class="clear"></div>
+							</div>
+						</div>
+
+					</a:outputPanel>
+				</div>
+			</a:outputPanel>
+
+		</a:form>
+
+</ui:define>
+</ui:composition>

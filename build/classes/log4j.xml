@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- ===================================================================== -->
+<!-- -->
+<!-- Log4j Configuration -->
+<!-- -->
+<!-- ===================================================================== -->
+
+<!-- $Id: log4j.xml,v 1.1 2012-10-15 23:02:14 tariq Exp $ -->
+
+<!-- | For more configuration infromation and examples see the Jakarta Log4j 
+	| owebsite: http://jakarta.apache.org/log4j -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler" />
+		<param name="Target" value="System.out" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{HH:mm:ss,SSS} (%X{USER_IP} - %X{USER_LOGIN}) %-5p [%c{1}] %m%n" />
+		</layout>
+	</appender>
+
+
+	<appender name="rollingFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/logs/chaka.log" />
+		<param name="datePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="--- %-5p -  (%X{USER_IP} - %X{USER_LOGIN}) - [ %C{1} - %M - %L ] - [ %d{ISO8601} ] --- >> %m%n" />
+		</layout>
+	</appender>
+
+
+
+	<appender name="mailRollingFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/logs/chakaMail.log" />
+		<param name="datePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="--- %-5p -  (%X{USER_IP} - %X{USER_LOGIN}) - [ %C{1} - %M - %L ] - [ %d{ISO8601} ] --- >> %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="wsRollingFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/logs/chakaWS.log" />
+		<param name="datePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="--- %-5p -  (%X{USER_IP} - %X{USER_LOGIN}) - [ %C{1} - %M - %L ] - [ %d{ISO8601} ] --- >> %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="wsClientRollingFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/logs/chakaWSClient.log" />
+		<param name="datePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="--- %-5p -  (%X{USER_IP} - %X{USER_LOGIN}) - [ %C{1} - %M - %L ] - [ %d{ISO8601} ] --- >> %m%n" />
+		</layout>
+	</appender>
+
+
+	<category name="org.hibernate">
+		<priority value="ERROR" />
+	</category>
+
+	<category name="org.jboss.seam">
+		<priority value="WARN" />
+	</category>
+
+
+
+
+
+
+	<category name="org.ajax4jsf.renderkit.AjaxRendererUtils">
+		<priority value="ERROR" />
+	</category>
+
+	<category name="org.jboss.kernel">
+		<priority value="INFO" />
+	</category>
+
+	<category name="org.apache.myfaces">
+		<priority value="ERROR" />
+	</category>
+
+	<category name="org.jboss.seam.security.permission">
+		<priority value="ERROR" />
+	</category>
+
+
+
+	<logger name="com.chaka.formation" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+
+	<logger name="mailLogger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="wsLogger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="wsLoggerClient" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+
+
+
+
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</log4j:configuration>

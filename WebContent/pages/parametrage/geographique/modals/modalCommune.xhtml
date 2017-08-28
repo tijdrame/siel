@@ -1,0 +1,132 @@
+<div style="width:100%;" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+	  xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+
+
+<rich:modalPanel id="panelModifierCommune" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;"  >
+			<div class="cadreBordOrange margTop10px padLeft30px padRight30px"  style="overflow: none" >
+			<div class="zoneTitreOrange margTop10px padLeft10px">
+				#{msgBundle['commune.titre.commune']}
+			</div>
+			<div class="margtop10px">
+			<f:facet name="controls">
+				<a onclick="Richfaces.hideModalPanel('panelModifierCommune');" style="cursor:pointer" href="#">Fermer</a>
+			</f:facet>
+
+
+			<div ><!-- Holds the form -->
+			
+			<h:form class="note-form" id="frmModifierCommune">
+			<a:outputPanel ajaxRendered="true">
+				<div style="visibility: hidden; display: none" >
+					<h:messages id="error"></h:messages>
+				</div>
+			</a:outputPanel>
+			<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#frmModifierCommune\\:error").text();
+					if (retour == 'X')
+					    return true;
+				 if (retour == 'XX')
+					    return true;
+				 if (retour == 'XXX')
+					    return true;
+				 if (retour == 'XXXX')
+					    return true;
+				 if (retour == 'XXXXX')
+					    return true;
+				 if (retour == 'XXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXXXX')
+					    return true;
+				    return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModifierCommune');
+				}
+				
+			</script>
+			<table border="0" width="100%">
+			
+			   <tr>			      
+			     <td><h:outputText value="#{msgBundle['commune.libelle']} : " width="30%" /></td>			     
+			     <td>
+			           <h:inputText styleClass="textBleu margBot10px"  id="libelle" 
+									value="#{communeService.commune.libelle}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>				
+			     </td>
+			     <td>
+				        <h:outputText value="#{msgBundle['commune.libelleCourt']} : " width="30%" /> 
+			      </td>
+			     <td align="left">
+			            <h:inputText styleClass="textBleu margBot10px"  id="libelleCourt" 
+									value="#{communeService.commune.libelleCourt}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>			
+			     </td>
+			     <td >
+			            <h:outputText value="#{msgBundle['commune.prefecture']} : " width="30%" />
+			     </td>
+			     <td>
+			             <h:selectOneMenu  value="#{communeService.commune.prefecture}"  required="true" 
+							  id="idPrefecture" styleClass="textBleu2 margBot10px" converter="#{prefectureConverter}"
+							  valueChangeListener="#{communeService.prefectureChanged}">
+			              	  <s:selectItems value="#{listService.listPrefectures}" var="varPrefecture" label="#{varPrefecture.libelle}" noSelectionLabel="selectionner..."></s:selectItems>
+			              	  <a:support event="onchange" bypassUpdates="true" ajaxSingle="true" status="waitStatus" 
+			              	    reRender="panelSousPrefecture" oncomplete="dateEtHeureInputs();" />
+			             </h:selectOneMenu>								
+						 <h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>			
+			     </td>
+			 </tr>
+			
+			 <tr>
+			     <td>
+				      <h:outputText value="#{msgBundle['commune.sousPrefecture']} : " width="30%" /> 
+			     </td>
+			    <td align="left">
+			          <a:outputPanel  id="panelSousPrefecture">
+						<h:selectOneMenu  value="#{communeService.commune.sousPrefecture}" required="true" id="idSousPrefecture" styleClass="textBleu2 margBot10px" converter="#{sousPrefectureConverter}">
+			              	<s:selectItems value="#{communeService.listSousPrefectureParPrefecture}" var="varSousPrefecture" label="#{varSousPrefecture.libelle}" noSelectionLabel="selectionner..."></s:selectItems>
+			            </h:selectOneMenu>					
+			          </a:outputPanel>
+			          <h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>							
+			    </td> 
+			   <td width="20px">
+			           <h:outputText value="#{msgBundle['commune.commentaire']} : " width="30%" /></td>			     
+			    <td>
+			           <h:inputText styleClass="textBleu margBot10px"  id="commentaire" 
+									value="#{communeService.commune.commentaire}" />			
+			    </td>
+			    <td colspan="2">  </td>			
+			</tr>
+			<tr>
+			  <td colspan= "6" align="right">
+			        <a:commandButton value="#{msgBundle['commune.valider']}" oncomplete="fermerSiOk();" style="text-align:right;" limitToList="true" status="waitStatus" 
+							action="#{communeService.creerOuModifierCommune()}" reRender="frmCommune" image="/img2/bouton_valider.jpg"/>			     
+			  </td>
+			</tr>
+		</table>
+					
+	 </h:form>
+  </div>
+</div>
+<div class="clear"></div>
+</div>
+</rich:modalPanel>
+
+</div>		

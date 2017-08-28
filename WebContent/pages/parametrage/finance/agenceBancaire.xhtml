@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:bp="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<ui:define name="title">Application Ch@k@</ui:define>
+	<ui:define name="body">
+
+		<a:outputPanel id="regionAjoutBanque">
+			<h:form id="nouveauCandidat">
+				<table width="100%">
+					<tr>
+						<td width="1075px;">
+							<div id="trd_submenu" class="trd_kb">
+								<ul>
+									<li><h:commandLink onclick="afficherAttente();"
+											action="#{agenceBancaireService.ajouterModifierAgenceBancaire()}">
+											<s:graphicImage fileName="accept.png" style="border:0px;"
+												value="/picto/accept.png" width="16" height="16" alt="" />
+										Valider
+									</h:commandLink></li>
+								</ul>
+							</div>
+						</td>
+						<td>&#160;</td>
+					</tr>
+				</table>
+
+				<div id="zoneRecherche" class="zoneRecherche">
+					<div class="label1">#{msgBundle['formulaire.agencebancaire.label']}</div>
+
+					<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="edit"></div>
+							<div class="titre">#{msgBundle['formulaire.agencebancaire.label']}</div>
+							<div class="clear"></div>
+						</div>
+
+						<table border="0" width="100%">
+							<tr>
+								<td colspan="3"><h:outputLabel for="codeBanqueAgence"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebancaire.codebanqueagence']}" /></td>
+								<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+										converter="#{banqueConverter}" id="codebanqueagence"
+										value="#{agenceBancaireService.agenceBancaire.banques}"
+										style="max-width: 150px;" required="true">
+										<s:selectItems noSelectionLabel="Sélectionnez ..."
+											value="#{banqueService.listeBanques}"
+											var="banque" label="#{banque.libelle}" />
+									</h:selectOneMenu> <h:outputText
+										style="color:red;font-size: large;font-weight: bold;"
+										value="*" /></td>
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="codeAgence"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.code']}" /></td>
+
+								<td colspan="3"><h:inputText
+										value="#{agenceBancaireService.agenceBancaire.codeAgence}"
+										styleClass="textBleu margBot10px" size="18" required="true"
+										id="codeAgence" maxlength="20" /> <h:outputText
+										style="color:red;font-size: large;font-weight: bold;"
+										value="*"></h:outputText> <h:message for="codeAgence"
+										style="color:red" /></td>
+
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="libelleAgenceBancaire"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.libelleagence']}" /></td>
+								<td colspan="3"><h:inputText
+										value="#{agenceBancaireService.agenceBancaire.libelleAgence}"
+										styleClass="textBleu2 margBot10px" id="libelleAgenceBancaire"
+										maxlength="255" /></td>
+
+							</tr>
+							<tr>
+								<td colspan="3"><h:outputLabel for="libelleCourt"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.libellecourt']}" /></td>
+								<td colspan="3"><h:inputText
+										value="#{agenceBancaireService.agenceBancaire.libelleCourt}"
+										styleClass="textBleu2 margBot10px" id="libelleCourt"
+										maxlength="255" /></td>
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="adresseAgenceBanque"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.adresse']}" /></td>
+								<td colspan="3"><h:inputText
+										value="#{agenceBancaireService.agenceBancaire.adresse}"
+										styleClass="textBleu margBot10px" id="adresseAgenceBanque"
+										maxlength="120" /> <h:message for="adresseAgenceBanque"
+										style="color:red" /></td>
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="codePostalAgence"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.codepostal']}" /></td>
+								<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+										converter="#{codePostauxConverter}"
+										value="#{agenceBancaireService.agenceBancaire.codePostal}"
+										id="codePostalAgence" style="max-width: 150px;">
+										<s:selectItems noSelectionLabel="Sélectionnez ..."
+											value="#{codePostauxService.listeCodePostaux}"
+											var="codepostal" label="#{codepostal.libelle}" />
+									</h:selectOneMenu></td>
+
+							</tr>
+							<tr>
+								<td colspan="3"><h:outputLabel for="villeBanque"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.ville']}" /></td>
+								<td colspan="3"><h:inputText
+										styleClass="textBleu margBot10px " size="20" id="tel1"
+										value="#{agenceBancaireService.agenceBancaire.ville}"
+										maxlength="20" /></td>
+
+								<td width="10px" />
+								<td colspan="3"><h:outputLabel for="localiteAgence"
+										styleClass="grey"
+										value="#{msgBundle['formulaire.agencebanque.localite']}" /></td>
+								<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+										converter="#{localiteConverter}"
+										value="#{agenceBancaireService.agenceBancaire.localite}"
+										id="localiteBanque" style="max-width: 150px;">
+										<s:selectItems noSelectionLabel="Sélectionnez ..."
+											value="#{listService.listLocalites}"
+											var="localite" label="#{localite.libelle}" />
+									</h:selectOneMenu></td>
+								<td width="10px" />
+								
+							</tr>
+							
+						</table>
+						<br />
+					</div>
+					<br />
+				</div>
+
+			</h:form>
+
+			<br />
+			<div id="zoneRecherche" class="zoneRecherche">
+				<div class="panel">
+					<a:outputPanel id="regionAgenceBanque">
+						<h:form id="frmBanque">
+							<rich:dataTable id="listBanque" style="width:100%;"
+								value="#{agenceBancaireService.listeAgenceBancaire}" var="varAgenceBancaire"
+								styleClass="tableauEnfants" rendered="true" width="100%"
+								height="100%" rowClasses="row1,row2">
+
+								<f:facet name="header">
+									<rich:columnGroup>
+										<rich:column>
+				       							#{msgBundle['formulaire.agencebanque.code']}
+				       						</rich:column>
+										<rich:column>
+				       							#{msgBundle['formulaire.agencebanque.libelleagence']}
+				       						</rich:column>
+										<rich:column>
+				       							#{msgBundle['formulaire.agencebanque.localite']}
+				       						</rich:column>
+										<rich:column>
+					       						Action
+				       						</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+								<rich:column>
+									<h:outputText value="#{varAgenceBancaire.codeAgence}" />
+								</rich:column>
+								<rich:column>
+									<h:outputText value="#{varAgenceBancaire.libelleAgence}" />
+								</rich:column>
+								<rich:column>
+									<h:outputText value="#{varAgenceBancaire.localite.libelle}" />
+								</rich:column>
+								<rich:column>
+
+									<table width="100%">
+										<tr>
+											<td align="center"><a:commandButton
+													action="#{agenceBancaireService.versModifierAgence(varAgenceBancaire)}"
+													title="#{msgBundle['msg.hint.modifier']}"
+													status="waitStatus" id="modifierUnPays"
+													image="/picto/page_edit.png" styleClass="sansOmbre"
+													reRender="frmModifierBanque"
+													oncomplete="javascript:Richfaces.showModalPanel('panelModifierAgenceBanque',{width:800, top:5, height:260});" />
+											</td>
+											<td align="center"><a:commandButton
+														action="#{agenceBancaireService.supprimerAgence(varAgenceBancaire)}"
+														immediate="true" status="waitStatus"
+														title="#{msgBundle['msg.hint.supprimer']}"
+														id="supprimerAgenceBanque" image="/picto/cross.png"
+														styleClass="sansOmbre"
+														onclick="if (!confirm('#{msgBundle['formulaire.banque.btnsuppression']} #{varAgenceBancaire.codeAgence} ? ')) return false"
+														reRender="regionAgenceBanque"
+														oncomplete="dateEtHeureInputs();" /></td>
+										</tr>
+									</table>
+								</rich:column>
+
+
+								<f:facet name="footer">
+								</f:facet>
+							</rich:dataTable>
+
+						</h:form>
+
+					</a:outputPanel>
+				</div>
+				<br />
+			</div>
+		</a:outputPanel>
+
+
+		<ui:include src="./modals/modalAgenceBanque.xhtml" />
+		<div style="height: 7px;" />
+
+	</ui:define>
+</ui:composition>

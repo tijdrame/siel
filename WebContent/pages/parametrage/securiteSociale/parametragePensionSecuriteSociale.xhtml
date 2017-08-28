@@ -1,0 +1,674 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 20/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage -->
+    <ui:define name="title">Application CNSS</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+		<h:form id="formPrincipal">
+		<a:outputPanel id="panelPrincipale">
+		<!-- Panel principal-->
+		<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+								<li>
+									<h:commandLink    onclick="afficherAttente();"  action="#{pensionSecuriteSocialeService.creerPensionSecuriteSociale}" >
+										<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+									</h:commandLink>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+		
+
+			<div id="zoneResultat" class="zoneRecherche">
+			<div class="label2">#{msgBundle['pension_securite_sociale.admin_pension_securite_sociale']}</div>
+
+				<!-- panel 1 -->
+				<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['pension_securite_sociale.bloc1']}</div>
+							<div class="clear"></div>
+				</div>
+			    <div class="content">
+    	          <table width="100%">
+	
+	               <tr> 
+	                  <td style="width:400px" >
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbAnnessAffilRequisPensVieill']} :"  for="nbAnnessAffilRequisPensVieill" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbAnnessAffilRequisPensVieill}"
+	                        id="nbAnnessAffilRequisPensVieill" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbAnneesCumulMoisAssurance']} :"  for="nbAnneesCumulMoisAssurance" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbAnneesCumulMoisAssurance}" 
+	                    id="nbAnneesCumulMoisAssurance" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMoisAssuranceRequis']} :"  for="nbMoisAssuranceRequis" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMoisAssuranceRequis}"
+	                        id="nbMoisAssuranceRequis" styleClass="textBleu nbOnly" maxlength="3" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMoisAssurCarrPourAllocVieill']} :"  for="nbMoisAssurCarrPourAllocVieill" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMoisAssurCarrPourAllocVieill}" 
+	                    id="nbMoisAssurCarrPourAllocVieill" styleClass="textBleu nbOnly" maxlength="3"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMoisAssurCarrPourPensionSurv']} :"  for="nbMoisAssurCarrPourPensionSurv" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMoisAssurCarrPourPensionSurv}"
+	                        id="nbMoisAssurCarrPourPensionSurv" styleClass="textBleu nbOnly" maxlength="3" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMoisAssurPourMoisAssim']} :"  for="nbMoisAssurPourMoisAssim" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMoisAssurPourMoisAssim}" 
+	                    id="nbMoisAssurPourMoisAssim" styleClass="textBleu nbOnly" maxlength="3"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMoisPourInvalPar12MoisEntreAgeAssureAgeMise']} :"  for="nbMoisPourInvalPar12MoisEntreAgeAssureAgeMise" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMoisPourInvalPar12MoisEntreAgeAssureAgeMise}"
+	                        id="nbMoisPourInvalPar12MoisEntreAgeAssureAgeMise" styleClass="textBleu nbOnly" maxlength="3" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMois5758ParAnnee']} :"  for="nbMois5758ParAnnee" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMois5758ParAnnee}" 
+	                    id="nbMois5758ParAnnee" styleClass="textBleu nbOnly" maxlength="3"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMinJoursPayesPourValidMoisAssur']} :"  for="nbMinJoursPayesPourValidMoisAssur" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMinJoursPayesPourValidMoisAssur}"
+	                        id="nbMinJoursPayesPourValidMoisAssur" styleClass="textBleu nbOnly" maxlength="3" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMaxMoisAssim5758']} :"  for="nbMaxMoisAssim5758" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMaxMoisAssim5758}" 
+	                    id="nbMaxMoisAssim5758" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMoisAssimTauxPensionRemun']} :"  for="nbMoisAssimTauxPensionRemun" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMoisAssimTauxPensionRemun}"
+	                        id="nbMoisAssimTauxPensionRemun" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.dateAffilNbAnneesRequisNonExige']} :"  for="dateAffilNbAnneesRequisNonExige" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.dateAffilNbAnneesRequisNonExige}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="dateAffilNbAnneesRequisNonExige"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+                   </tr>
+                 </table>
+                </div>
+				</div>
+				<!-- fin panel 1 -->
+        		<div style="height: 15px;" />
+				<!-- panel 2 -->
+				<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['pension_securite_sociale.bloc2']}</div>
+							<div class="clear"></div>
+				</div>
+			    <div class="content">
+    	          <table width="100%">
+	               <tr> 
+	                  <td style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxMiniPension']} :"  for="tauxMiniPension" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxMiniPension}"
+	                        id="tauxMiniPension" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+	                  <td style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxMiniPensionSalMini']} :"  for="tauxMiniPensionSalMini" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxMiniPensionSalMini}" 
+	                    id="tauxMiniPensionSalMini" styleClass="textBleu montantFloat" maxlength="5"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxMajoPensInvAssTierce']} :"  for="tauxMajoPensInvAssTierce" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxMajoPensInvAssTierce}"
+	                        id="tauxMajoPensInvAssTierce" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxMiniRemPayeesSalMin']} :"  for="tauxMiniRemPayeesSalMin" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxMiniRemPayeesSalMin}" 
+	                    id="tauxMiniRemPayeesSalMin" styleClass="textBleu montantFloat" maxlength="5"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxCalculAllocVeuf']} :"  for="tauxCalculAllocVeuf" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxCalculAllocVeuf}"
+	                        id="tauxCalculAllocVeuf" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxAllocOrphAllocVeuf']} :"  for="tauxAllocOrphAllocVeuf" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxAllocOrphAllocVeuf}" 
+	                    id="tauxAllocOrphAllocVeuf" styleClass="textBleu montantFloat" maxlength="5"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxAllocAsscAllocVeuf']} :"  for="tauxAllocAsscAllocVeuf" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxAllocAsscAllocVeuf}"
+	                        id="tauxAllocAsscAllocVeuf" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxMiniAllocSurviAllocVeuf']} :"  for="tauxMiniAllocSurviAllocVeuf" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxMiniAllocSurviAllocVeuf}" 
+	                    id="tauxMiniAllocSurviAllocVeuf" styleClass="textBleu montantFloat" maxlength="5"  size="2" />
+	                  </td>
+                   </tr>
+                 </table>
+                </div>
+				</div>
+				<!-- fin panel 2 -->
+        		<div style="height: 15px;" />
+				<!-- panel 3 -->
+				<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['pension_securite_sociale.bloc3']}</div>
+							<div class="clear"></div>
+				</div>
+			    <div class="content">
+    	          <table width="100%">
+	               <tr> 
+	                  <td style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.jourValidMoisAssur']} :"  for="jourValidMoisAssur" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.jourValidMoisAssur}"
+	                        id="jourValidMoisAssur" styleClass="textBleu nbOnly  firstFocus" maxlength="2" size="2"   />
+	                  </td>
+	                  <td style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.anneeAgeRequisValidMois57']} :"  for="anneeAgeRequisValidMois57" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.anneeAgeRequisValidMois57}"
+	                        id="anneeAgeRequisValidMois57" styleClass="textBleu nbOnly" maxlength="4" size="2"   />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.ageRequisDate']} :"  for="ageRequisDate" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.ageRequisDate}"
+	                        id="ageRequisDate" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.aneeCumulMoisAssur']} :"  for="aneeCumulMoisAssur" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.aneeCumulMoisAssur}" 
+	                    id="aneeCumulMoisAssur" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.dureeMaxIncapacitePriseEffetPension']} :"  for="dureeMaxIncapacitePriseEffetPension" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.dureeMaxIncapacitePriseEffetPension}"
+	                        id="dureeMaxIncapacitePriseEffetPension" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.delaiMaxDepotDemande']} :"  for="delaiMaxDepotDemande" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.delaiMaxDepotDemande}" 
+	                    id="delaiMaxDepotDemande" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+                 </table>
+                </div>
+				</div>
+				<!-- fin panel 3 -->
+        		<div style="height: 15px;" />
+				<!-- panel 4 -->
+				<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['pension_securite_sociale.bloc4']}</div>
+							<div class="clear"></div>
+				</div>
+			    <div class="content">
+			      <table width="100%">
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codPensViellesse']} :"  for="codPensViellesse" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codPensViellesse}"
+	                        id="codPensViellesse" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codPensAnticp']} :"  for="codPensAnticp" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codPensAnticp}" 
+	                    id="codPensAnticp" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+		               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codPensInval']} :"  for="codPensInval" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codPensInval}"
+	                        id="codPensInval" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codAllocViellesse']} :"  for="codAllocViellesse" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codAllocViellesse}" 
+	                    id="codAllocViellesse" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+		               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codPensAscend']} :"  for="codPensAscend" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codPensAscend}"
+	                        id="codPensAscend" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codPensVeuf']} :"  for="codPensVeuf" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codPensVeuf}" 
+	                    id="codPensVeuf" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+		               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codeAllocAscend']} :"  for="codeAllocAscend" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codeAllocAscend}"
+	                        id="codeAllocAscend" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codeAllocVeuf']} :"  for="codeAllocVeuf" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codeAllocVeuf}" 
+	                    id="codeAllocVeuf" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codePensOrph']} :"  for="codePensOrph" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codePensOrph}"
+	                        id="codePensOrph" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.codeAllocOrph']} :"  for="codeAllocOrph" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.codeAllocOrph}" 
+	                    id="codeAllocOrph" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+			      
+			      </table> 
+                </div>
+				</div>
+				<!-- fin panel 4 -->
+        		<div style="height: 15px;" />
+				<!-- panel 5 -->
+				<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['pension_securite_sociale.bloc5']}</div>
+							<div class="clear"></div>
+				</div>
+			    <div class="content">
+			       <table width="100%">
+	               <tr> 
+	                  <td  style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.dateAppliq1Majo']} :"  for="dateAppliq1Majo" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.dateAppliq1Majo}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="dateAppliq1Majo"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+	                  <td  style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.debPeriodDateEffetPour1Majo']} :"  for="debPeriodDateEffetPour1Majo" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.debPeriodDateEffetPour1Majo}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="debPeriodDateEffetPour1Majo"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.finPeriodDateEffetPour1Majo']} :"  for="finPeriodDateEffetPour1Majo" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.finPeriodDateEffetPour1Majo}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="finPeriodDateEffetPour1Majo"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.taux1Majo']} :"  for="taux1Majo" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.taux1Majo}" 
+	                    id="taux1Majo" styleClass="textBleu montantFloat" maxlength="5"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.dateAppliq2Majo']} :"  for="dateAppliq2Majo" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.dateAppliq2Majo}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="dateAppliq2Majo"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.debPeriodDateEffetPour2Majo']} :"  for="debPeriodDateEffetPour2Majo" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.debPeriodDateEffetPour2Majo}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="debPeriodDateEffetPour2Majo"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.finPeriodDateEffetPour2Majo']} :"  for="finPeriodDateEffetPour2Majo" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.finPeriodDateEffetPour2Majo}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="finPeriodDateEffetPour2Majo"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.taux2Majo']} :"  for="taux2Majo" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.taux2Majo}" 
+	                    id="taux2Majo" styleClass="textBleu montantFloat" maxlength="5"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.ageMiniEnfantScolPension']} :"  for="ageMiniEnfantScolPension" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.ageMiniEnfantScolPension}"
+	                        id="ageMiniEnfantScolPension" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.ageMaxiEnfantScolPension']} :"  for="ageMaxiEnfantScolPension" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.ageMaxiEnfantScolPension}" 
+	                    id="ageMaxiEnfantScolPension" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxPensionOprhPereOuMere']} :"  for="tauxPensionOprhPereOuMere" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxPensionOprhPereOuMere}"
+	                        id="tauxPensionOprhPereOuMere" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxPensionOprhPereEtMere']} :"  for="tauxPensionOprhPereEtMere" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxPensionOprhPereEtMere}" 
+	                    id="tauxPensionOprhPereEtMere" styleClass="textBleu montantFloat" maxlength="5"  size="2" />
+	                  </td>
+                   </tr>
+			       </table>
+                </div>
+				</div>
+				<!-- fin panel 5 -->
+        		<div style="height: 15px;" />
+				<!-- panel 6 -->
+				<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['pension_securite_sociale.bloc6']}</div>
+							<div class="clear"></div>
+				</div>
+			    <div class="content">
+			      <table>
+	               <tr> 
+	                  <td style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMois1PourcentPens']} :"  for="nbMois1PourcentPens" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMois1PourcentPens}"
+	                        id="nbMois1PourcentPens" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td style="width:400px">
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMois1PourcentAllocVieill']} :"  for="nbMois1PourcentAllocVieill" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMois1PourcentAllocVieill}" 
+	                    id="nbMois1PourcentAllocVieill" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMois1PourcentAllocVeuf']} :"  for="nbMois1PourcentAllocVeuf" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMois1PourcentAllocVeuf}"
+	                        id="nbMois1PourcentAllocVeuf" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMoisActiviteGPeriodeCalcuRemMensMoy']} :"  for="nbMoisActiviteGPeriodeCalcuRemMensMoy"
+	                                styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMoisActiviteGPeriodeCalcuRemMensMoy}" 
+	                    id="nbMoisActiviteGPeriodeCalcuRemMensMoy" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbMoisActivitePPeriodeCalcuRemMensMoy']} :"  for="nbMoisActivitePPeriodeCalcuRemMensMoy"
+	                             styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbMoisActivitePPeriodeCalcuRemMensMoy}"
+	                        id="nbMoisActivitePPeriodeCalcuRemMensMoy" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.ddebAffilAssurVolont']} :"  for="ddebAffilAssurVolont" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.ddebAffilAssurVolont}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="ddebAffilAssurVolont"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.dfinAffilAssurVolont']} :"  for="dfinAffilAssurVolont" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.dfinAffilAssurVolont}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="dfinAffilAssurVolont"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.datePrescPensAlloc']} :"  for="datePrescPensAlloc" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.datePrescPensAlloc}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="datePrescPensAlloc"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbAnneePresApresDateConsider']} :"  for="nbAnneePresApresDateConsider" 
+	                                  styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbAnneePresApresDateConsider}"
+	                        id="nbAnneePresApresDateConsider" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.nbAnneePresAvantDateConsider']} :"  for="nbAnneePresAvantDateConsider"
+	                                    styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.nbAnneePresAvantDateConsider}" 
+	                    id="nbAnneePresAvantDateConsider" styleClass="textBleu nbOnly" maxlength="2"  size="2" />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['pension_securite_sociale.tauxDeducAllocMontantPens']} :"  for="tauxDeducAllocMontantPens" 
+	                                 styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{pensionSecuriteSocialeService.pensionSecuriteSocialeEnCreation.tauxDeducAllocMontantPens}"
+	                        id="tauxDeducAllocMontantPens" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+	                  <td>
+	                  </td>
+	                  <td>
+	                  </td>
+                   </tr>
+			      </table>
+                </div>
+				</div>
+				<!-- fin panel 6 -->
+
+		</div>
+        		<div style="height: 10px;" />
+		<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+								<li>
+									<h:commandLink    onclick="afficherAttente();"  action="#{pensionSecuriteSocialeService.creerPensionSecuriteSociale}" >
+										<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+									</h:commandLink>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+     </a:outputPanel>
+     </h:form>
+
+		
+	</ui:define>
+</ui:composition>

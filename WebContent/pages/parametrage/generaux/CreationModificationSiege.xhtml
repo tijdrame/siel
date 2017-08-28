@@ -1,0 +1,982 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 04/12/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:bp="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml">
+	
+    <ui:define name="title">Application Ch@k@</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		
+		
+		
+		
+		<hr class="orange"/>
+		<div style="height:3px;" />
+		<rich:tabPanel switchType="ajax" styleClass="gras" style="border:none;background: transparent;"  selectedTab="#{siegeService.selectedTab}">  
+		<rich:tab label="#{msgBundle['menu.general.info']}"  style="border:none;background: transparent;" >
+		<script>
+				dateEtHeureInputs();
+			</script>
+		<h:form id="candidat"  enctype="multipart/form-data" >
+		<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+								<li>
+									<h:commandLink   action="#{siegeService.creerSiege}" onclick="afficherAttente();"  value="">
+										<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['menu.siege.valider']}
+									</h:commandLink>
+								</li>
+								
+								<li>
+									<h:commandLink value="" immediate="true" action="#{siegeService.versCreerNouveauSiege}" onclick="afficherAttente();"  >
+										<s:graphicImage fileName="add.png" style="border:0px;" value="/picto/add.png" width="16" height="16" alt="" />
+										#{msgBundle['menu.siege.ajout']}
+									</h:commandLink>
+								</li>
+								<li>
+									<h:commandLink  immediate="true" action="#{siegeService.versRechercheSiege}" value="" onclick="afficherAttente();" >
+										<s:graphicImage fileName="arrow_left.png" style="border:0px;" value="/picto/arrow_left.png" width="16" height="16" alt="" />
+										#{msgBundle['menu.siege.retour']}
+									</h:commandLink>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+		
+		<s:validateAll>
+		
+					
+		<div id="zoneRecherche" class="zoneRecherche">
+			<div style="width: 100%;" >
+				<table width="100%" >
+					<tr>
+						<td width="200px" >
+							<span  class="label11" style="vertical-align: middle;height: 10px;" >
+								#{msgBundle['menu.siege.cree']}
+							</span>
+						</td>
+						<td width="10px" >
+							&#160;&nbsp;
+						</td>
+						<td style="text-align: right;" >
+							
+							&#160;&nbsp;
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="edit" ></div>
+					<div class="titre" >
+						#{msgBundle['menu.siege.titre']}
+					</div>
+					<div class="clear"></div>
+				</div>
+	
+				<a:outputPanel id="regionPanel" >
+					<table border="0" width="100%">
+					<tr>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['menu.siege.identification']} : " width="30%" /> 
+					</td>
+					<td align="left" >
+						<h:inputText  styleClass="textBleu2" id="identification" required="true" 
+						value="#{siegeService.siege.identification}" style="max-width: 250px;"  requiredMessage="#{msgBundle['menu.general.messageRequ']}"/>	
+						<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+						<h:message for="identification" style="color:red"/>
+					</td>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['menu.siege.libelleCourt']} : " width="30%" /> 
+					</td>
+					<td>
+						<h:inputText   styleClass="textBleu2" id="libellecourt"  value="#{siegeService.siege.libelle_court}" />
+						<h:outputText style="color:red;font-size: large;font-weight: bold;"  />
+						<h:message for="libellecourt" style="color:red"/>
+					</td>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['menu.siege.adresse']} : " width="30%" /> 
+					</td>
+					<td >
+						<h:inputText   styleClass="textBleu2" id="adresse" required="false" value="#{siegeService.siege.adresse}" />
+						<h:outputText style="color:red;font-size: large;font-weight: bold;"  />
+						<h:message for="adresse" style="color:red"/>
+					</td>
+					</tr>
+					<tr>
+					   <td>
+								<h:outputLabel for="codePostal" class="grey"  value="#{msgBundle['menu.siege.codePostal']} : " />
+							</td>
+							<td>
+								<h:inputText required="true" styleClass="textBleu2 margBot10px nbOnly" id="codePostal" maxlength="5"  size="5" 
+									value="#{siegeService.siege.codePostal}"
+									requiredMessage="#{msgBundle['menu.general.messageRequ']}" converterMessage="X"  />	
+									<h:outputText  style="color:red;font-size: large;font-weight: bold;" value="*" />
+								<h:message for="codePostal" showDetail="true" style="color:red"/>
+							</td>
+							
+							<td>
+								<h:outputLabel for="ville" class="grey"  value="#{msgBundle['menu.siege.ville']} : " />
+							</td>
+							<td>
+							<h:inputText styleClass="textBleu2 margBot10px" required="true" id="ville" value="#{siegeService.siege.ville}" 
+							requiredMessage="#{msgBundle['menu.general.messageRequ']}"/>							
+								<h:outputText  style="color:red;font-size: large;font-weight: bold;" value="*" />
+								<h:message for="ville" style="color:red"/>
+							</td>
+							<td>
+								<h:outputLabel for="pays" class="grey"  value="#{msgBundle['menu.siege.pays']} : " />
+							</td>
+							<td>
+							<h:inputText styleClass="textBleu2 margBot10px" required="true" id="pays" value="#{siegeService.siege.pays}" 
+							requiredMessage="#{msgBundle['menu.general.messageRequ']}"/>							
+								<h:outputText  style="color:red;font-size: large;font-weight: bold;" value="*" />
+								<h:message for="pays" style="color:red"/>
+							</td>
+					</tr>
+					<tr>
+					  
+					<td>
+						<h:outputText  for="monnaie" class="grey" value="#{msgBundle['menu.siege.monnaie']} : " width="30%" /> 
+					</td>
+					
+					<td><h:selectOneMenu  size="5" value="#{siegeService.siege.monnaie}" styleClass="textBleu2" style="min-width:150px;" required="true" 
+													 id="monnaie" requiredMessage="#{msgBundle['menu.general.messageRequ']}" converter="#{monnaieConverter}" >
+													<s:selectItems  value="#{monnaieService.listMonnaie}" noSelectionLabel="#{msgBundle['menu.general.seclect']}"  var="varMonnaie" label="#{varMonnaie.libelle}" />
+												</h:selectOneMenu>
+											<h:outputText  style="color:red;font-size: large;font-weight: bold;" value="*"/>
+											 <h:message for="monnaie" style="color:red"  /></td>
+					<td>
+						<h:outputText  for="langue" class="grey" value="#{msgBundle['menu.siege.langue']} : " width="30%" /> 
+					</td>
+					
+					<td><h:selectOneMenu  size="5" value="#{siegeService.siege.langue}" styleClass="textBleu2" style="min-width:150px;"
+													required="true" id="langue" requiredMessage="#{msgBundle['menu.general.messageRequ']}" converter="#{langueConverter}">
+													<s:selectItems value="#{langueService.listLangues}" noSelectionLabel="#{msgBundle['menu.general.seclect']}" var="varLangue1" label="#{varLangue1.libelle}" />
+												</h:selectOneMenu> 
+												<h:outputText  style="color:red;font-size: large;font-weight: bold;" value="*"/>
+												<h:message for="langue" style="color:red" /></td>
+					
+												
+					<td>
+								<h:outputLabel for="telephone1" class="grey"  value="#{msgBundle['menu.siege.tel1']}:" />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu2 margBot10px nbOnly" id="telephone1" value="#{siegeService.siege.tel1}" maxlength="8" size="8"
+								/>
+								<h:outputText  style="color:red;font-size: large;font-weight: bold;" />	
+								<h:message for="telephone1" style="color:red" />
+							</td>
+					</tr>
+					<tr>
+						<td>
+								<h:outputLabel for="telephone2" class="grey"  value="#{msgBundle['menu.siege.tel2']}:" />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu2 margBot10px nbOnly" id="telephone2" value="#{siegeService.siege.tel2}" maxlength="8" size="8" required="false" />
+								<h:message for="telephone2" style="color:red"/>
+							</td>
+						<td>
+								<h:outputLabel for="telMobile" class="grey"  value="#{msgBundle['menu.siege.telMobile']} :" />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu2 margBot10px nbOnly" id="telMobile" value="#{siegeService.siege.telMobile}"  maxlength="8" size="8" />
+								<h:message for="telMobile" style="color:red"/>
+							</td>
+							<td>
+								<h:outputLabel for="fax" class="grey"  value="#{msgBundle['menu.siege.telfax']} :" />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu2 margBot10px nbOnly" id="fax" value="#{siegeService.siege.fax}" maxlength="8" size="8" required="false" />
+								<h:message for="fax" style="color:red"/>
+							</td>
+					</tr>
+					<tr>
+						<td>
+								<h:outputLabel for="email" class="grey"  value="#{msgBundle['menu.siege.email1']} :" />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu2 margBot10px" id="email" value="#{siegeService.siege.email1}" 
+								maxlength="50"  required="false"  requiredMessage="#{msgBundle['menu.general.messageRequ']}"/>
+								<h:outputText style="color:red;font-size: large;font-weight: bold;"  />
+								<h:message for="email" style="color:red"/>
+							</td>
+						   <td>
+								<h:outputLabel for="email2" class="grey"  value="#{msgBundle['menu.siege.email2']} :" />
+							</td>
+							<td>
+								<h:inputText styleClass="textBleu2 margBot10px" id="email2" value="#{siegeService.siege.email2}"  maxlength="50"  />
+								<h:message for="email2" style="color:red"/>
+							</td>
+							<td>
+								<h:outputText class="grey"  value="#{msgBundle['menu.siege.datedebExer']} : " />
+							</td>
+							<td>
+								<rich:calendar id="dateDebutExercice" enableManualInput="true" validatorMessage="X" maxlength="10"  styleClass="textBleu2"
+									value="#{siegeService.siege.dateDebutExercice}" locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" 
+									datePattern="dd/MM/yyyy" showApplyButton="#{false}" 
+									cellWidth="1px" cellHeight="22px" style="width:200px" >
+									</rich:calendar>
+								<h:message for="dateDebutExercice" style="color:red"/>
+					     </td>
+					</tr>
+					<tr>
+						<td>
+								<h:outputText class="grey"  value="#{msgBundle['menu.siege.datefinExer']} : " />
+							</td>
+							<td>
+								<rich:calendar id="dateFinExercice" enableManualInput="true" validatorMessage="X" maxlength="10"  styleClass="textBleu2"
+									value="#{siegeService.siege.dateFinExercice}" locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" 
+									datePattern="dd/MM/yyyy" showApplyButton="#{false}" 
+									cellWidth="1px" cellHeight="22px" style="width:200px" >
+									</rich:calendar>
+								<h:message for="dateFinExercice" style="color:red"/>
+							</td>
+					</tr>		
+				</table>									
+				</a:outputPanel>
+			</div>
+			
+			<br/>
+			
+					
+			<div class="panel">
+					<div class="head" style='padding-top: 15px;'>
+						<div class="ico"></div>
+						<div class="edit"></div>
+						<div class="titre">#{msgBundle['menu.imm.titre']}</div>
+						<div class="clear"></div>
+					</div>
+
+					<table border="0" width="100%">
+									
+								<tr>
+									<td>
+									<h:outputLabel for="matfiscal" class="grey"  value="#{msgBundle['menu.imm.matfisc']} :" />
+									</td>
+									<td>
+										<h:inputText styleClass="textBleu2 margBot10px " id="matfiscal" value="#{siegeService.siege.matriculeFiscal}"  />
+										<h:message for="matfiscal" style="color:red"/>
+									</td>
+									<td>
+										<h:outputText class="grey"  value="#{msgBundle['menu.imm.date']} : " />
+									</td>
+									<td>
+										<rich:calendar id="dateMatFiscal" enableManualInput="true" validatorMessage="X" maxlength="10"  styleClass="textBleu2"
+											value="#{siegeService.siege.dateMatFiscal}" locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" 
+											datePattern="dd/MM/yyyy" showApplyButton="#{false}" 
+											cellWidth="1px" cellHeight="22px" style="width:200px" >
+											</rich:calendar>
+										<h:message for="dateMatFiscal" style="color:red"/>
+									</td>
+		 
+								</tr>
+								<tr>
+									<td>
+									<h:outputLabel for="matsocial" class="grey"  value="#{msgBundle['menu.imm.matsoc']} :" />
+									</td>
+									<td>
+										<h:inputText styleClass="textBleu2 margBot10px" id="matsocial" value="#{siegeService.siege.matriculeSocial}"  />
+										<h:message for="matsocial" style="color:red"/>
+									</td>
+									<td>
+										<h:outputText class="grey"  value="#{msgBundle['menu.imm.date']} : " />
+									</td>
+									<td>
+										<rich:calendar id="dateMatSocial" enableManualInput="true" validatorMessage="X" maxlength="10"  styleClass="textBleu2"
+											value="#{siegeService.siege.dateMatSocial}" locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" 
+											datePattern="dd/MM/yyyy" showApplyButton="#{false}" 
+											cellWidth="1px" cellHeight="22px" style="width:200px" >
+											</rich:calendar>
+										<h:message for="dateMatSocial" style="color:red"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									<h:outputLabel for="matAssu" class="grey"  value="#{msgBundle['menu.imm.matass']} :" />
+									</td>
+									<td>
+										<h:inputText styleClass="textBleu2 margBot10px" id="matAssu" value="#{siegeService.siege.matriculeAssurance}"  />
+										<h:message for="matAssu" style="color:red"/>
+									</td>
+									<td>
+										<h:outputText class="grey"  value="#{msgBundle['menu.imm.date']} : " />
+									</td>
+									<td>
+										<rich:calendar id="dateMatAssurance" enableManualInput="true" validatorMessage="X" maxlength="10" styleClass="textBleu2" 
+											value="#{siegeService.siege.dateMatAssurance}" locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" 
+											datePattern="dd/MM/yyyy" showApplyButton="#{false}" 
+											cellWidth="1px" cellHeight="22px" style="width:200px" >
+											</rich:calendar>
+										   <h:message for="dateMatAssurance" style="color:red"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									<h:outputLabel for="registreCom" class="grey"  value="#{msgBundle['menu.imm.regsitreCom']} :" />
+									</td>
+									<td>
+										<h:inputText styleClass="textBleu2 margBot10px" id="registreCom" value="#{siegeService.siege.registreCommerce}"  />
+										<h:message for="registreCom" style="color:red"/>
+									</td>
+									<td>
+										<h:outputText class="grey"  value="#{msgBundle['menu.imm.date']} : " />
+									</td>
+									<td>
+										<rich:calendar id="dateRegistreComm" enableManualInput="true" validatorMessage="X" maxlength="10" styleClass="textBleu2" 
+											value="#{siegeService.siege.dateRegistreComm}" locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" 
+											datePattern="dd/MM/yyyy" showApplyButton="#{false}" 
+											cellWidth="1px" cellHeight="22px" style="width:200px" >
+											</rich:calendar>
+										   <h:message for="dateRegistreComm" style="color:red"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputText class="grey"  value="#{msgBundle['menu.imm.dateImm']} : " />
+									</td>
+									<td>
+										<rich:calendar id="dateImm" enableManualInput="true" validatorMessage="X" maxlength="10"  styleClass="textBleu2"
+											value="#{siegeService.siege.dateImmatriculation}" locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" 
+											datePattern="dd/MM/yyyy" showApplyButton="#{false}" 
+											cellWidth="1px" cellHeight="22px" style="width:200px" >
+											</rich:calendar>
+										   <h:message for="dateImm" style="color:red"/>
+									</td>
+								</tr>
+		
+					</table>
+
+			<br />
+
+		</div>
+	
+	<br />
+	
+	
+	
+	    
+		</div>
+		</s:validateAll>
+		<div style="height: 7px;" />
+			<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+								<li>
+									<h:commandLink   action="#{siegeService.creerSiege}" onclick="afficherAttente();"  value="">
+										<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['menu.siege.valider']}
+									</h:commandLink>
+								</li>
+								<li>
+									<h:commandLink value="" immediate="true" action="#{sgeieService.versCreerNouveauSiege}" onclick="afficherAttente();"  >
+										<s:graphicImage fileName="add.png" style="border:0px;" value="/picto/add.png" width="16" height="16" alt="" />
+										#{msgBundle['menu.siege.ajout']}
+									</h:commandLink>
+								</li>
+								<li>
+									<h:commandLink  immediate="true" action="#{siegeService.versRechercheSiege}" value="" onclick="afficherAttente();" >
+										<s:graphicImage fileName="arrow_left.png" style="border:0px;" value="/picto/arrow_left.png" width="16" height="16" alt="" />
+										#{msgBundle['menu.siege.retour']}
+									</h:commandLink>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+		</h:form>
+			
+		<!-- Partie Niveaux administratifs -->	
+			
+		<div id="zoneResultat" class="zoneResultat">
+		<div class="label">
+			#{msgBundle['menu.admin.titre']}
+			</div>
+		<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['menu.admin.titre']}
+					</div>
+					<div class="clear"></div>
+				</div>
+		
+		<a:outputPanel id="regionNiveau" >
+		<h:form>
+		
+			<rich:dataTable id="listeNiveauAdmin" value="#{siegeService.siege.listNiveauAdmin}" var="varNiveau" styleClass="tableauEnfants" 
+					rendered="true" width="100%"  height="100%" >
+				<f:facet name="header" >
+						<rich:columnGroup >
+				       		<rich:column>
+				       			#{msgBundle['menu.admin.admin']}
+				       		</rich:column>
+				       		<rich:column>
+					       		#{msgBundle['menu.admin.niveau']}
+				       		</rich:column>
+				       		<rich:column width="10px;" >
+					       		Action
+				       		</rich:column>
+				       	</rich:columnGroup>
+				 	</f:facet>
+				 	<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+							<h:selectOneMenu  styleClass="textBleu2 margBot10px"  id="niveauAdmin" 
+									value="#{siegeService.niveauAdminEnCreation.niveauAdmin}" maxlength="30" required="true" 
+									 requiredMessage="#{msgBundle['menu.general.messageRequ']}">
+								<f:selectItem  itemLabel="#{msgBundle['menu.general.seclect']}" itemValue=""/>
+								<f:selectItem  itemLabel="Gouvernorats" itemValue="Gouvernorats"/>
+								<f:selectItem  itemLabel="Délégation" itemValue="Délégation"/>
+								<f:selectItem  itemLabel="Préfecture" itemValue="Préfecture"/>
+								<f:selectItem  itemLabel="Sous-Préfecture" itemValue="Sous-Préfecture"/>
+								<f:selectItem  itemLabel="Communes" itemValue="Communes"/>
+								
+							</h:selectOneMenu>
+								<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+								<h:message for="niveauAdmin" style="color:red"/>
+							</h:panelGroup>
+						</f:facet>
+						#{varNiveau.niveauAdmin}	
+					</rich:column>	
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu2 margBot10px nbOnly"  id="niveau1" value="#{siegeService.niveauAdminEnCreation.niveau}" 
+									maxlength="2"  required="true"  requiredMessage="#{msgBundle['menu.general.messageRequ']}"/>
+								<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+								<h:message for="niveau1" style="color:red" />
+							</h:panelGroup>
+						</f:facet>
+						#{varNiveau.niveau}	
+					</rich:column>	
+				 	<rich:column >
+						<f:facet name="header">
+							<a:commandButton title="#{msgBundle['menu.general.add']}"
+								image="/picto/add.png" action="#{siegeService.ajouterNiveauAdmin1}" status="waitStatus"  
+								reRender="listeNiveauAdmin" oncomplete="dateEtHeureInputs();"  />
+						</f:facet>
+						<table width="100%">
+							<tr>
+								<td align="center">
+								<a:commandButton  immediate="true" status="waitStatus" title="#{msgBundle['menu.general.sup']}"
+									id="supprimerUnContact" image="/picto/cross.png" styleClass="sansOmbre"
+									onclick="if (!confirm('Voulez vous effacer  #{varNiveau.niveauAdmin} ?')) return false"
+									action="#{siegeService.supprimerNiveauAdminTransient(varNiveau)}"
+									reRender="listeNiveauAdmin" oncomplete="dateEtHeureInputs();" />
+								 </td>
+							</tr>
+						</table>
+					</rich:column>
+				 	<f:facet name="footer">
+					</f:facet>
+				</rich:dataTable>
+			</h:form>
+			</a:outputPanel>
+			</div>
+			</div>
+			
+			<!-- Partie Niveaux administratifs -->	
+			
+		<div id="zoneResultat" class="zoneResultat">
+		<div class="label">
+			#{msgBundle['menu.hiera.titre']}
+			</div>
+		<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['menu.hiera.titre']}
+					</div>
+					<div class="clear"></div>
+				</div>
+		
+		<a:outputPanel id="regionContact2" >
+		<h:form>
+		
+			<rich:dataTable id="listeNiveauHiera" value="#{siegeService.siege.listNiveauHiera}" var="varHiera" styleClass="tableauEnfants" 
+					rendered="true" width="100%"  height="100%" >
+				<f:facet name="header" >
+						<rich:columnGroup >
+				       		<rich:column>
+				       			#{msgBundle['menu.hiera.admin']}
+				       		</rich:column>
+				       		<rich:column>
+					       		#{msgBundle['menu.hiera.niveau']}
+				       		</rich:column>
+				       		<rich:column width="50px;" >
+					       		Action
+				       		</rich:column>
+				       	</rich:columnGroup>
+				 	</f:facet>
+				 	<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+							<h:selectOneMenu  styleClass="textBleu2 margBot10px"  id="niveauHiera" 
+									value="#{siegeService.niveauHieraEnCreation.niveauHiera}" maxlength="30"  required="true" 
+									 requiredMessage="#{msgBundle['menu.general.messageRequ']}">
+								<f:selectItem  itemLabel="#{msgBundle['menu.general.seclect']}" itemValue=""/>
+								<f:selectItem  itemLabel="Département" itemValue="Gouvernorats"/>
+								<f:selectItem  itemLabel="Direction" itemValue="Direction"/>
+								<f:selectItem  itemLabel="Service" itemValue="Service"/>
+								<f:selectItem  itemLabel="Section" itemValue="Section"/>
+								
+							</h:selectOneMenu>
+								<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+								<h:message for="niveauHiera" style="color:red" />
+							</h:panelGroup>
+						</f:facet>
+					#{varHiera.niveauHiera}
+					</rich:column>	
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu2 margBot10px nbOnly"  id="niveau1" value="#{siegeService.niveauHieraEnCreation.niveau}" 
+									maxlength="2" required="true"  requiredMessage="#{msgBundle['menu.general.messageRequ']}"/>
+								<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+								<h:message for="niveau1" style="color:red"/>
+							</h:panelGroup>
+						</f:facet>
+						#{varHiera.niveau}	
+					</rich:column>	
+				 	<rich:column >
+						<f:facet name="header">
+							<a:commandButton title="#{msgBundle['menu.general.add']}"
+								image="/picto/add.png" action="#{siegeService.ajouterNiveauHiera}" status="waitStatus"  
+								reRender="listeNiveauHiera" oncomplete="dateEtHeureInputs();"  />
+						</f:facet>
+						<table width="100%">
+							<tr>
+								<td align="center">
+								<a:commandButton  immediate="true" status="waitStatus" title="#{msgBundle['menu.general.sup']}"
+									id="supprimerUnContact1" image="/picto/cross.png" styleClass="sansOmbre"
+									onclick="if (!confirm('Voulez vous effacer  #{varHiera.niveauHiera} ?')) return false"
+									action="#{siegeService.supprimerNiveauHieraTransient(varHiera)}"
+									reRender="listeNiveauHiera" oncomplete="dateEtHeureInputs();" />
+								 </td>
+							</tr>
+						</table>
+					</rich:column>
+				 	<f:facet name="footer">
+					</f:facet>
+				</rich:dataTable>
+			</h:form>
+			</a:outputPanel>
+			</div>
+			</div>
+		</rich:tab>	
+			
+		
+		
+	<rich:tab label="#{msgBundle['menu.general.etab']}" style="border: none;background: transparent;"  > <!--  disabled="#{siegeService.siege.idSiege == null}" --> 
+			
+		<div id="zoneResultat" class="zoneResultat">
+					<div class="label">#{msgBundle['menu.etab.label']}</div>
+
+					<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['menu.etab.titre']}</div>
+							<div class="clear"></div>
+						</div>
+
+						<a:outputPanel id="regionEtablissement">
+						
+
+							<h:form>
+								<div style="min-height: 60px;">
+									<div style="text-align: center; padding-top: 5px;" class="rd_kb rd_kb_right">
+										<a:commandLink immediate="true" status="waitStatus" action="#{siegeService.initialisationCreationEtablissement()}" value="#{msgBundle['menu.etab.ajout']}"
+											reRender="CreationEtablissement" styleClass="lienSansSoulignement"
+											oncomplete="javascript:Richfaces.showModalPanel('panelCreerEtablissement',{width:890, top:5, height:400});jQuery('#CreationEtablissement\\:nomContact3').focus();">
+										</a:commandLink>
+									</div>
+									<div style="height: 20px;" />
+									<div style="padding-top: 30px;">
+										<a:outputPanel id="etablissementListPanel">
+											<h:outputText value="#{msgBundle['menu.etab.aucun']}" rendered="#{empty siegeService.siege.listEtablissement}" />
+											<rich:dataTable id="listeContactsIntervenant" value="#{siegeService.siege.listEtablissement}" var="etablissementExiste"
+												rendered="#{not empty siegeService.siege.listEtablissement}" width="100%" height="100%" styleClass="tableauEnfants">
+
+												<f:facet name="header">
+													<rich:columnGroup>
+														<rich:column>
+				       			#{msgBundle['menu.etab.libelle']}
+				       		</rich:column>
+														<rich:column>
+					       		#{msgBundle['menu.etab.nomResp']}
+				       		</rich:column>
+														<rich:column>
+					       		#{msgBundle['menu.etab.conatct']}
+				       		</rich:column>
+														<rich:column>
+					       		#{msgBundle['menu.siege.tel1']}
+				       		</rich:column>
+														<rich:column>
+					       		#{msgBundle['menu.siege.email1']}
+				       		</rich:column>
+														<rich:column>
+					       		#{msgBundle['menu.siege.adresse']}
+				       		</rich:column>
+														
+														<rich:column width="50px;">
+					       		Action
+				       		</rich:column>
+													</rich:columnGroup>
+												</f:facet>
+
+												<rich:column>
+													<h:outputText value="#{etablissementExiste.libelle}" />
+												</rich:column>
+
+												<rich:column>
+													<h:outputText value="#{etablissementExiste.nomResponsable}" />
+												</rich:column>
+
+												<rich:column>
+													<h:outputText value="#{etablissementExiste.personneContact}" />
+												</rich:column>
+
+												<rich:column>
+													<h:outputText value="#{etablissementExiste.tel1}" />
+												</rich:column>
+
+												<rich:column>
+													<h:outputText value="#{etablissementExiste.email1}" />
+												</rich:column>
+
+												<rich:column>
+													<h:outputText value="#{etablissementExiste.adresse}" />
+												</rich:column>
+										    	<rich:column>
+													<table width="100%">
+														<tr>
+															<td align="center"><a:commandLink immediate="true" status="waitStatus" title="#{msgBundle['menu.general.modf']}" 
+														        	onclick="if (!confirm('#{msgBundle['menu.etab.messMod']} ?')) return false"
+																	action="#{siegeService.initialisationModificationEtablissement(etablissementExiste)}" reRender="ModificationEtablissement"
+																	styleClass="lienSansSoulignement" oncomplete="javascript:Richfaces.showModalPanel('panel2',{width:890, top:5, height:400})">
+																	<h:graphicImage value="/picto/page_edit.png" alt="" style="border:0;" />
+																</a:commandLink></td>
+															<td align="center"><a:commandButton immediate="true" status="waitStatus" title="#{msgBundle['menu.general.sup']}" id="supprimerUnContact"
+																	image="/picto/cross.png" onclick="if (!confirm('#{msgBundle['menu.etab.messSup']} ?')) return false" rendered="#{etablissementService.supprimable(etablissementExiste)}"
+																	action="#{siegeService.supprimerEtablissementTransient(etablissementExiste)}" reRender="etablissementListPanel" /></td>
+														</tr>
+													</table>
+												</rich:column>
+
+												<f:facet name="footer">
+												</f:facet>
+											</rich:dataTable>
+										</a:outputPanel>
+									</div>
+								</div>
+
+							</h:form>
+						</a:outputPanel>
+						</div>
+					</div>
+				
+				
+		
+		
+		     <rich:modalPanel id="panelCreerEtablissement" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;">
+					<div class="cadreBordOrange margTop30px padLeft30px padRight30px">
+						<div class="zoneTitreOrange margTop10px padLeft10px">#{msgBundle['menu.etab.creation']}</div>
+						<br />
+						<div class="margtop30px">
+							<f:facet name="controls">
+								<a onclick="Richfaces.hideModalPanel('panelCreerEtablissement');" style="cursor: pointer" href="#">#{msgBundle['menu.general.fermer']}</a>
+							</f:facet>
+
+
+							<div>
+								<!-- Holds the form -->
+
+								<h:form class="note-form" id="CreationEtablissement">
+									<a:outputPanel ajaxRendered="true">
+										<div style="visibility: hidden; display: none">
+											<h:messages id="error"></h:messages>
+										</div>
+									</a:outputPanel>
+									<script>
+
+			jQuery(document).ready(function()
+					{
+						dateEtHeureInputs();
+					});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#CreationEtablissement\\:error").text();
+				    return  retour == 'X';
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelCreerEtablissement');
+				}
+				
+			</script>
+									<s:validateAll>
+										<table border="0" width="100%">
+											<tr>
+												<td>#{msgBundle['menu.etab.code']} :</td>
+												<td><h:inputText styleClass="textBleu2 margBot10px nbOnly" id="code" value="#{etablissementEnCreation.code}"
+														maxlength="3" required="true" /> 
+														<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+																<h:message for="code" style="color:red"/></td>
+												<td>#{msgBundle['menu.etab.libelle']} :</td>
+												<td><h:inputText styleClass="textBleu2 margBot10px" id="nomContact3" value="#{etablissementEnCreation.libelle}"
+														maxlength="30" required="true" /> 
+														<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+																<h:message for="nomContact3" style="color:red"/></td>
+												
+												<td>#{msgBundle['menu.siege.adresse']}: </td>
+												<td><h:inputText styleClass="textBleu margBot10px" id="prenomContact3" value="#{etablissementEnCreation.adresse}"
+														maxlength="30" /> <h:message for="prenomContact3" style="color:red" /></td>
+											</tr>
+											<tr>
+												<td>#{msgBundle['menu.siege.codePostal']} : </td>
+					                      		<td><h:selectOneMenu  size="5" value="#{etablissementEnCreation.codePostal}" styleClass="textBleu2" style="min-width:150px;"
+													required="false" id="monnaie2" requiredMessage="X" converter="#{codePostauxConverter}">
+													<s:selectItems value="#{codePostauxService.listeCodePostaux}" noSelectionLabel="#{msgBundle['menu.general.seclect']}"
+														var="varMonnaie2" label="#{varMonnaie2.libelle}" />
+												</h:selectOneMenu> <h:message for="monnaie2" style="color:red" /></td>
+					
+												
+												<td>#{msgBundle['menu.siege.tel1']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px nbOnly" id="tel1" value="#{etablissementEnCreation.tel1}" maxlength="8"
+														  /> <h:message for="tel1" style="color:red" /></td>
+
+											
+											    <td>#{msgBundle['menu.siege.tel2']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px nbOnly" id="tel2" value="#{etablissementEnCreation.tel2}" maxlength="8"
+														 /> <h:message for="tel2" style="color:red" /></td>
+											</tr>
+											<tr>	
+												<td>#{msgBundle['menu.siege.telMobile']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px nbOnly" id="telmobile" value="#{etablissementEnCreation.telMobile}"
+														maxlength="8"  /> <h:message for="telmobile" style="color:red" /></td>
+											
+											
+												<td>#{msgBundle['menu.siege.telfax']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px nbOnly" id="telfax" value="#{etablissementEnCreation.fax}"
+														maxlength="8"  /> <h:message for="telfax" style="color:red" /></td>
+													
+											
+												<td>#{msgBundle['menu.siege.email1']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px" id="email1" value="#{etablissementEnCreation.email1}"
+														/> <h:message for="email1" style="color:red" /></td>
+										 </tr>
+										<tr>
+												<td>#{msgBundle['menu.siege.email2']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px" id="email2" value="#{etablissementEnCreation.email2}" 
+													 /> <h:message for="email2" style="color:red" /></td>
+											
+												<td>#{msgBundle['menu.etab.nomResp']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px" id="villeContact3" value="#{etablissementEnCreation.nomResponsable}" maxlength="80"
+												    /> <h:message for="villeContact3" style="color:red" /></td>
+											
+												<td>#{msgBundle['menu.etab.conatct']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px"  id="typeEtablissementCreation"
+														value="#{etablissementEnCreation.personneContact}" />
+												 <h:outputText style="color:red;font-size: large;font-weight: bold;"  /> <h:message for="typeEtablissementCreation"
+														style="color:red" /></td>
+											</tr>
+											<tr>
+	
+												<td>#{msgBundle['menu.etab.centreImpot']} :</td> 	
+												<td><h:selectOneMenu  size="5" value="#{etablissementEnCreation.centreImpot}" styleClass="textBleu2" style="min-width:150px;"
+																			required="false" id="centre1" requiredMessage="X" converter="#{centreImpotConverter}">
+													<s:selectItems value="#{centreImpotsService.listCentreImpots}" noSelectionLabel="#{msgBundle['menu.general.seclect']}" 
+													   var="varCentre" label="#{varCentre.libelle}" />
+												</h:selectOneMenu> <h:message for="centre1" style="color:red" /></td>
+											    <td>#{msgBundle['menu.etab.comment']} :</td>
+												<td><h:inputTextarea styleClass="textBleu margBot10px" id="typecontrat" value="#{etablissementEnCreation.zoneComment}"
+														maxlength="50" /> <h:message for="typecontrat" style="color:red" /></td>	
+											</tr>
+											<tr>
+												<td colspan="8" align="center">
+													<!-- The green submit button: --> <br />
+													<hr class="orange" /> 
+													<a:commandButton value="#{msgBundle['menu.general.add']}" style="text-align:right;" oncomplete="fermerSiOk();" status="waitStatus"
+														action="#{siegeService.ajouterEtablissement}" reRender="regionEtablissement,CreationEtablissement"
+														image="/img2/bouton_valider.jpg" />
+												</td>
+											</tr>
+										</table>
+									</s:validateAll>
+								</h:form>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</rich:modalPanel>
+		
+		        <rich:modalPanel id="panel2" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;">
+					<div class="cadreBordOrange margTop30px padLeft30px padRight30px">
+						<div class="zoneTitreOrange margTop10px padLeft10px">#{msgBundle['menu.etab.modif']}</div>
+						<br />
+						<div class="margtop30px">
+							<f:facet name="controls">
+								<a onclick="Richfaces.hideModalPanel('panel2');" style="cursor: pointer" href="#">#{msgBundle['menu.general.fermer']}</a>
+							</f:facet>
+
+
+							<div>
+								<!-- Holds the form -->
+
+								<h:form class="note-form" id="ModificationEtablissement">
+									<a:outputPanel ajaxRendered="true">
+										<div style="visibility: hidden; display: none">
+											<h:messages id="error"></h:messages>
+										</div>
+									</a:outputPanel>
+									<script>
+
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+			
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#ModificationEtablissement\\:error").text();
+				    return  retour == 'X';
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panel2');
+				}
+				
+			</script>
+									<s:validateAll>
+									<table border="0" width="100%">
+										<tr>
+											   <td>#{msgBundle['menu.etab.code']} :</td>
+												<td><h:inputText styleClass="textBleu2 margBot10px nbOnly" id="code" value="#{etablissementEnModification.code}"
+														maxlength="3" required="true" /> 
+														<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+																<h:message for="code" style="color:red"/></td>
+												<td>#{msgBundle['menu.etab.libelle']} :</td>
+												<td><h:inputText styleClass="textBleu2 margBot10px" id="nomContact3" value="#{etablissementEnModification.libelle}"
+														maxlength="30" required="true" /> <h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" /> <h:message
+														for="nomContact3" style="color:red" /></td>
+												
+												<td>#{msgBundle['menu.siege.adresse']} : </td>
+												<td><h:inputText styleClass="textBleu margBot10px" id="prenomContact3" value="#{etablissementEnModification.adresse}"
+														maxlength="30" /> <h:message for="prenomContact3" style="color:red" /></td>
+										</tr>
+										<tr>
+												<td>#{msgBundle['menu.siege.codePostal']} : </td>
+					                      <td><h:selectOneMenu  size="5" value="#{etablissementEnModification.codePostal}" styleClass="textBleu2" style="min-width:150px;"
+													required="false" id="monnaie1" requiredMessage="X" converter="#{codePostauxConverter}">
+													<s:selectItems value="#{codePostauxService.listeCodePostaux}" noSelectionLabel="#{msgBundle['menu.general.seclect']}"
+													 var="varMonnaie" label="#{varMonnaie.libelle}"  />
+												</h:selectOneMenu> <h:message for="monnaie1" style="color:red" /></td>
+					
+											
+												<td>#{msgBundle['menu.siege.tel1']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px nbOnly" id="tel1" value="#{siegeService.etablissementEnModification.tel1}" maxlength="8"
+														  /> <h:message for="tel1" style="color:red" /></td>
+
+											
+											    <td>#{msgBundle['menu.siege.tel2']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px nbOnly" id="tel2" value="#{etablissementEnModification.tel2}" maxlength="8"
+														 /> <h:message for="tel2" style="color:red" /></td>
+										</tr>
+										<tr>	
+												<td>#{msgBundle['menu.siege.telMobile']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px nbOnly" id="telmobile" value="#{etablissementEnModification.telMobile}"
+														maxlength="8"  /> <h:message for="telmobile" style="color:red" /></td>
+											
+												<td>#{msgBundle['menu.siege.telfax']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px nbOnly" id="telfax" value="#{etablissementEnModification.fax}"
+														maxlength="8"  /> <h:message for="telfax" style="color:red" /></td>
+													
+											
+												<td>#{msgBundle['menu.siege.email1']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px" id="email1" value="#{etablissementEnModification.email1}"
+														/> <h:message for="email1" style="color:red" /></td>
+										</tr>
+										<tr>	
+												<td>#{msgBundle['menu.siege.email2']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px" id="email2" value="#{etablissementEnModification.email2}" 
+													 /> <h:message for="email2" style="color:red" /></td>
+											
+												<td>#{msgBundle['menu.etab.nomResp']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px" id="villeContact3" value="#{etablissementEnModification.nomResponsable}" maxlength="80"
+												    /> <h:message for="villeContact3" style="color:red" /></td>
+											
+												<td>#{msgBundle['menu.etab.conatct']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px"  id="typeEtablissementCreation"
+														value="#{etablissementEnModification.personneContact}" />
+												 <h:outputText style="color:red;font-size: large;font-weight: bold;"  /> <h:message for="typeEtablissementCreation"
+														style="color:red" /></td>
+											</tr>
+											<tr>
+	
+												<td>#{msgBundle['menu.etab.centreImpot']} :</td> 	
+											
+												<td><h:selectOneMenu  size="5" value="#{etablissementEnModification.centreImpot}" styleClass="textBleu2" style="min-width:150px;"
+																			required="false" id="centre" requiredMessage="X" converter="#{centreImpotConverter}">
+													<s:selectItems value="#{centreImpotsService.listCentreImpots}" noSelectionLabel="#{msgBundle['menu.general.seclect']}" var="varCentre" label="#{varCentre.libelle}" />
+												</h:selectOneMenu> <h:message for="centre" style="color:red" /></td>
+											    
+											
+											    <td>#{msgBundle['menu.etab.comment']} :</td>
+												<td><h:inputTextarea styleClass="textBleu margBot10px" id="typecontrat" value="#{etablissementEnModification.zoneComment}"
+														maxlength="50" /> <h:message for="typecontrat" style="color:red" /></td>	
+											</tr>
+											<tr>
+												<td colspan="8" align="center">
+													<!-- The green submit button: --> <br />
+													<hr class="orange" /> <a:commandButton value="#{msgBundle['menu.general.modf']}" style="text-align:right;" oncomplete="fermerSiOk();" status="waitStatus"
+														action="#{siegeService.modifierEtablissementTransient(etablissementEnModification)}" reRender="regionEtablissement,ModificationEtablissement"
+														image="/img2/bouton_valider.jpg" />
+												</td>
+											</tr>
+										</table>
+									</s:validateAll>
+								</h:form>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</rich:modalPanel>
+		</rich:tab>
+		
+		
+		
+		
+	</rich:tabPanel>
+		
+	</ui:define>
+</ui:composition>

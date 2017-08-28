@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 04/12/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:bp="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml">
+	
+    <ui:define name="title">Application ch@k@</ui:define>
+	<ui:define name="body">
+	
+	<h:form id="main">
+	
+	<div id="NouveauzoneRecherche" class="zoneRecherche">
+			<div style="width: 100%;" >
+				<table width="100%" >
+					<tr>
+						<td width="200px" >
+							<span  class="label11" style="vertical-align: middle;height: 10px;" >
+								#{msgBundle['menu.siege.search']}
+							</span>
+						</td>
+						<td width="10px" >
+							&#160;&nbsp;
+						</td>
+						<td style="text-align: right;" >
+							
+							&#160;&nbsp;
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="edit" ></div>
+					<div class="titre">
+						#{msgBundle['menu.siege.critere']}
+					</div>
+					<div class="clear"></div>
+				</div>
+	         
+	         
+	         
+		<a:outputPanel>
+		
+			<table width="100%">
+		
+		     
+				
+				<tr>
+					
+					<td>
+						<h:outputLabel styleClass="grey" value="#{msgBundle['menu.siege.identification']} :" />
+					</td>
+					<td>
+						<h:inputText value="#{siegeService.filtreidentification}" styleClass="textBleu2"/>
+					</td>
+					
+					<td>
+						<h:outputLabel styleClass="grey" value="#{msgBundle['menu.siege.libelleCourt']} :" />
+					</td>
+					
+					<td>
+						<h:inputText value="#{siegeService.filtrelibcourt}" styleClass="textBleu2"/>
+					</td>
+					 
+				  <td>
+						<h:outputLabel styleClass="grey" value="#{msgBundle['menu.siege.codePostal']} :" />
+				  </td> 
+			         <td>
+						<h:inputText value="#{siegeService.filtrecodePostal}" styleClass="textBleu2"/>
+					</td>
+				  
+				</tr>
+			    <tr>
+			    
+					
+					<td><h:outputLabel class="grey" value="#{msgBundle['menu.siege.ville']} : " /></td>
+					<td>
+						<h:inputText value="#{siegeService.filtreville}" styleClass="textBleu2"/>
+					</td>
+			    	<td>
+						<h:outputText  for="monnaie" class="grey" value="#{msgBundle['menu.siege.monnaie']} : " width="30%" /> 
+					</td>
+					
+					<td><h:selectOneMenu  size="5" value="#{siegeService.filtremonnaie}" styleClass="textBleu2" style="min-width:150px;"
+													required="false" id="monnaie" requiredMessage="X" converter="#{monnaieConverter}">
+													<s:selectItems value="#{monnaieService.listMonnaie}" noSelectionLabel="#{msgBundle['menu.general.seclect']}" var="varMonnaie" label="#{varMonnaie.libelle}" />
+												 <a:support reRender="resultatSiege" action="#{siegeService.rechercherSiege}" event="onchange"/>
+												</h:selectOneMenu> <h:message for="monnaie" style="color:red" /></td>
+					<td>
+						<h:outputText  for="langue" class="grey" value="#{msgBundle['menu.siege.langue']} : " width="30%" /> 
+					</td>
+					
+					<td><h:selectOneMenu  size="5" value="#{siegeService.filtrelangue}" styleClass="textBleu2" style="min-width:150px;"
+													required="false" id="langue" requiredMessage="X" converter="#{langueConverter}">
+													<s:selectItems value="#{langueService.listLangues}" noSelectionLabel="#{msgBundle['menu.general.seclect']}" var="varLangue" label="#{varLangue.libelle}" />
+												<a:support reRender="resultatSiege" action="#{siegeService.rechercherSiege}" event="onchange"/>
+												</h:selectOneMenu> <h:message for="langue" style="color:red" /></td>
+						</tr>
+			</table>
+		</a:outputPanel>
+		
+		</div></div>
+		
+		
+		<div style="height: 7px;" />
+			<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+							
+								<li>
+									<a:commandLink value="" action="#{siegeService.rechercherSiege}" status="waitStatus"  reRender="resultatSiege">
+										<s:graphicImage fileName="find.png" style="border:0px;" value="/picto/find.png" width="16" height="16" alt="" />
+										#{msgBundle['menu.siege.search']}
+									</a:commandLink>
+								</li>
+								<li>
+									<h:commandLink value="" action="#{siegeService.versCreerNouveauSiege}" onclick="afficherAttente();"  >
+										<s:graphicImage fileName="add.png" style="border:0px;" value="/picto/add.png" width="16" height="16" alt="" />
+										#{msgBundle['menu.siege.new']}
+									</h:commandLink>
+									
+								</li>
+								
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+		
+		
+		<a:outputPanel id="resultatSiege">
+		<div id="zoneResultat" class="zoneResultat">
+			<div class="label">
+				#{msgBundle['menu.siege.result']}
+			</div>
+			<div class="panel">
+				<div class="head">
+					<div class="ico"></div>
+					<div class="left perso"></div>
+					<div class="titre">
+						#{msgBundle['menu.siege.list']}
+					</div>
+					<div class="clear"></div>
+				</div>
+			<div class="content">
+			<h:outputText value="#{msgBundle['menu.siege.aucun']}" rendered = "#{empty siegeService.listeSiege}" />
+			<rich:dataTable id="prospect" value="#{siegeService.listeSiege}" styleClass="tableauEnfants" var="varSiege" rows="5" rendered="#{ not empty siegeService.listeSiege}">
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+								<h:outputText value="#{msgBundle['menu.siege.identification']}"/>
+						</f:facet>
+		    			<h:commandLink styleClass="lienSansSoulignement" onclick="afficherAttente();" action="#{siegeService.modifierSiege(varSiege)}" >
+		    			<h:outputText value="#{varSiege.identification}" title="#{msgBundle['menu.siege.messClickMod']}"/></h:commandLink>
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+								<h:outputText value="#{msgBundle['menu.siege.libelleCourt']}"/>
+						</f:facet>
+		    			<h:outputText value="#{varSiege.libelle_court}" />
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+		    				<h:outputText value="#{msgBundle['menu.siege.adresse']}"/>
+		    			</f:facet>
+		    			<h:outputText escape="false" value="#{varSiege.adresse} &lt;br/&gt; #{varSiege.codePostal} #{varSiege.ville}" />
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+		    				<h:outputText value="#{msgBundle['menu.siege.tel1']}"/>
+		    			</f:facet>
+		    			<h:outputText value="#{varSiege.tel1}" />
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+		    				<h:outputText value="#{msgBundle['menu.siege.tel2']}"/>
+		    			</f:facet>
+		    			<h:outputText value="#{varSiege.tel2}" />
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+		    				<h:outputText value="#{msgBundle['menu.siege.telMobile']}"/>
+		    			</f:facet>
+		    			<h:outputText value="#{varSiege.telMobile}" />
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+		    				<h:outputText value="#{msgBundle['menu.siege.telfax']}"/>
+		    			</f:facet>
+		    			<h:outputText value="#{varSiege.fax}" />
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+		    				<h:outputText value="#{msgBundle['menu.siege.email1']}"/>
+		    			</f:facet>
+		    			<h:outputText value="#{varSiege.email1}" />
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+		    				<h:outputText value="#{msgBundle['menu.siege.monnaie']}"/>
+		    			</f:facet>
+		    			<h:outputText value="#{varSiege.monnaie.libelle}" />
+		    		</rich:column>
+		    		<rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">
+		    				<h:outputText value="#{msgBundle['menu.siege.langue']}"/>
+		    			</f:facet>
+		    			<h:outputText value="#{varSiege.langue.libelle}" />
+		    		</rich:column>
+		    	    <rich:column styleClass="#{hotCandidat.css}">
+		    			<f:facet name="header">Action</f:facet>
+		    			<table align="center" >
+								<tr>
+									<td align="center">
+										<a:commandLink onclick="if (!confirm('#{msgBundle['menu.siege.messSup']} #{varSiege.identification}  ?')) return false"   status="waitStatus"
+											styleClass="sansOmbre" title="#{msgBundle['menu.general.sup']}"
+											action="#{siegeService.supprimerSiege(varSiege)}" reRender="resultatSiege" >
+											<s:graphicImage fileName="cross.png" style="border:0px;" value="/picto/cross.png" width="16" height="16" alt="" />
+										</a:commandLink>
+										
+									</td>
+									<td>
+										 <a:commandLink onclick="if (!confirm('#{msgBundle['menu.siege.messMod']} #{varSiege.identification}  ?')) return false"   status="waitStatus"
+											styleClass="sansOmbre" title="#{msgBundle['menu.general.modf']}"
+											action="#{siegeService.modifierSiege(varSiege)}" >
+											<s:graphicImage fileName="page_edit.png" style="border:0px;" value="/picto/page_edit.png" width="16" height="16" alt="" />
+										</a:commandLink>
+									</td>
+								</tr>
+							</table>
+		    		</rich:column>
+		    		<f:facet name="footer"><rich:datascroller status="waitStatus" for="prospect" stepControls="auto" styleClass="progipaging"  />	</f:facet>   		
+				</rich:dataTable>
+		</div>
+		</div>
+		</div>
+		</a:outputPanel>
+		
+		
+		</h:form>
+	</ui:define>
+</ui:composition>

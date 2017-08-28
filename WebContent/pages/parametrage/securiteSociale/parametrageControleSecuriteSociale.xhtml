@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 20/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage des Vehicules -->
+    <ui:define name="title">Application CNSS</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<!-- <center><h:messages style="color:red;"/></center>
+		<a:loadScript src="/js/common.js"/>-->
+		<!-- Panel principal-->
+		<h:form class="note-form" id="formModalPanelControleSS">
+		<a:outputPanel id="panelCentral">
+		<table width="100%" >
+			<tr>
+				<td width="1075px;" >
+					<div id="trd_submenu" class="trd_kb">
+					<ul>
+					<li>
+						<h:commandLink   action="#{controleSecuriteSocialeService.creerControleSS()}"  onclick="afficherAttente();"  >
+						<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+						</h:commandLink>
+					</li>
+					</ul>
+					</div>
+				</td>
+				<td>
+						&#160;
+					</td>						
+			</tr>
+		</table>
+				<div class="clear"></div>
+		<div id="zoneRecherche3" class="zoneRecherche3">
+		
+			<div style="min-height: 60px;" >
+				
+			<div class="label2">
+				#{msgBundle['label.administrationControleSecSociale']}
+			</div>
+		
+			
+				
+				
+			
+			
+				<div style="visibility: hidden; display: none" >
+					<h:messages id="error"></h:messages>
+				</div>
+			
+			<div style="height: 10px;" />
+			<div class="panel">
+				<div class="head">
+					 <div class="ico"></div>
+					<div class="edit"></div>
+					<div class="titre">
+						#{msgBundle['controle_securite_sociale.bloc1']}
+					</div>					
+				</div>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['controle_securite_sociale.dernTrimPrepare']}:" for="dernTrimPrepare" />  
+					</td>
+					<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernTrimPrepare}" id="dernTrimPrepare"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernTrimPrepare" style="color:red;display: block" />
+					</td>
+					<td width="10px"></td>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernTrimTaxation']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernTrimTaxation}" id="dernTrimTaxation"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernTrimTaxation" style="color:red;display: block" />
+					</td>
+					
+					
+					
+				</tr>
+				<tr>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernMoisComptaAuto']}: "  /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernMoisComptaAuto}" id="dernMoisComptaAuto"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernMoisComptaAuto" style="color:red;display: block" />
+					</td>
+					<td width="10px"></td>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernAnneeCalculSoldeCompteCotisant']}: "  /> 
+					</td>
+						<td>
+							<h:inputText class="textBleu margBot10px nbOnly" styleClass="textBleu" id="dernAnneeCalculSoldeCompteCotisants"  size="10" maxlength="4" 
+							value="#{controleSecuriteSocialeService.controleSSEnCreation.dernAnneeCalculSoldeCompteCotisants}" >
+							</h:inputText>
+						</td>
+				</tr>
+				<tr>
+					
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernGenerationArrieres']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernGenerationArrieres}" id="dernGenerationArrieres"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="dd/MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernGenerationArrieres" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"/>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernTrimApureementTable']} : "  /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernTrimApureementTable}" id="dernTrimApureementTable"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernTrimApureementTable" style="color:red;display: block" />
+					</td>		
+				</tr>
+				
+			</table>
+			</div>
+			<div style="height: 10px;" />
+			<div class="panel">
+				<div class="head">
+					 <div class="ico"></div>
+					<div class="edit"></div>
+					<div class="titre">
+						#{msgBundle['controle_securite_sociale.bloc2']}
+					</div>					
+				</div>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernTrimFusionCotisations']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernTrimFusionCotisations}" id="dernTrimFusionCotisations"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernTrimFusionCotisations" style="color:red;display: block" />
+					</td>
+					
+					<td width="50px"/>
+					
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernMoisLiquidationCertifMed']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernMoisLiquidationCertifMed}" id="dernMoisLiquidationCertifMed"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernMoisLiquidationCertifMed" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernMoisLiquidationPrestaRisques']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernMoisLiquidationPrestaRisques}" id="dernMoisLiquidationPrestaRisques"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernMoisLiquidationPrestaRisques" style="color:red;display: block" />
+					</td>
+					
+					<td width="50px"/>
+					
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernMoisLiquidationPensions']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernMoisLiquidationPensions}" id="dernMoisLiquidationPensions"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernMoisLiquidationPensions" style="color:red;display: block" />
+					</td>
+				</tr>
+			
+			
+			</table>
+			</div>
+			<div style="height: 10px;" />
+			<div class="panel">
+				<div class="head">
+					<div class="ico"></div>
+					<div class="edit"></div>
+					<div class="titre">
+						#{msgBundle['controle_securite_sociale.bloc3']}
+					</div>					
+				</div>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernAnneeApurementTableRisquePro']}: " /> 
+					</td>
+						<td>
+							<h:inputText class="textBleu margBot10px nbOnly" styleClass="textBleu" id="dernAnneeApurementTableRisquePro"  size="10" maxlength="4" 
+							value="#{controleSecuriteSocialeService.controleSSEnCreation.dernAnneeApurementTableRisquePro}" >
+							</h:inputText>
+						</td>
+					
+					<td width="30px"/>
+					
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernMoisPaiementPensionsAllocat']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernMoisPaiementPensionsAllocat}" id="dernMoisPaiementPensionsAllocat"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernMoisPaiementPensionsAllocat" style="color:red;display: block" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernMoisComptaAutoPensions']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernMoisComptaAutoPensions}" id="dernMoisComptaAutoPensions"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernMoisComptaAutoPensions" style="color:red;display: block" />
+					</td>
+					
+					<td width="30px"/>
+					
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernAneeApurementFichierPensions']}: " /> 
+					</td>
+						<td>
+							<h:inputText class="textBleu margBot10px nbOnly" styleClass="textBleu" id="dernAneeApurementFichierPensions"  size="10" maxlength="4" 
+							value="#{controleSecuriteSocialeService.controleSSEnCreation.dernAneeApurementFichierPensions}" >
+							</h:inputText>
+						</td>
+				</tr>
+			</table>
+			</div>
+			<div style="height: 10px;" />
+			<div class="panel">
+				<div class="head">
+					<div class="ico"></div>
+					<div class="edit"></div>
+					<div class="titre">
+						#{msgBundle['controle_securite_sociale.bloc4']}
+					</div>					
+				</div>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.ddebPeriodeSelectionStatEmploy']}: "  /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.ddebPeriodeSelectionStatEmploy}" id="ddebPeriodeSelectionStatEmploy"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="dd/MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="ddebPeriodeSelectionStatEmploy" style="color:red;display: block" />
+					</td>
+					<td width="10px"/>
+					
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dfinPeriodeSelectionStatEmploy']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dfinPeriodeSelectionStatEmploy}" id="dfinPeriodeSelectionStatEmploy"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="dd/MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dfinPeriodeSelectionStatEmploy" style="color:red;display: block" />
+					</td>
+					
+					
+					
+				</tr>
+				
+				<tr>
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.ddebPeriodeSelectionStatAssures']}: "  /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.ddebPeriodeSelectionStatAssures}" id="ddebPeriodeSelectionStatAssures"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="dd/MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="ddebPeriodeSelectionStatAssures" style="color:red;display: block" />
+					</td>
+					<td width="10px"/>
+					
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dfinPeriodeSelectionStatAssures']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dfinPeriodeSelectionStatAssures}" id="dfinPeriodeSelectionStatAssures"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="dd/MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dfinPeriodeSelectionStatAssures" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					
+					<td>
+						<h:outputText class="grey" value="#{msgBundle['controle_securite_sociale.dernMoisPaiementFraisMedicaux']}: " /> 
+					</td>
+						<td>
+					<rich:calendar value="#{controleSecuriteSocialeService.controleSSEnCreation.dernMoisPaiementFraisMedicaux}" id="dernMoisPaiementFraisMedicaux"
+						enableManualInput="true" locale="fr" popup="#{true}"
+						datePattern="MM/yyyy" showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" 
+						cellWidth="24px" cellHeight="22px" style="width:200px" />
+					<h:message for="dernMoisPaiementFraisMedicaux" style="color:red;display: block" />
+					</td>
+				</tr>
+				
+				
+			</table>
+			</div>
+			
+			</div>
+			
+		</div>
+		<div class="clear"></div>
+		<div style="height: 10px;" />
+		<table width="100%" >
+			<tr>
+				<td width="1075px;" >
+					<div id="trd_submenu" class="trd_kb">
+					<ul>
+					<li>
+						<h:commandLink   action="#{controleSecuriteSocialeService.creerControleSS()}"  onclick="afficherAttente();"  >
+						<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+						</h:commandLink>
+					</li>
+					</ul>
+					</div>
+				</td>
+				<td>
+						&#160;
+					</td>						
+			</tr>
+		</table>
+		</a:outputPanel>
+			</h:form>
+
+		
+		
+
+	</ui:define>
+</ui:composition>

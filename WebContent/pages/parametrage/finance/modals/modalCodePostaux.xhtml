@@ -1,0 +1,106 @@
+<div style="width:100%;" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+	  xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+
+
+<rich:modalPanel id="panelModifierCodePostal" style="backgqround:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;"  >
+			<div class="cadreBordOrange margTop10px padLeft30px padRight30px"  style="overflow: none" >
+			<div class="zoneTitreOrange margTop10px padLeft10px">
+				#{msgBundle['pays.titre.pays']}
+			</div>
+			<div class="margtop10px">
+			<f:facet name="controls">
+				<a onclick="Richfaces.hideModalPanel('panelModifierCodePostal');" style="cursor:pointer" href="#">Fermer</a>
+			</f:facet>
+
+
+			<div ><!-- Holds the form -->
+			
+			<h:form class="note-form" id="frmModifierCodePostaux">
+			<a:outputPanel ajaxRendered="true">
+				<div style="visibility: hidden; display: none" >
+					<h:messages id="error"></h:messages>
+				</div>
+			</a:outputPanel>
+			<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#frmModifierCodePostaux\\:error").text();
+					if (retour == 'X')
+					    return true;
+				 if (retour == 'XX')
+					    return true;
+				 if (retour == 'XXX')
+					    return true;
+				 if (retour == 'XXXX')
+					    return true;
+				 if (retour == 'XXXXX')
+					    return true;
+				 if (retour == 'XXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXXXX')
+					    return true;
+				    return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModifierCodePostal');
+				}
+				
+			</script>
+			<s:validateAll>
+			<table border="0" width="100%">
+			
+			   <tr>			      
+			     <td><h:outputText value="#{msgBundle['formulaire.codepostaux.code']} : " width="30%" /></td>			     
+			     <td>
+			           <h:inputText styleClass="textBleu margBot10px"  id="codePostaux" 
+									value="#{codePostauxService.codePostaux.code}" required="true" />
+					    <h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>				
+			     </td>
+			     <td>
+				        <h:outputText value="#{msgBundle['formulaire.codepostaux.libelle']} : " /> 
+			      </td>
+			     <td>
+			            <h:inputText styleClass="textBleu margBot10px"  id="libelleCodePostaux" 
+									value="#{codePostauxService.codePostaux.libelle}" required="true" />
+						<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>			
+			     </td>
+			     <td><h:outputText value="#{msgBundle['formulaire.codepostaux.commentaires']} : " width="30%" /></td>			     
+			     <td>
+			           <h:inputText styleClass="textBleu margBot10px"  id="commentaires" 
+									value="#{codePostauxService.codePostaux.commentaires}" />
+					    <h:outputText style=" font-size: large; font-weight: bold;" class="gray"/>				
+			     </td>
+			 </tr>
+
+			<tr>
+			  <td colspan= "6" align="right">
+			        <a:commandButton value="#{msgBundle['pays.valider']}" oncomplete="fermerSiOk();" style="text-align:right;" limitToList="true" status="waitStatus" 
+							action="#{codePostauxService.creerOuModifierCodePostaux()}" reRender="frmModifierCodePostaux,regionCodePostaux" image="/img2/bouton_valider.jpg"/>			     
+			  </td>
+			</tr>
+		</table>
+      </s:validateAll>					
+	 </h:form>
+  </div>
+</div>
+<div class="clear"></div>
+</div>
+</rich:modalPanel>
+
+</div>		

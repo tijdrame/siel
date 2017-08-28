@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<div style="width: 100%;" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+	
+	<rich:modalPanel id="panelModalInfo2" moveable="true"  >
+			<f:facet name="controls">
+				<a:commandLink value="" status="waitStatus" title="Fermer "
+					onclick="javascript:Richfaces.hideModalPanel('panelModalInfo2')">
+					<s:graphicImage fileName="cross.png" style="border:0px;"
+						value="/picto/cross.png" width="16" height="16" alt="" />
+				</a:commandLink>
+			</f:facet>
+			<f:facet name="header">
+			 <h:outputLabel value=" Ajouter / Modifier Paiement : "  />
+			</f:facet>
+			<rich:spacer height="2px" />
+
+				<!-- Holds the form -->
+
+				<h:form class="note-form" id="formModalInfo2">
+					<a:outputPanel ajaxRendered="true">
+						<div style="visibility: hidden; display: none">
+							<h:messages id="error"></h:messages>
+						</div>
+					</a:outputPanel>
+					<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#formModalInfo\\:error").text();
+					 if (retour == 'X')
+						    return true;
+					 if (retour == 'XX')
+						    return true;
+					 if (retour == 'XXX')
+						    return true;
+					 return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModalInfo');
+				}
+
+				
+				
+			</script>
+				<table width="100%" align="center" class="table" >
+					<tr>
+						<td><h:outputLabel   styleClass="grey" value="Prénom:" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.inscription.etudiant.prenom}" /></td>
+						<td><h:outputLabel   styleClass="grey" value="Nom :" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.inscription.etudiant.nom}" /></td>		
+					</tr>
+					<tr>
+						<td><h:outputLabel   styleClass="grey" value="N°Eleve:" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.inscription.etudiant.numEleve}" /></td>
+						<td><h:outputLabel   styleClass="grey" value="N°Inscription :" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.inscription.numInscription}" /></td>		
+					</tr>
+					<tr>
+						<td><h:outputLabel   styleClass="grey" value="Classe:" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.inscription.classe.libelle}" /></td>
+						<td><h:outputLabel   styleClass="grey" value="Année Académique :" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.inscription.anneeAcademique.anneeAc}" /></td>		
+					</tr>
+					<tr>
+						<td><h:outputLabel   styleClass="grey" value="Semestre:" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.semestre.libelle}" /></td>
+						<td><h:outputLabel   styleClass="grey" value="Date édition :" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.dateEdition}" >
+						 <f:convertDateTime pattern="dd/MM/yyyy"/>
+						</h:outputLabel>
+						</td>		
+					</tr>
+					<tr>
+						<td><h:outputLabel   styleClass="grey" value="Nb Abscence :" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.nbAbscence}" /></td>
+						<td><h:outputLabel   styleClass="grey" value="Appréciation :" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.appreciation}" /></td>		
+					</tr>
+					<tr>
+					<a:outputPanel rendered="#{editerBulletinService.estSecondSem}">
+						<td><h:outputLabel   styleClass="grey" value="Moyenne 1er Semestre :" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.moyPremierSemestre}" /></td>
+					</a:outputPanel>
+						<td><h:outputLabel   styleClass="grey" value="Moyenne Semestre :" /></td>
+					
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.moyGen}" /></td>	
+					
+					</tr>
+					<a:outputPanel rendered="#{editerBulletinService.estSecondSem}">
+					<tr >
+						<td><h:outputLabel   styleClass="grey" value="Moyenne Annuelle :" /></td>
+						<td><h:outputLabel   styleClass="grey" 
+						value="#{editerBulletinService.bulletin.moySemestre}" /></td>
+						
+					</tr>
+					
+					</a:outputPanel>
+					
+				</table>
+			
+					
+				</h:form>
+		<div class="clear"></div>
+	</rich:modalPanel>
+</div>

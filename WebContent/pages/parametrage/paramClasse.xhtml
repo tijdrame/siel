@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<ui:define name="title">Application SunuECOLE</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+
+		<a:outputPanel id="msg">
+			<h:message infoClass="confirmationerror"
+				errorClass="confirmationerror" warnClass="confirmationerror"
+				for="intervenantErreur" />
+			<h:message infoClass="confirmationwarning"
+				errorClass="confirmationwarning" warnClass="confirmationwarning"
+				for="intervenantMsgWarning" />
+			<h:inputHidden id="intervenantMsgWarning" value="" />
+			<h:inputHidden id="intervenantErreur" value="" />
+		</a:outputPanel>
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<div id="zoneRecherche" class="zoneRecherche">
+		<a:form>
+
+			<!-- Fieldset de recherche -->
+
+			<a:outputPanel id="searchIntervenantCriteria">
+
+				
+						<div class="panel">
+	<h2 class="titre-tab">Saisie Classe</h2>
+							<table width="100%" class="table">
+								<tr>
+									<td>
+										<h:outputLabel for="instit"  styleClass="grey" value="Cycle:" />
+									</td>
+									<td>
+										<h:selectOneMenu id="instit" style="width: 250px;" converter="#{cycleConverter}" 
+											value="#{classeService.classe.cycle}" styleClass="select" >
+											<s:selectItems  var="varCycle" label="#{varCycle.libelle}"
+											 value="#{cycleService.listCycles}"  />
+										</h:selectOneMenu>
+									</td>
+									<td><h:outputLabel class="grey"
+											value="Classe:" for="nomIn" />
+									</td>
+									<td><h:inputText id="nomIn" required="true"
+											styleClass="req"
+											value="#{classeService.classe.libelle}"
+											style="width: 250px;">
+											
+										</h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:outputLabel class="grey" value="Code:" for="tel" /></td>
+									<td><h:inputText styleClass="req" required="true"
+											id="tel" value="#{classeService.classe.libelleCourt}"
+											style="width: 250px;"/>
+									</td>
+									<td><h:outputLabel class="grey" value="Série:" for="serie" /></td>
+									<td><h:inputText styleClass="inputType2" required="false"
+											id="serie" value="#{classeService.classe.serieCl}"
+											style="width: 250px;"/>
+									</td>
+								</tr>
+								<tr>
+									<td><h:outputLabel class="grey" 
+											value="Frais d'Inscription:"
+											for="mail" /></td>
+									<td><h:inputText styleClass="inputType2 nbOnly" required="false"
+											id="mail"
+											value="#{classeService.classe.fraisInscription}"
+											style="width: 250px;">
+											
+										</h:inputText></td>
+								</tr>
+							</table>
+					
+					<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{classeService.ajout()}" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="searchResultsIntervenants, searchIntervenantCriteria">
+												<i class="fa fa-check" aria-hidden="true"></i>
+										Valider
+									</a:commandLink></li>
+										
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+					</div>
+					
+					</a:outputPanel>
+					</a:form>
+					<a:form>
+					
+					
+					<a:outputPanel id="searchResultsIntervenants">
+					<h2 class="titre-tab">Liste des Classes</h2>
+
+						<div class="panel">
+							
+							<div class="content">
+								
+								<rich:dataTable id="intervenants" rows="10"
+									value="#{classeService.listClasses}"
+									var="it"
+									
+									width="100%"   >
+									<rich:column filterBy="#{it.cycle}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Cycle
+										</f:facet>
+										<h:outputText value="#{it.cycle.libelle}"/>
+										
+									</rich:column>
+									<rich:column filterBy="#{it.libelle}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Classe
+										</f:facet>
+										<h:outputText value="#{it.libelle}"/>
+									</rich:column>
+									<rich:column filterBy="#{it.libelleCourt}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Code
+										</f:facet>
+										<h:outputText value="#{it.libelleCourt}"/>
+									</rich:column>
+									<rich:column filterBy="#{it.serieCl}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Série
+										</f:facet>
+										<h:outputText value="#{it.serieCl}"/>
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">
+											Frais Inscription
+										</f:facet>
+										<h:outputText value="#{it.fraisInscription}"/>
+									</rich:column>
+
+									<rich:column>
+										<f:facet name="header">
+											#{msgBundle['col.action']}
+										</f:facet>
+										<table align="center">												
+										<tr>
+										<td>
+										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="searchIntervenantCriteria"
+											action="#{classeService.consulerClasse(it)}" title="Voir détails" image="/picto/page_edit.png" 
+											styleClass="sansOmbre"	>
+										</a:commandButton>
+										</td>
+										
+											</tr> 
+										</table>
+										
+									</rich:column>
+								</rich:dataTable>
+								
+								<rich:datascroller status="waitStatus" stepControls="auto"  styleClass="textBleu2" 
+				 style="width:100%; " for="intervenants"  align="center" />
+						
+							</div>
+							<div class="clear"></div>
+							<div class="navigation">
+								<div class="clear"></div>
+							</div>
+						</div>
+
+					</a:outputPanel>
+				
+		</a:form>
+	</div>
+</ui:define>
+</ui:composition>

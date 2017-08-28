@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="">
+		<property name="show_sql">false</property>
+		<property name="format_sql">false</property>
+		<property name="use_sql_comments">false</property>
+		<property name="order_updates">true</property>
+		<property name="connection.datasource">java:/comp/env/jdbc/DefaultDS</property>
+		<property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+		<property name="transaction.flush_before_completion">true</property>
+		<property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.id.new_generator_mappings">true</property>
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MyPostgreSQLDialect</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		
+		<!-- ***************création jar pour connexion aux entités de l'application -->
+		<!-- <property name="show_sql">false</property>
+    	<property name="order_updates">true</property>
+    	<property name="transaction.flush_before_completion">true</property>
+ 		<property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+  		<property name="connection.driver_class">org.postgresql.Driver</property>
+    	<property name="hibernate.id.new_generator_mappings">true</property>
+  		<property name="connection.username">postgres</property>
+	    <property name="connection.password">passer</property>
+	    <property name="connection.url">jdbc:postgresql://localhost:5432/sunuEcole?autoReconnect=true</property>
+	    <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property> -->
+    
+    
+    
+		<mapping class="com.chaka.projet.entity.Utilisateur" />
+		<mapping class="com.chaka.projet.entity.UtilisateurSecurise" />
+		<mapping class="com.chaka.projet.entity.Profile" />
+		<!-- Partie Généraux -->
+
+		<mapping class="com.chaka.parametrage.entity.generaux.Langues" />
+
+		<mapping class="com.tidiane.model.Institut" />
+		<mapping class="com.tidiane.model.Fonction" />
+		<mapping class="com.tidiane.model.AnneeAcademique" />
+		<mapping class="com.tidiane.model.Cycle" />
+		<mapping class="com.tidiane.model.Etudiant" />
+		<mapping class="com.tidiane.model.Matiere" />
+		<mapping class="com.tidiane.model.MoisConcerne" />
+		<mapping class="com.tidiane.model.TypeNote" />
+		<mapping class="com.tidiane.model.Semestre" />
+		<mapping class="com.tidiane.model.Classe" />
+		<mapping class="com.tidiane.model.Inscription" />
+		<mapping class="com.tidiane.model.Notes" />
+		<mapping class="com.tidiane.model.LnkPaiemtMois" />
+		<mapping class="com.tidiane.model.Paiement" />
+		<mapping class="com.tidiane.model.Bulletin" />
+		<mapping class="com.tidiane.model.LnkBulletinMatiere" />
+		<mapping class="com.tidiane.model.LnkCoefMatiere" />
+		<mapping class="com.tidiane.model.Presence" />
+		<mapping class="com.tidiane.model.Cours" />
+
+
+	</session-factory>
+</hibernate-configuration>

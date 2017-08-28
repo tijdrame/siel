@@ -1,0 +1,491 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 20/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage des Vehicules -->
+    <ui:define name="title">Application CNSS</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<!-- <center><h:messages style="color:red;"/></center>
+		<a:loadScript src="/js/common.js"/>-->
+		<!-- Panel principal-->
+		<h:form class="note-form" id="formModalPanelPrestationsSS">
+		<a:outputPanel id="panelCentral">
+		<table width="100%" >
+			<tr>
+				<td width="1075px;" >
+					<div id="trd_submenu" class="trd_kb">
+					<ul>
+					<li>
+						<h:commandLink   action="#{prestationsSecuriteSocialeService.creerPrestationSS()}"  onclick="afficherAttente();"  >
+						<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+						</h:commandLink>
+					</li>
+					</ul>
+					</div>
+				</td>
+				<td>
+						&#160;
+					</td>						
+			</tr>
+		</table>
+				<div class="clear"></div>
+		<div id="zoneRecherche3" class="zoneRecherche3">
+		
+			<div style="min-height: 60px;" >
+				
+			<div class="label2">
+				#{msgBundle['label.administrationPrestationsSecSociale']}
+			</div>
+		
+			<div style="height: 10px;" />
+			<div class="panel">
+				<div class="head">
+					 <div class="ico"></div>
+					<div class="edit"></div>
+					<div class="titre">
+						premier bloc
+					</div>					
+				</div>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.montantSmigAssure']}:" for="montantSmigAssure" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText class="textBleu margBot10px montant" styleClass="textBleu firstFocus" id="montantSmigAssure"  size="10" maxlength="13" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.montantSmigAssure}">
+						  
+						</h:inputText>
+					</td>
+						<h:message for="montantSmigAssure" style="color:red;display: block" />
+					</td>
+					<td width="10px"></td>
+					<td>
+						<h:outputLabel  class="grey" value="#{msgBundle['prestations_securite_sociale.nbMinJoursTravailParMoisRegMens']}:" for="nbMinJoursTravailParMoisRegMens" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText class="textBleu margBot10px nbOnly" id="nbMinJoursTravailParMoisRegMens" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.nbMinJoursTravailParMoisRegMens}"/>
+					</td>
+						<h:message for="nbMinJoursTravailParMoisRegMens" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.nbMinJoursTravailParMoisRegHor']}:" for="nbMinJoursTravailParMoisRegHor" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText class="textBleu margBot10px nbOnly" id="nbMinJoursTravailParMoisRegHor" styleClass="textBleu" size="10" maxlength="2"
+						 value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.nbMinJoursTravailParMoisRegHor}"/>
+					</td>
+						<h:message for="nbMinJoursTravailParMoisRegHor" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.periodCalculAllocFamParAnnee']}:" for="periodCalculAllocFamParAnnee" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="periodCalculAllocFamParAnnee" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.periodCalculAllocFamParAnnee}"/>
+					</td>
+						<h:message for="periodCalculAllocFamParAnnee" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.periodPaiementAllocFamParAnnee']}:" for="periodPaiementAllocFamParAnnee" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="periodPaiementAllocFamParAnnee" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.periodPaiementAllocFamParAnnee}"/>
+					</td>
+						<h:message for="periodPaiementAllocFamParAnnee" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.nbMaxEnfantAyanfDroitAllocFam']}:" for="nbMaxEnfantAyanfDroitAllocFam" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="nbMaxEnfantAyanfDroitAllocFam" class="textBleu margBot10px nbOnly" size="10" maxlength="2"
+						 value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.nbMaxEnfantAyanfDroitAllocFam}"/>
+					</td>
+						<h:message for="nbMaxEnfantAyanfDroitAllocFam" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.montantAllocFamMensParEnfantBenef']}:" for="montantAllocFamMensParEnfantBenef" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="montantAllocFamMensParEnfantBenef" class="textBleu margBot10px montant" size="10" maxlength="6"  
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.montantAllocFamMensParEnfantBenef}"/>
+					</td>
+						<h:message for="montantAllocFamMensParEnfantBenef" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.tauxAppliqueCalculAP1']}:" for="tauxAppliqueCalculAP1" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="tauxAppliqueCalculAP1" class="textBleu margBot10px montantFloat" size="10" maxlength="4" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.tauxAppliqueCalculAP1}"/>
+					</td>
+						<h:message for="tauxAppliqueCalculAP1" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.tauxAppliqueCalculAP2']}:" for="tauxAppliqueCalculAP2" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="tauxAppliqueCalculAP2" class="textBleu margBot10px montantFloat" size="10" maxlength="4" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.tauxAppliqueCalculAP2}"/>
+					</td>
+						<h:message for="tauxAppliqueCalculAP2" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.montantRembourseFraisMediParCertifGross']}:" for="montantRembourseFraisMediParCertifGross" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="montantRembourseFraisMediParCertifGross" class="textBleu margBot10px montant" size="10" maxlength="6"
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.montantRembourseFraisMediParCertifGross}"/>
+					</td>
+						<h:message for="montantRembourseFraisMediParCertifGross" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.montantRembourseFraisMediParCertifNourri']}:" for="montantRembourseFraisMediParCertifNourri" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="montantRembourseFraisMediParCertifNourri" class="textBleu margBot10px montant" size="10" maxlength="6"
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.montantRembourseFraisMediParCertifNourri}"/>
+					</td>
+						<h:message for="montantRembourseFraisMediParCertifNourri" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.montantParMater']}:" for="montantParMater" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="montantParMater" class="textBleu margBot10px montant" size="10" maxlength="6" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.montantParMater}"/>
+					</td>
+						<h:message for="montantParMater" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.delaiRembFraisMedicNourri']}:" for="delaiRembFraisMedicNourri" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="delaiRembFraisMedicNourri" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.delaiRembFraisMedicNourri}"/>
+					</td>
+						<h:message for="delaiRembFraisMedicNourri" style="color:red;display: block" />
+					</td>
+				</tr>
+				
+			</table>
+			</div>
+			<div style="height: 10px;" />
+			<div class="panel">
+				<div class="head">
+					 <div class="ico"></div>
+					<div class="edit"></div>
+					<div class="titre">
+						second bloc
+					</div>					
+				</div>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeMiniAncAssure']}:" for="dureeMiniAncAssure" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeMiniAncAssure" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeMiniAncAssure}"/>
+					</td>
+						<h:message for="dureeMiniAncAssure" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeCongeMaterAvantAccRegMensuel']}:" for="dureeCongeMaterAvantAccRegMensuel" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeCongeMaterAvantAccRegMensuel" class="textBleu margBot10px nbOnly" size="10" maxlength="2"
+						 value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeCongeMaterAvantAccRegMensuel}"/>
+					</td>
+						<h:message for="dureeCongeMaterAvantAccRegMensuel" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeCongeMaterAvantAccRegHoraire']}:" for="dureeCongeMaterAvantAccRegHoraire" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeCongeMaterAvantAccRegHoraire" class="textBleu margBot10px nbOnly" size="10" maxlength="2"
+						 value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeCongeMaterAvantAccRegHoraire}"/>
+					</td>
+						<h:message for="dureeCongeMaterAvantAccRegHoraire" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeCongeMaterApresAccRegMensuel']}:" for="dureeCongeMaterApresAccRegMensuel" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeCongeMaterApresAccRegMensuel" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeCongeMaterApresAccRegMensuel}"/>
+					</td>
+						<h:message for="dureeCongeMaterApresAccRegMensuel" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeCongeMaterApresAccRegHor']}:" for="dureeCongeMaterApresAccRegHor" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeCongeMaterApresAccRegHor" class="textBleu margBot10px nbOnly" size="10" maxlength="2"
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeCongeMaterApresAccRegHor}"/>
+					</td>
+						<h:message for="dureeCongeMaterApresAccRegHor" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeMaxCongeMaterRegMens']}:" for="dureeMaxCongeMaterRegMens" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeMaxCongeMaterRegMens" class="textBleu margBot10px nbOnly" size="10" maxlength="2"
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeMaxCongeMaterRegMens}"/>
+					</td>
+						<h:message for="dureeMaxCongeMaterRegMens" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeMaxCongeMaterRegHor']}:" for="dureeMaxCongeMaterRegHor" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeMaxCongeMaterRegHor" class="textBleu margBot10px nbOnly" size="10" maxlength="2"
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeMaxCongeMaterRegHor}"/>
+					</td>
+						<h:message for="dureeMaxCongeMaterRegHor" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeMaxProlongCongeMater']}:" for="dureeMaxProlongCongeMater" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeMaxProlongCongeMater" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeMaxProlongCongeMater}"/>
+					</td>
+						<h:message for="dureeMaxProlongCongeMater" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.dureeCongeProlongGross']}:" for="dureeCongeProlongGross" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="dureeCongeProlongGross" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.dureeCongeProlongGross}"/>
+					</td>
+						<h:message for="dureeCongeProlongGross" style="color:red;display: block" />
+					</td>
+				</tr>
+			
+			
+			</table>
+			</div>
+			<div style="height: 10px;" />
+			<div class="panel">
+				<div class="head">
+					<div class="ico"></div>
+					<div class="edit"></div>
+					<div class="titre">
+						troisiéme bloc
+					</div>					
+				</div>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.limitAgeEnfantNonScolar']}:" for="limitAgeEnfantNonScolar" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="limitAgeEnfantNonScolar" class="textBleu margBot10px nbOnly" size="10" maxlength="2"
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.limitAgeEnfantNonScolar}"/>
+					</td>
+						<h:message for="limitAgeEnfantNonScolar" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.limitAgeEnfantApprentiMetier']}:" for="limitAgeEnfantApprentiMetier" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="limitAgeEnfantApprentiMetier" class="textBleu margBot10px nbOnly" size="10" maxlength="2"
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.limitAgeEnfantApprentiMetier}"/>
+					</td>
+						<h:message for="limitAgeEnfantApprentiMetier" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.limitAgeEnfantScolar']}:" for="limitAgeEnfantScolar" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="limitAgeEnfantScolar" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.limitAgeEnfantScolar}"/>
+					</td>
+						<h:message for="limitAgeEnfantScolar" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.limitAgeEnfantEtudeOuInfirme']}:" for="limitAgeEnfantEtudeOuInfirme" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="limitAgeEnfantEtudeOuInfirme" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.limitAgeEnfantEtudeOuInfirme}"/>
+					</td>
+						<h:message for="limitAgeEnfantEtudeOuInfirme" style="color:red;display: block" />
+					</td>
+				</tr>
+			</table>
+			</div>
+			<div style="height: 10px;" />
+			<div class="panel">
+				<div class="head">
+					<div class="ico"></div>
+					<div class="edit"></div>
+					<div class="titre">
+						quatriéme bloc
+					</div>					
+				</div>
+			<table border="0" width="100%">
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.delaiVeuvagePaiementPrestaFamConjOuSurv']}:" for="delaiVeuvagePaiementPrestaFamConjOuSurv" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="delaiVeuvagePaiementPrestaFamConjOuSurv" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						 value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.delaiVeuvagePaiementPrestaFamConjOuSurv}"/>
+					</td>
+						<h:message for="delaiVeuvagePaiementPrestaFamConjOuSurv" style="color:red;display: block" />
+					</td>
+					
+					<td width="10px"></td>
+					
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.delaiautorPaiementPrestaFamRetraites']}:" for="delaiautorPaiementPrestaFamRetraites" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="delaiautorPaiementPrestaFamRetraites" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.delaiautorPaiementPrestaFamRetraites}"/>
+					</td>
+						<h:message for="delaiautorPaiementPrestaFamRetraites" style="color:red;display: block" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputLabel class="grey" value="#{msgBundle['prestations_securite_sociale.delaiautorPaiementPrestaFamLicencies']}:" for="delaiautorPaiementPrestaFamLicencies" />  
+					</td>
+					<td>
+					<td>
+						<h:inputText id="delaiautorPaiementPrestaFamLicencies" class="textBleu margBot10px nbOnly" size="10" maxlength="2" 
+						 value="#{prestationsSecuriteSocialeService.prestationsSSEnCreation.delaiautorPaiementPrestaFamLicencies}"/>
+					</td>
+						<h:message for="delaiautorPaiementPrestaFamLicencies" style="color:red;display: block" />
+					</td>
+				</tr>
+				
+			</table>
+			</div>
+			
+			</div>
+			
+		</div>
+		<div class="clear"></div>
+		<div style="height: 10px;" />
+		<table width="100%" >
+			<tr>
+				<td width="1075px;" >
+					<div id="trd_submenu" class="trd_kb">
+					<ul>
+					<li>
+						<h:commandLink   action="#{prestationsSecuriteSocialeService.creerPrestationSS()}"  onclick="afficherAttente();"  >
+						<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+						</h:commandLink>
+					</li>
+					</ul>
+					</div>
+				</td>
+				<td>
+						&#160;
+					</td>						
+			</tr>
+		</table>	
+		</a:outputPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

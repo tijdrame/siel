@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 20/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage des Vehicules -->
+    <ui:define name="title">Application CNSS</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<center><h:messages style="color:red;"/></center>
+		<a:loadScript src="/js/common.js"/>
+		<h:form id="formPrincipal">
+		<a:outputPanel id="panelPrincipale">
+		<!-- Panel principal-->
+		<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+								<li>
+									<h:commandLink    onclick="afficherAttente();"  action="#{rpSecuriteSocialeService.creerPensionSecuriteSociale}" >
+										<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+									</h:commandLink>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+		
+
+			<div id="zoneResultat" class="zoneRecherche">
+			<div class="label2">#{msgBundle['rp_securite_sociale.admin_rp_securite_sociale']}</div>
+
+				<!-- panel 1 -->
+				<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['rp_securite_sociale.bloc1']}</div>
+							<div class="clear"></div>
+				</div>
+			    <div class="content">
+    	          <table width="100%">
+	
+	               <tr> 
+	                  <td  style="width:430px">
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeCondPaiement']} :"  for="codeCondPaiement" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeCondPaiement}"
+	                        id="codeCondPaiement" styleClass="textBleu nbOnly  firstFocus" maxlength="2" size="2"  >
+	                        </h:inputText>
+	                  </td>
+	                  <td  style="width:430px">
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeIndemJourn']} :"  for="codeIndemJourn" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeIndemJourn}"
+	                        id="codeIndemJourn" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeAllocIncapacite']} :"  for="codeAllocIncapacite" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeAllocIncapacite}"
+	                        id="codeAllocIncapacite" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeRenteIncapcite']} :"  for="codeRenteIncapcite" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeRenteIncapcite}"
+	                        id="codeRenteIncapcite" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codePensionVeuf']} :"  for="codePensionVeuf" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codePensionVeuf}"
+	                        id="codePensionVeuf" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeRenteAsc']} :"  for="codeRenteAsc" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeRenteAsc}"
+	                        id="codeRenteAsc" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeRenteOrph']} :"  for="codeRenteOrph" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeRenteOrph}"
+	                        id="codeRenteOrph" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeAllocFraisFun']} :"  for="codeAllocFraisFun" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeAllocFraisFun}"
+	                        id="codeAllocFraisFun" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeSituationDossierLiqui']} :"  for="codeSituationDossierLiqui" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeSituationDossierLiqui}"
+	                        id="codeSituationDossierLiqui" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeSituationDossierInstruct']} :"  for="codeSituationDossierInstruct" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeSituationDossierInstruct}"
+	                        id="codeSituationDossierInstruct" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeSituationDossierCloture']} :"  for="codeSituationDossierCloture" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeSituationDossierCloture}"
+	                        id="codeSituationDossierCloture" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeSituationDossierRefuse']} :"  for="codeSituationDossierRefuse" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeSituationDossierRefuse}"
+	                        id="codeSituationDossierRefuse" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeCertifGuerDecesConsoLesions']} :"  for="codeCertifGuerDecesConsoLesions" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeCertifGuerDecesConsoLesions}"
+	                        id="codeCertifGuerDecesConsoLesions" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeCertifPremConstatProlongIncap']} :"  for="codeCertifPremConstatProlongIncap" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeCertifPremConstatProlongIncap}"
+	                        id="codeCertifPremConstatProlongIncap" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeLienParentePere']} :"  for="codeLienParentePere" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeLienParentePere}"
+	                        id="codeLienParentePere" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeLienParenteMere']} :"  for="codeLienParenteMere" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeLienParenteMere}"
+	                        id="codeLienParenteMere" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeLienParenteConjoint']} :"  for="codeLienParenteConjoint" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeLienParenteConjoint}"
+	                        id="codeLienParenteConjoint" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeLienParenteEnfants']} :"  for="codeLienParenteEnfants" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeLienParenteEnfants}"
+	                        id="codeLienParenteEnfants" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeEtatGuerisson']} :"  for="codeEtatGuerisson" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeEtatGuerisson}"
+	                        id="codeEtatGuerisson" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeEtatIncapaciteTemporaire']} :"  for="codeEtatIncapaciteTemporaire" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeEtatIncapaciteTemporaire}"
+	                        id="codeEtatIncapaciteTemporaire" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeEtatIncapacitePermanente']} :"  for="codeEtatIncapacitePermanente" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeEtatIncapacitePermanente}"
+	                        id="codeEtatIncapacitePermanente" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeEtatDeces']} :"  for="codeEtatDeces" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeEtatDeces}"
+	                        id="codeEtatDeces" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.codeSituationDossierLiquide']} :"  for="codeSituationDossierLiquide" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.codeSituationDossierLiquide}"
+	                        id="codeSituationDossierLiquide" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                  </td>
+	                  <td>
+	                  </td>
+                      </tr>
+                 </table>
+                </div>
+				</div>
+				<!-- fin panel 1 -->
+        		<div style="height: 15px;" />
+				<!-- panel 2 -->
+				<div class="panel">
+						<div class="head" style='padding-top: 15px;'>
+							<div class="ico"></div>
+							<div class="left perso"></div>
+							<div class="titre">#{msgBundle['rp_securite_sociale.bloc2']}</div>
+							<div class="clear"></div>
+				</div>
+			    <div class="content">
+    	          <table width="100%">
+	               <tr> 
+	                  <td  style="width:430px">
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.tauxIndemJournal']} :"  for="tauxIndemJournal" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.tauxIndemJournal}"
+	                        id="tauxIndemJournal" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+	                  <td   style="width:430px">
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.tauxRenteIncapacite']} :"  for="tauxRenteIncapacite" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.tauxRenteIncapacite}"
+	                        id="tauxRenteIncapacite" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.tauxIncapPaieAllocIncap']} :"  for="tauxIncapPaieAllocIncap" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.tauxIncapPaieAllocIncap}"
+	                        id="tauxIncapPaieAllocIncap" styleClass="textBleu montantFloat" maxlength="5" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.tauxMajoAssuresAssistTierce']} :"  for="tauxMajoAssuresAssistTierce" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.tauxMajoAssuresAssistTierce}"
+	                        id="tauxMajoAssuresAssistTierce" styleClass="textBleu  montantFloat" maxlength="5" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.ageMaxOrphScolarises']} :"  for="ageMaxOrphScolarises" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.ageMaxOrphScolarises}"
+	                        id="ageMaxOrphScolarises" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.ageMaxOrphNonScolarises']} :"  for="ageMaxOrphNonScolarises" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.ageMaxOrphNonScolarises}"
+	                        id="ageMaxOrphNonScolarises" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                      </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.nbMoisCalculAllocIncap']} :"  for="nbMoisCalculAllocIncap" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.nbMoisCalculAllocIncap}"
+	                        id="nbMoisCalculAllocIncap" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.nbMoisDeductAllocIncap']} :"  for="nbMoisDeductAllocIncap" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.nbMoisDeductAllocIncap}"
+	                        id="nbMoisDeductAllocIncap" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.nbJoursCalculRemMensMoyRemJourn']} :"  for="nbJoursCalculRemMensMoyRemJourn" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.nbJoursCalculRemMensMoyRemJourn}"
+	                        id="nbJoursCalculRemMensMoyRemJourn" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.nbJoursMaxIndemniser']} :"  for="nbJoursMaxIndemniser" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.nbJoursMaxIndemniser}"
+	                        id="nbJoursMaxIndemniser" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                   </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.premPeriodeMoisCtrlMedic']} :"  for="premPeriodeMoisCtrlMedic" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.premPeriodeMoisCtrlMedic}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="premPeriodeMoisCtrlMedic"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.freqPremPeriodeMoisCtrlMedic']} :"  for="freqPremPeriodeMoisCtrlMedic" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.freqPremPeriodeMoisCtrlMedic}"
+	                        id="freqPremPeriodeMoisCtrlMedic" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                    </tr>
+	               <tr> 
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.deuxPeriodeMoisCtrlMedic']} :"  for="deuxPeriodeMoisCtrlMedic" styleClass="grey"/>
+	                  </td>
+	                  <td>
+						<rich:calendar value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.deuxPeriodeMoisCtrlMedic}" 
+						                    styleClass="textBleu"  enableManualInput="true" validatorMessage="X" id="deuxPeriodeMoisCtrlMedic"
+											maxlength="10"  locale="fr" popup="#{true}" datePattern="dd/MM/yyyy"
+											showApplyButton="#{false}" buttonIcon="/img2/calendrier.png" cellWidth="10px" cellHeight="22px" style="width:500px">
+						</rich:calendar>
+	                  </td>
+	                  <td>
+	                    <h:outputLabel value="#{msgBundle['rp_securite_sociale.freqDeuxPeriodeMoisCtrlMedic']} :"  for="freqDeuxPeriodeMoisCtrlMedic" styleClass="grey"/>
+	                  </td>
+	                  <td>
+	                    <h:inputText value="#{rpSecuriteSocialeService.rpSecuriteSocialeEnCreation.freqDeuxPeriodeMoisCtrlMedic}"
+	                        id="freqDeuxPeriodeMoisCtrlMedic" styleClass="textBleu nbOnly" maxlength="2" size="2"   />
+	                  </td>
+                    </tr>
+    	          
+                 </table>
+                </div>
+				</div>
+				<!-- fin panel 2 -->
+
+		</div>
+        		<div style="height: 10px;" />
+		<table width="100%" >
+				<tr>
+					<td width="1075px;" >
+						<div id="trd_submenu" class="trd_kb">
+							<ul>
+								<li>
+									<h:commandLink    onclick="afficherAttente();"  action="#{rpSecuriteSocialeService.creerRpSecuriteSociale}" >
+										<s:graphicImage fileName="accept.png" style="border:0px;" value="/picto/accept.png" width="16" height="16" alt="" />
+										#{msgBundle['btn.valider']}
+									</h:commandLink>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td>
+						&#160;
+					</td>
+				</tr>
+			</table>
+     </a:outputPanel>
+     </h:form>
+
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,238 @@
+<div style="width: 100%;" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+
+
+	<rich:modalPanel id="panelModifierBanque"
+		style="backgqround:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;">
+		<div class="cadreBordOrange margTop10px padLeft30px padRight30px"
+			style="overflow: none">
+			<div class="zoneTitreOrange margTop10px padLeft10px">
+				#{msgBundle['formulaire.banque.modalmodification']}</div>
+			<div class="margtop10px">
+				<f:facet name="controls">
+					<a onclick="Richfaces.hideModalPanel('panelModifierBanque');"
+						style="cursor: pointer" href="#">Fermer</a>
+				</f:facet>
+
+
+				<div>
+					<!-- Holds the form -->
+
+					<h:form class="note-form" id="frmModifierBanque">
+						<a:outputPanel ajaxRendered="true">
+							<div style="visibility: hidden; display: none">
+								<h:messages id="error"></h:messages>
+							</div>
+						</a:outputPanel>
+						<script>
+							jQuery(document).ready(function() {
+								dateEtHeureInputs();
+							});
+
+							function ajaxRequestContainsErrors() {
+								var retour = jQuery(
+										"#frmModifierBanque\\:error").text();
+								if (retour == 'X')
+									return true;
+								if (retour == 'XX')
+									return true;
+								if (retour == 'XXX')
+									return true;
+								if (retour == 'XXXX')
+									return true;
+								if (retour == 'XXXXX')
+									return true;
+								if (retour == 'XXXXXX')
+									return true;
+								if (retour == 'XXXXXXX')
+									return true;
+								if (retour == 'XXXXXXXX')
+									return true;
+								if (retour == 'XXXXXXXXX')
+									return true;
+								return false;
+							}
+
+							function fermerSiOk() {
+								if (!ajaxRequestContainsErrors())
+									Richfaces
+											.hideModalPanel('panelModifierBanque');
+							}
+						</script>
+						<s:validateAll>
+							<table border="0" width="100%">
+								<tr>
+									<td colspan="3"><h:outputLabel for="codeBanque"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.code']}" /></td>
+									<td colspan="3"><h:inputText
+											styleClass="textBleu margBot10px" size="18" required="true"
+											value="#{banqueService.banques.code}" id="codeBanque"
+											maxlength="20" /> <h:outputText
+											style="color:red;font-size: large;font-weight: bold;"
+											value="*"></h:outputText> <h:message for="codeBanque"
+											style="color:red" /></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="libelleBanque"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.libelle']}" /></td>
+
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.libelle}"
+											styleClass="textBleu margBot10px" size="18" required="true"
+											id="libelleBanque" maxlength="20" /> <h:outputText
+											style="color:red;font-size: large;font-weight: bold;"
+											value="*"></h:outputText> <h:message for="libelleBanque"
+											style="color:red" /></td>
+
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="libelleCourtBanque"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.libelleCourt']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.libelleCourt}"
+											styleClass="textBleu2 margBot10px" id="libelleCourtBanque"
+											required="false" maxlength="255" /></td>
+
+								</tr>
+								<tr>
+									<td colspan="3"><h:outputLabel for="codePostalBanque"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.codePostal']}" /></td>
+									<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+											converter="#{codePostauxConverter}" id="codePostalBanque"
+											value="#{banqueService.banques.codePostal}"
+											style="max-width: 150px;" required="true">
+											<s:selectItems noSelectionLabel="Selectionnez ..."
+												value="#{codePostauxService.listeCodePostaux}"
+												var="codePostaux" label="#{codePostaux.code}" />
+										</h:selectOneMenu> <h:outputText
+											style="color:red;font-size: large;font-weight: bold;"
+											value="*" /></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="VilleBanque"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.ville']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.ville}"
+											styleClass="textBleu margBot10px" id="VilleBanque"
+											maxlength="120" /> <h:message for="VilleBanque"
+											style="color:red" /></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="localiteBanque"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.localite']}" /></td>
+									<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+											converter="#{localiteConverter}"
+											value="#{banqueService.banques.localite}" id="localiteBanque"
+											style="max-width: 150px;">
+											<s:selectItems noSelectionLabel="Selectionnez ..."
+												value="#{listService.listLocalites}" var="localite"
+												label="#{localite.libelle}" />
+										</h:selectOneMenu></td>
+
+								</tr>
+								<tr>
+									<td colspan="3"><h:outputLabel for="paysBanque"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.pays']}" /></td>
+									<td colspan="3"><h:selectOneMenu styleClass="textBleu"
+											id="paysBanque" style="max-width: 150px;"
+											converter="#{paysConverter}"
+											value="#{banqueService.banques.pays}">
+											<s:selectItems noSelectionLabel="Selectionnez ..."
+												value="#{listService.listPays}" var="pays"
+												label="#{pays.libelle}" />
+										</h:selectOneMenu></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="tel1"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.tel1']}" /></td>
+									<td colspan="3"><h:inputText
+											styleClass="textBleu margBot10px " size="20" id="tel1"
+											value="#{banqueService.banques.tel1}" maxlength="20" /></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="tel2"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.tel2']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.tel2}"
+											styleClass="textBleu margBot10px" size="20" id="tel2"
+											maxlength="20" /></td>
+								</tr>
+								<tr>
+									<td colspan="3"><h:outputLabel for="telMobile"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.telMobile']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.telMobile}"
+											styleClass="textBleu margBot10px" size="20" id="telMobile"
+											maxlength="20" /></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="fax" styleClass="grey"
+											value="#{msgBundle['formulaire.banque.fax']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.fax}"
+											styleClass="textBleu margBot10px" size="20" id="fax"
+											maxlength="20" /></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="email1"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.email1']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.email1}"
+											styleClass="textBleu margBot10px " size="20" id="email1"
+											maxlength="20" /></td>
+								</tr>
+								<tr>
+									<td colspan="3"><h:outputLabel for="email2"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.email2']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.email2}"
+											styleClass="textBleu margBot10px " size="20" id="email2"
+											maxlength="20" /></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="responsable"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.responsable']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.responsableAgence}"
+											styleClass="textBleu margBot10px " size="20" required="false"
+											id="responsable" maxlength="20" /> <h:message
+											for="numeroMobileCandidat" style="color:red" /></td>
+									<td width="10px" />
+									<td colspan="3"><h:outputLabel for="contact"
+											styleClass="grey"
+											value="#{msgBundle['formulaire.banque.contact']}" /></td>
+									<td colspan="3"><h:inputText
+											value="#{banqueService.banques.contact}"
+											styleClass="textBleu margBot10px " size="20" id="contact"
+											maxlength="20" /></td>
+								</tr>
+								<tr>
+									<td colspan="18" align="right"><a:commandButton
+											value="#{msgBundle['pays.valider']}"
+											oncomplete="fermerSiOk();" style="text-align:right;"
+											limitToList="true" status="waitStatus"
+											action="#{banqueService.ajouterModifierBanque()}"
+											reRender="regionBanque"
+											image="/img2/bouton_valider.jpg" /></td>
+								</tr>
+
+							</table>
+						</s:validateAll>
+					</h:form>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</rich:modalPanel>
+
+</div>

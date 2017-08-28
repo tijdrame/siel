@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 20/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage des Vehicules -->
+    <ui:define name="title">Application Am@domCim@p</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<center><h:messages style="color:red;"/></center>
+		<a:loadScript src="/js/common.js"/>
+		<!-- Panel principal-->
+		<h:form>
+		  
+		
+		<div id="zoneResultat" class="zoneResultat">
+			<div class="label2">
+				#{msgBundle['modePaiement.titre']}
+			</div>
+			
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['modePaiement.titre.option']}
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+	
+			<rich:dataTable id="listmodePaiement" value="#{modePaiementService.listmodePaiement}" var="unPaiement" styleClass="tableauEnfants" 
+					rendered="true" width="100%"  height="100%" >
+			
+				<f:facet name="header" >
+						<rich:columnGroup >
+				       		<rich:column>
+				       		     #{msgBundle['modePaiement.libelle']}
+				       		</rich:column>
+				       		<rich:column>
+					       		 #{msgBundle['modePaiement.libelleCourt']}
+				       		</rich:column>
+				       		<rich:column>
+					       		 #{msgBundle['modePaiement.commentaire']}
+				       		</rich:column>
+				       		<rich:column width="50px;" >
+					       		Action
+				       		</rich:column>
+				       		
+				       	</rich:columnGroup>
+				</f:facet>
+				 	
+				  <rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px nomFamilleStyle"  id="libelee"  
+									value="#{modePaiementService.modePaiement.libelle}" required="true" maxlength="80" size="40"  />
+									<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />	
+								
+							</h:panelGroup>
+								
+						</f:facet>
+						<h:outputText   value="#{unPaiement.libelle}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px prenomStyle" required="true"  id="libelleCourt" value="#{modePaiementService.modePaiement.libelleCourt}" 
+									maxlength="20" size="20"  />
+								<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />	
+								
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText   value="#{unPaiement.libelleCourt}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+							    <h:inputText styleClass="textBleu margBot10px prenomStyle"  id="commenaire" value="#{modePaiementService.modePaiement.commentaire}" 
+									maxlength="30" size="30"  />
+								
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText   value="#{unPaiement.commentaire}" />	
+					</rich:column>
+				 	
+				 	
+				 	
+				 	<rich:column >
+						<f:facet name="header">
+							<a:commandButton title="ajouter"
+								image="/picto/add.png" action="#{modePaiementService.creermodePaiement}" status="waitStatus"  
+								reRender="listmodePaiement" oncomplete="dateEtHeureInputs();"  />
+						</f:facet>
+						<table width="100%">
+							<tr>
+								<td align="center">
+									<div style="text-align: center; padding-top: 5px;">
+										<a:commandLink immediate="true" status="waitStatus" action="#{modePaiementService.initModifiermodePaiement(unPaiement)}" value=""
+										    id="modifierUnPaiement"  styleClass="sansOmbre" reRender="ModificationModePaiemente"
+											
+											oncomplete="javascript:Richfaces.showModalPanel('ModificationModePaiemente',{width:800, top:5, height:500});jQuery('#CreationReference\\:nomContact3').focus();">
+										<h:graphicImage value="/picto/page_edit.png" alt="" style="border:0;" />
+										</a:commandLink>
+										
+																
+									</div>
+									
+								 </td>
+								 
+								 <td align="center">
+								  <a:commandButton  immediate="true" status="waitStatus" title="supprimer"
+									id="supprimerUnPaiement" image="/picto/cross.png" styleClass="sansOmbre"
+									onclick="if (!confirm('Voulez vous effacer  #{unPaiement.libelle} ?')) return false"
+									action="#{modePaiementService.supprimermodePaiement(unPaiement)}"
+									reRender="listmodePaiement" oncomplete="dateEtHeureInputs();" />
+								 </td>
+							</tr>
+						</table>
+						
+				</rich:column>
+				</rich:dataTable>
+				</div>
+				</div>
+				</h:form>
+				
+<!-- ****************************************************************************  -->				
+				<rich:modalPanel id="ModificationModePaiemente" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:390;">
+					<div class="cadreBordOrange margTop30px padLeft30px padRight30px">
+						<div class="zoneTitreOrange margTop10px padLeft10px"> titre  </div>
+						<br />
+						<div class="margtop30px">
+							<f:facet name="controls">
+								<a onclick="Richfaces.hideModalPanel('ModificationModePaiemente');" style="cursor: pointer" href="#">Fermer</a>
+							</f:facet>
+
+
+							<div>
+								<!-- Holds the form -->
+
+								<h:form class="note-form" id="ModificationmodePaiemente">
+									<a:outputPanel ajaxRendered="true">
+										<div style="visibility: hidden; display: none">
+											<h:messages id="error"></h:messages>
+										</div>
+									</a:outputPanel>
+									<script>
+
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+			
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#ModificationmodePaiemente\\:error").text();
+				    return  retour == 'X';
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('ModificationModePaiemente');
+				}
+				
+			</script>
+									<s:validateAll>
+										<table border="0" width="100%">
+											<tr>
+											    <td>
+											        <h:outputText value="#{msgBundle['modePaiement.libelle']}" />
+											    </td>
+											    <td>
+											          <h:inputText value="#{modePaiementService.modePaiementModifier.libelle}" styleClass="textBleu margBot10px nomFamilleStyle"/>
+											    </td>
+											 </tr>
+											 <tr>
+											    <td>
+											        <h:outputText value="#{msgBundle['modePaiement.libelleCourt']}"  />
+											    </td>
+											    <td>
+											          <h:inputText value="#{modePaiementService.modePaiementModifier.libelleCourt}" required="true" styleClass="textBleu margBot10px nomFamilleStyle" />
+											    </td>
+											 </tr>
+											 <tr>
+											    <td>
+											        <h:outputText value="#{msgBundle['modePaiement.commentaire']}" />
+											    </td>
+											    <td>
+											          <h:inputTextarea value="#{modePaiementService.modePaiementModifier.commentaire}" styleClass="textBleu margBot10px nomFamilleStyle" />
+											    </td>
+											 </tr>
+											 
+											<tr>
+												<td colspan="8" align="center">
+													<!-- The green submit button: --> <br />
+													<hr class="orange" /> <a:commandButton value="Modifier" style="text-align:right;" oncomplete="fermerSiOk();" status="waitStatus"
+														action="#{modePaiementService.modifiermodePaiement()}" reRender="listmodePaiement,ModificationmodePaiemente"
+														image="/img2/bouton_valider.jpg" />
+												</td>
+											</tr>
+										</table>
+									</s:validateAll>
+								</h:form>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</rich:modalPanel>
+				
+				
+		        
+
+		
+		
+	</ui:define>
+</ui:composition>

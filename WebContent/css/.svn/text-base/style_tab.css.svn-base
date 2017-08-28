@@ -1,0 +1,1363 @@
+/*
+Gendarmerie Nationale
+
+Service de Développement et de Mise en oeuvre des Logiciels 
+Département Programmation et Publication Intranet
+
+GABARIT HTML
+
+CSS pour les appplications web 
+
+basé sur celle de plone
+www.plone.fr
+
+*/
+
+/*-------------------------------------------------
+Style pour gestion de la partie centrale du site (contenu)
+structure en tableau à une ligne, 2 colonnes
+#centralLeftColumn: colonne de gauche avec le menu
+#centralContentColumn: colonne de droite, incluant le contenu
+----------------------------------------------------------*/
+
+/* - Gestion des colonnes -*/
+
+#centralTable {
+width: 100% !important;
+border-collapse: collapse;
+border-spacing: 0;
+
+}
+
+#centralLeftColumn {
+vertical-align: top;
+width: 16em;
+border-collapse: collapse;
+padding: 0;
+}
+
+#centralContentColumn {
+vertical-align: top;
+margin: 0;
+padding: 0;
+border-collapse: collapse;
+padding: 0;
+
+}
+
+#centralLeftColumn .visualPadding {
+padding: 1em 0em 1em 1em;
+}
+
+/*Element de fixation html*/
+.hiddenStructure {
+display: block;
+background: transparent;
+background-image: none; /* safari bug */
+border: none;
+height: 1px;
+overflow: hidden;
+padding: 0;
+margin: -1px 0 0 -1px;
+width: 1px;
+}
+
+/* tout le site */
+#wrapperSite {
+margin: 0;
+padding: 0;
+height: 100%;
+}
+
+/* Fixe une separation header - centre - footer */
+
+.visualClear {
+display: block;
+clear: both;
+}
+
+/*-----------------------
+ Element HTML de base 
+ -----------------------*/
+html, body{
+height: 100%;
+width: 100%;
+}
+
+body {
+font: 69% "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+background-color: White;
+color: Black;
+margin: 0;
+padding: 0;
+}
+table {
+font-size: 100%;
+}
+a {
+color: #436976;
+background-color: transparent;
+}
+img {
+border: none;
+vertical-align: middle;
+}
+
+p {
+margin: 0 0 0.75em 0;
+line-height: 1.5em;
+}
+p img {
+border: none;
+margin: 0;
+}
+hr {
+border: 0;
+height: 1px;
+color: #8cacbb;
+background-color: #8cacbb;
+margin: 0.5em 0 1em 0;
+}
+h1, h2, h3, h4, h5, h6 {
+color: Black;
+background-color: transparent;
+font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+font-weight: normal;
+margin: 0 0 0.25em 0;
+border-bottom: 1px solid #8cacbb;
+}
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+color: Black ! important;
+text-decoration: none;
+}
+
+
+h1.green, h2.green {
+color: green  ! important;
+border-bottom: 1px solid green;
+}
+
+h1.green a,
+h2.green a{
+color: green ! important;
+text-decoration: none;
+}
+
+h1.red, h2.red {
+color: red;
+border-bottom: 1px solid red;
+}
+
+h1.red a,
+h2.red a{
+color: red ! important;
+text-decoration: none;
+}
+
+h1 {
+font-size: 160%;
+}
+h2 {
+font-size: 150%;
+}
+h3 {
+font-size: 125%;
+border-bottom: none;
+font-weight: bold;
+}
+h4 {
+font-size: 110%;
+border-bottom: none;
+font-weight: bold;
+}
+h5 {
+font-size: 100%;
+border-bottom: none;
+font-weight: bold;
+}
+h6 {
+font-size: 85%;
+border-bottom: none;
+font-weight: bold;
+}
+
+#content h5,
+#content h6{
+color: #76797c;
+font-size: 85%;
+font-weight: normal;
+}
+
+ul {
+line-height: 1.5em;
+margin: 0.5em 0 0 1.5em;
+padding: 0;
+list-style-type: square;
+}
+
+ol {
+line-height: 1.5em;
+margin: 0.5em 0 0 2.5em;
+padding: 0;
+list-style-image: none;
+}
+
+li {
+margin-bottom: 0.5em;
+}
+
+dt {
+font-weight: bold;
+}
+dd {
+line-height: 1.5em;
+margin-bottom: 1em;
+}
+
+fieldset {
+border: 1px solid #8cacbb;
+margin: 1em 0em 1em 0em;
+padding: 0em 1em 1em 1em;
+line-height: 1.5em;
+width: auto;
+}
+
+legend {
+border: 1px solid #8cacbb;
+padding: 0.5em;
+font-weight: bold;
+font-size: 90%;
+margin-bottom:5px;
+}
+
+abbr, acronym, .explain {
+border-bottom: 1px dotted Black;
+color: Black;
+background-color: transparent;
+cursor: help;
+}
+q {
+font-family: Baskerville, Georgia, serif;
+font-style: italic;
+font-size: 120%;
+}
+blockquote {
+padding-left: 0.5em;
+margin-left: 0;
+border-left: 4px solid #8cacbb;
+color: #76797c;
+}
+code {
+font-family: Monaco, "Courier New", Courier, monospace;
+font-size: 120%;
+color: Black;
+background-color: #dee7ec;
+padding: 0 0.1em;
+}
+pre {
+font-family: Monaco, "Courier New", Courier, monospace;
+font-size: 100%;
+padding: 1em;
+border: 1px solid #8cacbb;
+color: Black;
+background-color: #dee7ec;
+overflow: auto;
+}
+ins {
+color: green;
+text-decoration: none;
+}
+del {
+color: red;
+text-decoration: line-through;
+}
+
+/*
+-------------------------------------------------------------
+Entête: logo applicatif, icone de navigation, icone du service
+--------------------------------------------------------------
+*/
+
+/*
+Div englobant toute l'entete du site des logo jusqu'a la barre
+*/
+#top {
+margin: 0;
+padding: 0;
+background-color: transparent;
+}
+/*
+Definition du tableau englobant le logo, les liens, le second logo
+1 ligne, 3 colonnes
+#logoAppCell: Contient le logo de l'application
+#topNavCell: Contient les icones de navigation et le fil d'ariane
+#logoServiceCell: Contient le logo du service
+*/
+#headerTable{
+	white-space: nowrap;
+	width: 100% !important;
+border-collapse: collapse;
+border-spacing: 0;
+}
+
+#headerTable tr{
+white-space: nowrap;
+width: 100%;
+}
+
+#logoAppCell{
+	/**/width: 350px;
+}
+
+#topNavCell{
+	/*width: 300px;*/
+}
+#logoServiceCell{
+	/**/width: 100px;
+}
+
+/*logo du site: à gauche*/
+#logoApp {
+background: url(../img/logo.png) no-repeat;
+border: 0;
+margin: 1px 0em 1px 5px;
+padding: 0;
+}
+
+#logoApp a {
+display: block;
+text-decoration: none;
+overflow: hidden;
+border: 0;
+margin: 0;
+padding: 0;
+padding-top: 105px;
+height: 0px !important;
+width: 250px;
+cursor: pointer;
+}
+
+/*logo du service ou du corps: à droite */
+#logoService {
+background: url(../img/corps.PNG) no-repeat;
+border: 0;
+padding: 0;
+margin: 1px 0em 0em 0em;
+
+}
+
+#logoService a {
+display: block;
+text-decoration: none;
+overflow: hidden;
+border: 0;
+margin: 0;
+padding: 0;
+padding-top: 105px;
+height: 20px !important;
+width: 100px;
+cursor: pointer;
+}
+
+/*
+Menu d'icones: accueil, contacts, aide ect
+et fil d'ariane
+*/
+
+/*wrapper pour le menu d'icones et  le fil d'ariane*/
+#topNav{
+	margin-top:4em;
+	padding: 0;
+	background-color: transparent;
+z-index: 2;
+}
+
+/*Menu d'icones en haut du site*/
+#menuIcones{
+	list-style: none;
+list-style-image: none;
+list-style-type: none;
+   margin-bottom:1em;
+	display: block;
+	padding: 0;
+	white-space: nowrap;
+}
+
+#menuIcones li{
+display: inline;
+}
+
+#menuIcones li a{
+ text-align: center;
+ margin-right: 1.75em;
+ padding: 0 10px 0 10px;
+ font-weight: bold;
+ color: #1146A6;
+ text-decoration: none;
+ text-transform: none;
+}
+
+#menuIcones li a.visualIconCles{
+color: #CC1029;
+text-decoration: none;
+padding-top: 35px;
+background: transparent url(../img/cles.png) top center no-repeat;
+}
+
+#menuIcones li a.visualIconHome{
+text-decoration: none;
+padding-top: 35px;
+background: transparent url(../img/accueil.png) top center no-repeat;
+}
+
+#menuIcones li a.visualIconHelp{
+text-decoration: none;
+padding-top: 35px;
+background: transparent url(../img/question.png) top center no-repeat;
+}
+
+#menuIcones li a.visualIconContact{
+text-decoration: none;
+padding-top: 35px;
+background: transparent url(../img/contact.png) top center no-repeat;	
+}
+
+#menuIcones li a.visualIconCles:hover{
+color: #FF1313;
+}
+
+#menuIcones li a:hover{
+color: #6898EE;
+}
+
+/*
+train de lien avec une puce 'tripode'
+Utilisé pour le fil d'arianne
+*/
+#filAriane{
+	margin-left:25px;
+	color: #426973;
+}
+
+ul.menuLink, #filAriane{
+	list-style: none;
+}
+
+/**/#filAriane span{ 
+ color: ;
+}
+
+ul.menuLink li, #filAriane li{
+display: inline;
+margin-left: 6px;
+background: transparent url(../img/linkMenu.gif) no-repeat;
+padding-left:10px;
+background-position: 0px -1px;
+}
+
+ul.menuLink li a, #filAriane li a{
+text-decoration: none;
+}
+
+#filAriane li.noPuce{
+background: none;
+padding-left: 2px;
+margin-left: 2px;
+}
+
+#filAriane li.here{
+ font-weight: bold;
+  color: #426973;
+}
+
+ul.menuLink li a:hover, #filAriane li a:hover{
+text-decoration: underline;
+}
+
+/*
+onglets principaux global nav & menus deroulant
+(Partie sensible - non compatible IE - à modifier avec précaution)
+*/
+
+/*Definission menu horizontal - les onglets*/
+
+#globalNav{
+background-color: transparent;
+padding: 0em 0em 0em 2em;
+white-space: nowrap;
+list-style: none;
+margin: 0;
+height: auto;
+line-height: normal;
+list-style-image: none;
+list-style-type: none;
+}
+
+#globalNav>li{
+display: inline;
+}
+
+#globalNav li{
+position:relative;
+}
+
+#globalNav li a{
+/*background-color: transparent;*/
+border-color: #8cacbb;
+border-width: 1px;
+border-style: solid solid solid solid;
+color: #436976;
+margin-right: 0.5em;
+padding: 0 1em 0 1em;
+text-decoration: none;
+text-transform: none;
+overflow:hidden;
+text-align:center;
+}
+
+/*onglet selectionné & hover*/
+#globalNav>li:hover>a, #globalNav>li.selected>a{
+	background: transparent  url(../img/grad.gif) repeat-x;
+	/*border-style: solid solid none solid;*/
+}
+
+/*
+Definition du menu vertical
+*/
+
+/*Definition commune à l'ensemble des niveaux du menu vertical*/
+#globalNav li:hover>ul {
+display:block; 
+position:absolute; 
+top:-1px; 
+left:151px;
+width:151px; 
+margin: 0;
+padding: 0;
+background: #E9EFF5  url(../img/grad.gif) repeat-x;
+border:#8cacbb 1px solid;
+z-index:150;
+list-style: none;
+}
+
+/*Partcularité de positionnement du 1er Niveau du menu vertical */
+#globalNav > li:hover > ul{
+top:13px;
+left:0px;
+/*border-style: none solid solid solid;*/
+}
+
+/*balise li d'un menu vertical*/
+#globalNav li ul li{
+margin:0;
+padding:0;
+}
+
+/*balise a d'un menu vertical*/
+#globalNav li ul li a{
+display:block;
+border-style:none;
+margin:0;
+border-width: 0px;
+border-style: none;
+background-color: transparent;
+color: #436976;
+text-align:left;
+line-height:24px;
+}
+
+
+/*element a:hover d'un menu vertical*/
+#globalNav li ul li:hover> a{
+	background-color: #8CACBB;
+	font-weight: bold;
+	color: White;
+}
+
+/*element a:hover d'un menu vertical avec suite*/
+#globalNav li ul li.suite:hover> a{
+	background: #8CACBB url(../img/expand_lin.gif) right no-repeat;
+}
+
+/*element li d'un menu vertical avec indication d'une suite*/
+#globalNav li ul li.suite{
+background: transparent url(../img/expand_lin.gif) right no-repeat;
+}
+
+/*Par default tous les menus verticaux sont cachés*/ 
+#globalNav li ul {display: none;}
+
+/*
+Fin gestion des onglets et du menu deroulant
+*/
+
+/*------------------------------------------------
+Bar de séparation entête-contenu avec inscription du login
+---------------------------------------------------*/ 
+
+#siteBar{
+/* Bar with personalized menu (user preferences, favorites etc) */
+background: url(../img/grad.gif) repeat-x;
+border-top-color: #8cacbb;
+border-top-style: solid;
+border-top-width: 1px;
+border-bottom-color: #8cacbb;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+line-height: 1.6em;
+color: Black;
+padding: 0em 3em 0em 3em;
+margin: 0;
+text-align: right;
+text-transform: none;
+list-style: none;
+}
+
+#siteBar .user {
+background: transparent url(../img/user.gif) center left no-repeat;
+padding-left: 18px;
+}
+
+#siteBar .not-logged {
+color: Black;
+padding: 0;
+background: transparent;
+background-image: none;
+}
+
+#siteBar li {
+color: #436976;
+margin-left: 1em;
+display: inline;
+}
+
+#siteBar li a {
+text-decoration: none;
+color: #436976;
+}
+
+#siteBar li a:hover {
+color: #FFA600;
+}
+
+#siteBar .visualIconPadding {
+padding-left: 10px;
+}
+
+/*-----------------
+Onglet de contenu
+-------------------*/
+.contentTabs {
+background-color: transparent;
+padding-left: 1em;
+line-height: normal;
+margin: 0;
+list-style: none;
+}
+
+.contentTabs li {
+display: inline;
+padding-top: 0.5em;
+}
+
+.contentTabs li a {
+background-color: transparent;
+border: 1px solid #8cacbb;
+border-style: solid;
+color: #436976;
+height: auto;
+margin-right: 0.5em;
+padding: 0em 1em;
+line-height: normal;
+text-decoration: none;
+text-transform: none;
+z-index: 1;
+}
+
+.contentTabs .selected a {
+background-color: #eef3f5;
+border-bottom: #eef3f5 1px solid;
+color: #436976;
+}
+
+.contentTabs li a:hover {
+background-color: #eef3f5;
+color: #436976;
+}
+
+/*----------------------------------
+Mise en forme du contenu de la colonne du centre
+-----------------------------------*/
+
+#content {
+padding: 1em 1em 0 1em !important;
+margin: 0em 0em 1em 0em;
+font-size: 110%;
+}
+
+#content .contentPlainBox{
+border: 1px solid #8cacbb;
+padding: 1em 1em 2em 1em !important;
+background: #eef3f5;
+margin-bottom: 1em;
+}
+
+#content .invisibleBox{
+border: 1px solid White;
+padding: 1em 1em 2em 1em !important;
+background: White;
+}
+
+/*-------------------------------------
+Menus de gauche
+---------------------------------*/
+
+/*1er menu: 
+style avec cadre autour des items et cadre autour du menu
+et icones pour chaque items
+*/
+#PortletMenu{
+	border: 1px solid #8cacbb;
+	list-style: none;
+	color: Black;
+	text-align: left;
+	margin-bottom: 1em; 
+}
+
+#PortletMenu a {
+text-decoration: none;
+display: block;
+border: 1px solid white;
+}
+
+#PortletMenu a:hover, #PortletMenu a.selectedItem {
+background-color: #dee7ec;
+color: #436976;
+border: 1px solid #8cacbb;
+}
+
+#PortletMenu a.tile {
+display: block;
+}
+
+#PortletMenu li {
+margin: 0;
+display: block;
+line-height: 2em;
+padding: 0.5em;
+}
+
+/*2eme menu: 
+style simple sans aucun cadre 
+*/
+#plainMenu{
+
+	list-style: none;
+	color: Black;
+	text-align: center;
+	padding: 0;
+}
+
+#plainMenu li{
+	margin: 0;
+	display: block;
+
+	padding: 0;
+}
+
+#plainMenu li a{
+	display: block;
+        margin: 0;
+        padding: 1em;
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+}
+
+#plainMenu li a:hover, a.selected{
+	background-color: #dee7ec;
+}
+
+/*icones pour le menu*/
+.iconAddFavorrite a, .iconAddFavorrite a:hover{
+	background-image: url(../img/addFavorite.gif);
+	background-repeat: no-repeat;
+	background-position: 2px 50%;
+}
+
+.iconValidation a, .iconValidation a:hover{
+	background-image: url(../img/validation.PNG);
+	background-repeat: no-repeat;
+	background-position: 2px 50%;
+}
+
+.iconRech1 a, .iconRech1 a:hover{
+	background-image: url(../img/rech1.PNG);
+	background-repeat: no-repeat;
+	background-position: 2px 50%;
+}
+
+/*
+3eme menu:
+affichage du menu en arbre
+le treeView
+*/
+
+#treeView {
+ border: 1px solid #8cacbb;
+ background: url(../img/grad.gif) repeat-x;
+ background-color :#e9eff5; 
+list-style-image: none;
+list-style-type: none;
+list-style: none;
+margin:0px;
+padding: 5px 2px 5px 2px;
+}
+
+#treeView ul{
+margin-left:5px;
+list-style-image: none;
+list-style-type: none;
+list-style: none;
+}
+ 
+#treeView li{
+white-space: nowrap;
+/*text-align: left;
+vertical-align: middle;*/
+padding-left:15px;
+}
+
+#treeView img{
+ border: 0px;
+}
+ 
+#treeView li a{
+text-decoration: none;
+color: black;
+display: block;
+font-weight: normal;
+}
+ 
+#treeView li.plus{
+ background: transparent url(../img/plus.gif) no-repeat left 3px;
+}
+ 
+#treeView li.moins{
+ background: transparent url(../img/moins.gif) no-repeat left 3px;
+ font-weight: bold;
+}
+ 
+#treeView li.moins>a{
+font-weight: bold;
+}
+
+#treeView li.selected,#treeView li.selected a, #treeView li a:hover{
+ background-color: #8cacbb;
+ font-weight: bold;
+ color: White;
+}
+
+#treeView li.neutre a{
+font-weight: normal;
+}
+
+/*-----------------------------------------------------------
+Messages urgents, erreur, indication, notification
+Explication, description
+Cadres & Fieldset
+ --------------------------------------------------------------*/
+
+
+.notify {
+border: 1px solid #ffa500;
+margin: 0.5em 0 0.5em 0 ;
+}
+
+.card {
+background-color: #dee7ec;
+border-color: #8cacbb;
+border-width: 1px;
+border-style: solid;
+float: left;
+margin: 1em;
+text-align: center;
+width: 110px;
+padding: 1em 0;
+}
+
+.rightCard {
+background-color: #dee7ec;
+border-color: #8cacbb;
+border-width: 1px;
+border-style: solid;
+float: right;
+margin: 1em;
+text-align: center;
+width: 110px;
+padding: 1em 0;
+}
+
+
+.alertBox {
+background-color: #dee7ec;
+border-color: #CC1029;
+border-width: 1px;
+border-style: solid;
+margin: 1em;
+text-align: center;
+color: #CC1029;
+padding: 1em 0;
+font-weight: bold;
+}
+
+.documentDescription {
+/* */
+font-weight: bold;
+display: block;
+margin: 0.5em 0em;
+}
+.documentByLine {
+text-align: right;
+font-size: 85%;
+clear: both;
+font-weight: normal;
+color: #76797c;
+}
+
+.note legend{
+border: 1px solid #8cacbb;
+margin-bottom:5px;
+font-weight: bold;
+background-color: #DEE7EF;
+}
+
+.grad legend{
+border: 1px solid #8cacbb;
+margin-bottom:5px;
+font-weight: bold;
+background: url(../img/grad.gif) repeat-x;
+background-color :#e9eff5; 
+}
+
+.note{
+  background-color: #EFF3F7;
+  border: 1px solid #8cacbb;
+}
+
+
+.discreet {
+color: #76797c;
+font-size: 85%;
+font-weight: normal;
+}
+
+/*-------------------------------------------------------------
+ place une ou plusieurs icones en haut à droite imprimante, mail...
+---------------------------------------------------------------*/
+.documentActions {
+float: right;
+margin: -1em 0 0 0.5em;
+padding: 0;
+text-align: right;
+}
+
+.documentActions ul {
+margin: 1px 0 2px 0;
+padding: 0;
+display: block;
+}
+
+.documentActions li {
+display: inline;
+list-style: none;
+list-style-image: none;
+margin: 0;
+padding: 0;
+}
+
+.documentActions a {
+border: none !important;
+text-decoration: none;
+}
+
+
+/*------------------------------------------
+Gestion des elements du formulaire
+-------------------------------------*/
+form {
+border: none;
+margin: 0;
+}
+
+label {
+font-weight: bold;
+}
+textarea {
+font: 100% Monaco, "Courier New", Courier, monospace;
+border: 1px solid #8cacbb;
+color: Black;
+background: White url(../img/input_background.gif) repeat-x;
+width: 100%;
+}
+
+input[type="text"] {
+font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+visibility: visible;
+border: 1px solid #8cacbb;
+color: Black;
+vertical-align: middle;
+background: White url(../img/input_background.gif) repeat-x;
+}
+
+select {
+border: 1px solid #8cacbb;
+color: Black;
+background-color: White;
+vertical-align: top;
+}
+optgroup {
+font-style: normal;
+font-weight: bold;
+color: #999;
+padding-left: 0.25em;
+}
+option {
+color: black;
+}
+optgroup > option {
+padding: 0 0.25em 0 1em;
+}
+
+/*zone cadrant un champs (alternative à l'utilisation d'un tableau de mise en forme)*/
+.field {
+top: 0;
+left: 0;
+margin: 0 1em 1em 0;
+}
+.field .field {
+margin: 1em 0 0 0;
+}
+.fieldRequired {
+background: url(../img/required.gif) center left no-repeat;
+padding: 0 0 0 8px;
+color: #8cacbb;
+}
+
+
+/*mise en forme pour un texte pouvant servir d'aide */
+.formHelp {
+font-size: 90%;
+color: #76797c;
+margin: 0 0 0.2em 0;
+}
+.formHelp:hover {
+color: Black;
+cursor: default;
+}
+
+/* Accuentuation d'une erreur*/
+.error {
+
+background-color: #eef3f5;
+border: 1px solid #eef3f5;
+padding: 1em;
+margin: 0 0 1em 0;
+width: 95%;
+}
+.error .fieldRequired {
+color: #eef3f5;
+}
+
+/*Mise en form pour affichage des bouttons*/
+.formControls {
+margin: 1em 0;
+}
+
+/*
+icones a coté d'un champs (generalement une loupe)
+*/
+.fieldActions{
+	margin: 0.4em 0 0 0.5em;
+	padding: 0;
+	display: inline;
+}
+
+.fieldActions ul {
+margin: 1px 0 2px 0;
+padding: 0;
+}
+
+.fieldActions li {
+display: inline;
+list-style: none !important;
+list-style-image: none;
+margin: 0;
+padding: 0;
+}
+
+.fieldActions a {
+border: none !important;
+text-decoration: none;
+}
+
+
+/*-----------------------------------------------------
+Formatage des tableaux
+-----------------------------------------------------*/
+
+.listing {
+border-left: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+font-size: 105%;
+margin: 1em 0em 1em 0em;
+	clear: both;
+	overflow: auto;
+	position: relative;
+	padding: 0;
+	border-spacing: 0;
+}
+
+.listing thead {
+display: table-header-group;
+position: static;
+width: 100%;
+background-color: #dee7ef;
+}
+
+.listing th {
+background: #dee7ec;
+border-top: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+font-weight: normal;
+padding: 0.25em 1em;
+text-transform: none;
+text-align: center;
+font-weight: bold; 
+}
+
+.listing td, .scroll td{
+border-right: 1px solid #8cacbb;
+padding: 0.25em 1em;
+}
+/* 
+tableau avec scroll
+-------------------
+il faut preciser les classes dans le tableau de la maniere suivante
+<table class="listing scroll">
+
+Par default la hauteur tu tableau en scroll est de 200px
+Pour la modifier, fixer une hauteur à la balise <tbody> en utilisant l'attribut style="height: XXXpx"
+où XXX représente la hauteur à afficher
+
+Il faut une colonne supplementaire pour loger la barre de scroll,
+chaque cellule de cette colonne doit comporter l'appel de class 'scrollBarCell'
+*/
+.scroll tbody{
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 200px;
+	border-right: 1px solid #8cacbb;
+}
+
+.scroll .scrollBarCell{
+	padding: 0.25em 9px; 
+}
+
+/*Fin gestion scroll*/
+
+.listing .listingCheckbox {
+text-align: center;
+}
+
+.listing a:hover {
+text-decoration: underline;
+}
+.listing img {
+vertical-align: middle;
+}
+.listing td a label {
+cursor: pointer;
+}
+
+.listing tr.selected{
+background-color: #eef3f5;
+}
+
+.listing tr:hover {
+ background-color: #ADD8E6;
+}
+
+.even {
+background-color: #eef3f5;
+}
+.odd {
+background-color: white;
+}
+
+/*flèche pour indication de tri*/
+th.pointerCroissant{
+cursor: pointer;
+text-align: center;
+font-weight: bold;
+background: url(../img/collapse_lin.gif) center right no-repeat;
+background-color: #dee7ef;
+}
+
+th.pointerDecroissant{
+cursor: pointer;
+text-align: center;
+font-weight: bold;
+background: url(../img/collapse_dec.gif) center right no-repeat;
+background-color: #dee7ef;
+}
+
+
+/*-----------------------------------------
+gestion affichage d'elements
+particularités diverses
+
+--------------------------------------------*/
+
+/*affichage sans bordure d'un element*/
+.noborder{
+border: none;
+margin: 0;
+background: none;
+background-color: transparent;
+}
+
+/*Decallage du texte vers la droite.
+Utile pour ajouter une icone juste avant un texte
+pour le menu par exemple*/
+.visualIconPadding{
+padding-left: 2.5em;
+margin-bottom: 1px;
+min-height: 2em;
+height: auto;
+/*line-height: 2em;*/
+}
+
+/*pas d'effet sur un lien*/
+.visualCaseSensitive {
+text-transform: none;
+}
+
+
+
+/*-------------------------------
+Footer Pied de Page & bas de page
+-----------------------------------*/
+#footer {
+background: url(../img/grad.gif) repeat-x;
+background-color :#e9eff5; 
+border-top: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+float: none;
+line-height: 1.2em;
+margin: 2em 0em 1em 0em;
+padding: 0.5em 0em 1em 0em;
+text-align: center;
+}
+
+#footer p {
+margin: 0.25em 0;
+}
+#footer a {
+text-decoration: none;
+color: #436976;
+border: none;
+}
+#footer a:visited {
+color: #436976;
+}
+#footer a:hover {
+text-decoration: underline;
+}
+
+/*Infos de fin de page: le colophon
+copyright ect..
+*/
+
+#colophon {
+float: none;
+margin: 0em 0em 2em 0em;
+padding: 0.5em 0em 1em 0em;
+text-align: center;
+height: 10px;
+overflow: hidden;
+}
+
+#colophon ul,
+#colophon ul li,
+#colophon ul li a {
+list-style-image: none;
+list-style-type: none;
+display: inline;
+text-decoration: none;
+color: Black;
+}
+#colophon ul {
+/*display: table-row;*/
+list-style-type: none;
+}
+#colophon ul li {
+/*display: table-cell;*/
+font-size: 85%;
+margin: 0 0.25em;
+padding: 0.1em 0.2em;
+}
+
+.rich-table {
+ border-collapse:inherit;
+}	
+ .lavaLampWithImage {
+            position: relative;
+            height: 29px;
+            width: 421px;
+            background: url("../img/bg.gif") no-repeat top;
+            padding: 15px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+                .lavaLampWithImage li {
+                    float: left;
+                    list-style: none;
+                }
+                    .lavaLampWithImage li.back {
+                        background: url("../img/lava.gif") no-repeat right -30px;
+                        width: 9px; height: 30px;
+                        z-index: 8;
+                        position: absolute;
+                    }
+                        .lavaLampWithImage li.back .left {
+                            background: url("../img/lava.gif") no-repeat top left;
+                            height: 30px;
+                            margin-right: 9px; /* 7px is the width of the rounded shape */
+                        }
+                    .lavaLampWithImage li a {
+                        font: bold 14px arial;
+                        text-decoration: none;
+                        color: #fff;
+                        outline: none;
+                        text-align: center;
+                        top: 7px;
+                        text-transform: uppercase;
+                        letter-spacing: 0;
+                        z-index: 10;
+                        display: block;
+                        float: left;
+                        height: 30px;
+                        position: relative;
+                        overflow: hidden;
+                        margin: auto 10px;    
+                    }
+                        .lavaLampWithImage li a:hover, .lavaLampWithImage li a:active, .lavaLampWithImage li a:visited {
+                            border: none;
+                        }

@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:bp="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/template/template.xhtml"
+                  xmlns:a4j="http://richfaces.org/a4j">
+	
+    <ui:define name="title">Application Ch@k@</ui:define>
+	<ui:define name="body">
+
+
+
+<div id="sousPrefecture" class="zoneResultat">
+	     <div class="label2">
+	          #{msgBundle['sousPrefecture.titre.parametrage']}
+	     </div>
+        <div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['sousPrefecture.titre.sousPrefecture']}
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+			<a:outputPanel id="regionSousPrefecture" >
+		     <h:form id="frmSousPrefecture">
+				<s:validateAll>
+			<rich:dataTable id="listSousPrefecture" value="#{listService.listSousPrefectures}" var="varSousPrefecture" styleClass="tableauEnfants" 
+					rendered="true" width="100%"  height="100%" rowClasses="row1,row2">
+			
+				    <f:facet name="header" >
+						<rich:columnGroup >						    						    
+				       		<rich:column>
+				       			#{msgBundle['sousPrefecture.libelle']}
+				       		</rich:column>
+				       		<rich:column>
+				       			#{msgBundle['sousPrefecture.libelleCourt']}
+				       		</rich:column>
+				       		<rich:column>
+				       			#{msgBundle['sousPrefecture.prefecture']}
+				       		</rich:column>				       		
+				       		<rich:column>
+				       			#{msgBundle['sousPrefecture.commentaire']}
+				       		</rich:column>
+				       		<rich:column>
+					       		Action
+				       		</rich:column>
+				       	</rich:columnGroup>
+				 	</f:facet>				 					 	
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="libelle" 
+									value="#{sousPrefectureService.sousPrefecture.libelle}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varSousPrefecture.libelle}" />	
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="libelleCourt" 
+									value="#{sousPrefectureService.sousPrefecture.libelleCourt}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varSousPrefecture.libelleCourt}" />	
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+							    <h:selectOneMenu  value="#{sousPrefectureService.sousPrefecture.prefecture}"  id="idPrefecture" styleClass="textBleu2 margBot10px" required="true" converter="#{prefectureConverter}">
+			              				 <s:selectItems value="#{listService.listPrefectures}" var="varPrefecture" label="#{varPrefecture.libelle}" noSelectionLabel="selectionner..."></s:selectItems>
+			             		</h:selectOneMenu>								
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varSousPrefecture.prefecture.libelle}" />	
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px"  id="commentaire" 
+									value="#{sousPrefectureService.sousPrefecture.commentaire}" />								
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText  value="#{varSousPrefecture.commentaire}" />	
+					</rich:column>
+					
+					<rich:column>
+					    <f:facet name="header">
+							<a:commandButton title="#{msgBundle['sousPrefecture.valider']}" id="validerSousPrefecture" action="#{sousPrefectureService.creerOuModifierSousPrefecture()}"
+								image="/picto/accept.png" status="waitStatus"  
+								reRender="regionSousPrefecture"   oncomplete="dateEtHeureInputs();"/>
+						</f:facet>
+						<table width="100%">
+							<tr>
+								<td align="center">
+								<a:commandButton  action="#{sousPrefectureService.supprimerSousPrefecture(varSousPrefecture)}"
+								    immediate="true" status="waitStatus" title="#{msgBundle['msg.hint.supprimer']}"
+									id="supprimerUnSousPrefecture" image="/picto/cross.png" styleClass="sansOmbre"
+									onclick="if (!confirm('#{msgBundle['msg.confirmation']} ? #{varSousPrefecture.libelle}')) return false"									
+									reRender="regionSousPrefecture" oncomplete="dateEtHeureInputs();" />
+								 </td>
+								 <td align="center">
+								<a:commandButton  action="#{sousPrefectureService.versModifierSousPrefecture(varSousPrefecture)}"
+								    immediate="true"  title="#{msgBundle['msg.hint.modifier']}"
+									id="modifierUnSousPrefecture" image="/picto/page_edit.png" styleClass="sansOmbre"																		
+									reRender="frmModifierSousPrefecture" oncomplete="javascript:Richfaces.showModalPanel('panelModifierSousPrefecture',{width:800, top:5, height:150});"/>
+								 </td>
+							</tr>
+						</table>	
+					</rich:column>
+					
+				 	
+				 	<f:facet name="footer">
+					</f:facet>
+				</rich:dataTable>
+		     </s:validateAll>
+		
+		   </h:form>
+		   
+		       
+		</a:outputPanel>
+		<ui:include src="./modals/modalSousPrefecture.xhtml" />
+		</div>
+		</div>
+		<div style="height: 7px;" />	
+				
+        <!-- fin contacts -->    
+</ui:define>
+</ui:composition>      

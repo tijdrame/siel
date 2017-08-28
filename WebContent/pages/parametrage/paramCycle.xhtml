@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<ui:define name="title">Application SunuECOLE</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+
+		<a:outputPanel id="msg">
+			<h:message infoClass="confirmationerror"
+				errorClass="confirmationerror" warnClass="confirmationerror"
+				for="intervenantErreur" />
+			<h:message infoClass="confirmationwarning"
+				errorClass="confirmationwarning" warnClass="confirmationwarning"
+				for="intervenantMsgWarning" />
+			<h:inputHidden id="intervenantMsgWarning" value="" />
+			<h:inputHidden id="intervenantErreur" value="" />
+		</a:outputPanel>
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<div id="zoneRecherche" class="zoneRecherche">
+		<a:form>
+
+			<!-- Fieldset de recherche -->
+
+			<a:outputPanel id="searchIntervenantCriteria">
+
+				
+						<div class="panel">
+	<h2 class="titre-tab">Saisie Cycle</h2>
+							<table width="100%" class="table">
+								<tr>
+									
+									<td><h:outputLabel class="grey"
+											value="Cycle:" for="nomIn" />
+									</td>
+									<td><h:inputText id="nomIn" required="true"
+											styleClass="req"
+											value="#{cycleService.cycle.libelle}"
+											style="width: 250px;">
+											
+										</h:inputText></td>
+								
+									<td><h:outputLabel class="grey"
+											value="Code:"
+											for="tel" /></td>
+									<td><h:inputText styleClass="req" required="true"
+											id="tel"
+											value="#{cycleService.cycle.libelleCourt}"
+											style="width: 250px;">
+											
+										</h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:outputLabel class="grey" 
+											value="Nombre d'années:"
+											for="mail" /></td>
+									<td><h:inputText styleClass="req" required="true"
+											id="mail"
+											value="#{cycleService.cycle.nombreAnnees}"
+											style="width: 250px;">
+											
+										</h:inputText></td>
+									
+								</tr>
+								
+							</table>
+					
+					<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{cycleService.ajout()}" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="searchResultsIntervenants, searchIntervenantCriteria">
+												<i class="fa fa-check" aria-hidden="true"></i>
+										Valider
+									</a:commandLink></li>
+										
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+					</div>
+					
+					</a:outputPanel>
+					</a:form>
+					<a:form>
+					
+					
+					<a:outputPanel id="searchResultsIntervenants">
+					<h2 class="titre-tab">Liste des Cycles</h2>
+
+						<div class="panel">
+							
+							<div class="content">
+								
+								<rich:dataTable id="intervenants" rows="10"
+									value="#{cycleService.listCycles}"
+									var="it"
+									
+									width="100%"   >
+									<rich:column filterBy="#{it.libelle}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Cycle
+										</f:facet>
+										<h:outputText value="#{it.libelle}"/>
+										
+									</rich:column>
+									<rich:column filterBy="#{it.libelleCourt}" filterEvent="onkeyup">
+										<f:facet name="header">
+											Code
+										</f:facet>
+										<h:outputText value="#{it.libelleCourt}"/>
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">
+											Nombre d'années
+										</f:facet>
+										<h:outputText value="#{it.nombreAnnees}"/>
+									</rich:column>
+									
+
+									<rich:column>
+										<f:facet name="header">
+											#{msgBundle['col.action']}
+										</f:facet>
+										<table align="center">												
+										<tr>
+										<td>
+										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="searchIntervenantCriteria"
+											action="#{cycleService.consuler(it)}" title="Voir détails" image="/picto/page_edit.png" 
+											styleClass="sansOmbre"	>
+										</a:commandButton>
+										</td>
+										
+											</tr> 
+										</table>
+										
+									</rich:column>
+								</rich:dataTable>
+								
+								<rich:datascroller status="waitStatus" stepControls="auto"  styleClass="textBleu2" 
+				 style="width:100%; " for="intervenants"  align="center" />
+						
+							</div>
+							<div class="clear"></div>
+							<div class="navigation">
+								<div class="clear"></div>
+							</div>
+						</div>
+
+					</a:outputPanel>
+				
+		</a:form>
+	</div>
+</ui:define>
+</ui:composition>

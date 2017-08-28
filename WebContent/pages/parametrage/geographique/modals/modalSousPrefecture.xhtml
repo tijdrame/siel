@@ -1,0 +1,115 @@
+<div style="width:100%;" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+	  xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+
+
+<rich:modalPanel id="panelModifierSousPrefecture" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;"  >
+			<div class="cadreBordOrange margTop10px padLeft30px padRight30px"  style="overflow: none" >
+			<div class="zoneTitreOrange margTop10px padLeft10px">
+				#{msgBundle['sousPrefecture.titre.parametrage']}
+			</div>
+			<div class="margtop10px">
+			<f:facet name="controls">
+				<a onclick="Richfaces.hideModalPanel('panelModifierSousPrefecture');" style="cursor:pointer" href="#">Fermer</a>
+			</f:facet>
+
+
+			<div ><!-- Holds the form -->
+			
+			<h:form class="note-form" id="frmModifierSousPrefecture">
+			<a:outputPanel ajaxRendered="true">
+				<div style="visibility: hidden; display: none" >
+					<h:messages id="error"></h:messages>
+				</div>
+			</a:outputPanel>
+			<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#frmModifierSousPrefecture\\:error").text();
+					if (retour == 'X')
+					    return true;
+				 if (retour == 'XX')
+					    return true;
+				 if (retour == 'XXX')
+					    return true;
+				 if (retour == 'XXXX')
+					    return true;
+				 if (retour == 'XXXXX')
+					    return true;
+				 if (retour == 'XXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXXX')
+					    return true;
+				 if (retour == 'XXXXXXXXX')
+					    return true;
+				    return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModifierSousPrefecture');
+				}
+				
+			</script>
+			<table border="0" width="100%">
+			
+			   <tr>			      
+			     <td><h:outputText value="#{msgBundle['sousPrefecture.libelle']} : " width="30%" /></td>
+			     <td align="left">
+			          <h:inputText styleClass="textBleu margBot10px"  id="libelle" 
+									value="#{sousPrefectureService.sousPrefecture.libelle}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>			
+			     </td>
+			     <td>
+				        <h:outputText value="#{msgBundle['sousPrefecture.libelleCourt']} : "/> 
+			      </td>
+			      
+			      <td>
+			           <h:inputText styleClass="textBleu margBot10px"  id="libelleCourt" 
+									value="#{sousPrefectureService.sousPrefecture.libelleCourt}" required="true" />
+								<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>				
+			     </td>
+			   </tr>
+			   <tr>  
+			     <td><h:outputText value="#{msgBundle['sousPrefecture.prefecture']} : " width="30%" /></td>			     
+			     
+			     <td >
+			             <h:selectOneMenu  value="#{sousPrefectureService.sousPrefecture.prefecture}"  id="idPrefecture" styleClass="textBleu2 margBot10px" converter="#{prefectureConverter}">
+			              	  <s:selectItems value="#{listService.listPrefectures}" var="varPrefecture" label="#{varPrefecture.libelle}" noSelectionLabel="selectionner..."></s:selectItems>
+			             </h:selectOneMenu>								
+						<h:outputText value="*" style="color:red; font-size: large; font-weight: bold;" class="gray"/>
+			     </td>
+			     <td><h:outputText value="#{msgBundle['sousPrefecture.commentaire']} : " width="30%" /></td>			     
+			     
+			     <td >
+			           <h:inputText styleClass="textBleu margBot10px"  id="commentaire" 
+									value="#{sousPrefectureService.sousPrefecture.commentaire}" />
+			     </td>			     			    
+			 </tr>			
+			<tr>
+			  <td colspan= "4" align="right">
+			        <a:commandButton value="#{msgBundle['sousPrefecture.valider']}" oncomplete="fermerSiOk();" style="text-align:right;" limitToList="true" status="waitStatus" 
+							action="#{sousPrefectureService.creerOuModifierSousPrefecture()}" reRender="frmSousPrefecture" image="/img2/bouton_valider.jpg"/>			     
+			  </td>
+			</tr>
+		</table>
+					
+		</h:form>
+		</div>
+	</div>
+	<div class="clear"></div>
+	</div>
+	</rich:modalPanel>
+
+</div>		

@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 20/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<!-- Page de parametrage des Vehicules -->
+    <ui:define name="title">Application CNSS</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<center><h:messages style="color:red;"/></center>
+		<a:loadScript src="/js/common.js"/>
+		<!-- Panel principal-->
+		
+		
+		
+		<div id="zoneResultat" class="zoneResultat">
+			<div class="label2">
+				#{msgBundle['label.administrationRegime']}
+			</div>
+			
+			<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						#{msgBundle['label.Regime']}
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+				<div class="content">
+				<h:form id="form1">
+				<a:outputPanel id="panelRegime" >
+					<rich:dataTable id="listeData"  value="#{regimeService.listRegimes}" var="varRegime" width="80%" rowClasses="row1,row2">
+						<f:facet name="header">
+							<rich:columnGroup>
+								<rich:column>
+									#{msgBundle['label.libelle']}
+								</rich:column>
+								
+								<rich:column>
+									#{msgBundle['label.libelleCourt']}
+								</rich:column>
+								
+								<rich:column>
+									#{msgBundle['label.commentaires']}
+								</rich:column>
+								
+								<rich:column width="100px;" >
+									#{msgBundle['col.action']}
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+						<rich:column style="text-align:center;" >
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="libTutelle" value="#{regimeService.regimeEnCreation.libelle}" required="true"
+										styleClass="firstFocus textBleu" maxlength="80" size="80" requiredMessage=""/>
+									<h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="libTutelle" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							#{varRegime.libelle}
+						</rich:column>
+						
+						<rich:column style="text-align:center;" >
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="libCourtTutelle" value="#{regimeService.regimeEnCreation.libelleCourt}" required="true"
+									styleClass="textBleu" maxlength="255" size="20" requiredMessage=""/>
+									<h:outputText  style="color:red;font-size: large;font-weight: bold;" value=" *" />
+									<h:message for="libCourtTutelle" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							#{varRegime.libelleCourt}
+						</rich:column>
+						
+						<rich:column style="text-align:center;" >
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:inputText id="libCom" value="#{regimeService.regimeEnCreation.commentaire}" 
+										styleClass="textBleu" maxlength="255" size="30" />
+									<h:message for="libCom" style="color:red"/>
+								</h:panelGroup>
+							</f:facet>
+							#{varRegime.commentaire}
+						</rich:column>
+						<rich:column width="100px;" >
+							<f:facet name="header">
+										<a:commandButton image="/picto/accept.png" style="height:16px;width:16px;border:0px;" reRender="panelRegime" status="waitStatus"
+											styleClass="sansOmbre" action="#{regimeService.creerRegime()}" />
+									</f:facet>
+							<table width="100%">
+								<tr>
+									<td align="center" width="50%">
+										<a:commandButton immediate="true" style="height:16px;width:16px;border:0px;"
+											action="#{regimeService.consulterRegime(varRegime)}" 
+											reRender="modificationRegime" image="/picto/page_edit.png" 
+											status="waitStatus" styleClass="sansOmbre"
+											oncomplete="javascript:Richfaces.showModalPanel('panelModifierRegime',{width:750, top:50, height:250})">
+										</a:commandButton>
+									</td>
+									<td align="center">
+										<a:commandButton immediate="true" style="height:16px;width:16px;border:0px;" reRender="panelRegime"
+											onclick="if (!confirm('#{msgBundle['msg.regime.confirmSuppression']}')) return false" 
+											image="/picto/cross.png" action="#{regimeService.supprimerRegime(varRegime)}" styleClass="sansOmbre"
+											 status="waitStatus" />
+									</td>
+								</tr>
+							</table>
+						
+		   		    </rich:column>
+					</rich:dataTable>
+					</a:outputPanel>
+				</h:form>
+			</div>
+			
+			<rich:modalPanel id="panelModifierRegime" style="background:url('../img2/fond.jpg') repeat-x scroll 0 0 #FFF;height:590;">
+					<div class="cadreBordOrange margTop30px padLeft30px padRight30px">
+						<div class="zoneTitreOrange margTop10px padLeft10px">#{msgBundle['label.modificationRegime']}</div>
+						<br />
+						<div class="margtop30px">
+							<f:facet name="controls">
+								<a onclick="Richfaces.hideModalPanel('panelModifierRegime');" style="cursor: pointer" href="#">#{msgBundle['label.fermer']}</a>
+							</f:facet>
+
+
+							<div>
+								<!-- Holds the form -->
+
+								<h:form class="note-form" id="modificationRegime">
+									<a:outputPanel ajaxRendered="true">
+										<div style="visibility: hidden; display: none">
+											<h:messages id="error"></h:messages>
+										</div>
+									</a:outputPanel>
+									<script>
+
+			jQuery(document).ready(function()
+					{
+						dateEtHeureInputs();
+					});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#modificationRegime\\:error").text();
+				    return  retour == 'X';
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModifierRegime');
+				}
+				
+			</script>
+									<s:validateAll>
+										<table border="0" width="100%">
+											<tr>
+												<td>#{msgBundle['label.libelle']} :</td>
+												<td><h:inputText styleClass="textBleu2 margBot10px nomFamilleStyle" id="nomContact3" value="#{regimeService.regimeEnModification.libelle}"
+														maxlength="30" required="true" /> <h:outputText style="color:red;font-size: large;font-weight: bold;" value=" *" /> <h:message
+														style="color:red" /></td>
+												<td width="10px" />
+												<td>#{msgBundle['label.libelleCourt']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px prenomStyle" id="prenomContact3" value="#{regimeService.regimeEnModification.libelleCourt}"
+														maxlength="30" /></td>
+												<td width="10px" />
+												<td>#{msgBundle['label.commentaires']} :</td>
+												<td><h:inputText styleClass="textBleu margBot10px prenomStyle" id="tel1Contact3" value="#{regimeService.regimeEnModification.commentaire}"
+														maxlength="15" size="15" /> </td>
+
+											</tr>
+																						
+											<tr>
+												<td colspan="8" align="center">
+													<!-- The green submit button: --> <br />
+													<hr class="orange" /> <a:commandButton value="Modifier" style="text-align:right;" oncomplete="fermerSiOk();" status="waitStatus"
+														action="#{regimeService.modifierRegime(regimeService.regimeEnModification)}" reRender="modificationRegime,panelRegime"
+														image="/img2/bouton_valider.jpg" />
+												</td>
+											</tr>
+										</table>
+									</s:validateAll>
+								</h:form>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</rich:modalPanel>
+		</div>
+		<br/>
+	</div>
+	
+	
+	
+	
+	
+	
+	<div id="zoneResultat" class="zoneResultat">
+			<div class="label">
+				Piéces
+			</div>
+		<div class="panel">
+				<div class="head" style='padding-top:15px;'>
+					<div class="ico" ></div>		
+					<div class="left perso" ></div>
+					<div class="titre" >
+						Piéce identité
+					</div>
+					<div class="clear"></div>
+				</div>
+		
+		<a:outputPanel id="pieceIdendite" >
+		<h:form>
+		
+			<rich:dataTable id="listPieces"  value="#{regimeService.listRegimes}" var="varPiece" styleClass="tableauEnfants" 
+					rendered="true" width="100%"  height="100%" >
+				<f:facet name="header" >
+						<rich:columnGroup >
+							<rich:column>
+				       			Type piéce
+				       		</rich:column>
+				       		<rich:column>
+				       			Numéro piéce
+				       		</rich:column>
+				       		<rich:column>
+					       		Date délivrance 
+				       		</rich:column>
+				       		<rich:column>
+					       		Lieu de délivrance
+				       		</rich:column>
+				       		<rich:column width="50px;" >
+					       		Action
+				       		</rich:column>
+				       		
+				       	</rich:columnGroup>
+				 	</f:facet>
+				 	<rich:column style="text-align:center;" >
+								<f:facet name="header">
+									<h:panelGroup>
+										<h:selectOneMenu id="piece" value="" 
+										styleClass="textBleu" >
+										<s:selectItems noSelectionLabel="Sélectionnez..." value="" 
+											var="variablelocal" label=""/>
+									</h:selectOneMenu>
+										<h:outputText  style="color:red;font-size: large;font-weight: bold;"  />
+										<h:message for="piece" style="color:red"/>
+									</h:panelGroup>
+								</f:facet>
+							</rich:column>
+				 	<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px prenomStyle"  id="prenomContact0" value="" 
+									maxlength="30" size="10" required="true" />
+								<h:message for="prenomContact" style="color:red" />
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText class="grey"  value="" />	
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px prenomStyle"  id="prenomContact1" value="" 
+									maxlength="30" size="10" required="true" />
+								<h:message for="prenomContact" style="color:red" />
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText class="grey"  value="" />	
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:panelGroup>
+								<h:inputText styleClass="textBleu margBot10px prenomStyle"  id="prenomContact2" value="" 
+									maxlength="30" size="10" required="true" />
+								<h:message for="prenomContact" style="color:red" />
+							</h:panelGroup>
+						</f:facet>
+						<h:outputText class="grey"  value="" />	
+					</rich:column>
+				 	
+				 	<f:facet name="footer">
+					</f:facet>
+				</rich:dataTable>
+		
+		
+		</h:form>
+		</a:outputPanel>
+		</div>
+		</div>
+		
+	</ui:define>
+</ui:composition>

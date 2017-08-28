@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detailBulletin" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4ec3786a-13c3-4530-9bd6-6de5021762a2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="hql">
+		<![CDATA[from LnkBulletinMatiere]]>
+	</queryString>
+	<field name="appreciation" class="java.lang.String"/>
+	<field name="bulletin" class="com.tidiane.model.Bulletin"/>
+	<field name="coef" class="java.lang.Integer"/>
+	<field name="deleted" class="java.lang.Boolean"/>
+	<field name="idLnkBulletinMatiere" class="java.lang.Long"/>
+	<field name="matiere" class="com.tidiane.model.Matiere"/>
+	<field name="moyNote" class="java.lang.Double"/>
+	<field name="moyenneMat" class="java.lang.Double"/>
+	<field name="noteExamen" class="java.lang.Double"/>
+	<field name="noteXCoef" class="java.lang.Double"/>
+	<field name="rang" class="java.lang.Integer"/>
+	<field name="tableauH" class="java.lang.String"/>
+	<field name="totNote" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="292" y="0" width="45" height="20" uuid="0c4b644d-6473-47bc-90b9-ceceb64c0726"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noteXCoef}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="131" height="20" uuid="d994f102-1b0a-4d44-b4f6-8cfb3dbb2dd7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement markup="none">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matiere}.getLibelle()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="177" y="0" width="36" height="20" uuid="6dfad711-e496-42dd-98e2-f6054b65f6ef"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noteExamen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="0" width="183" height="20" uuid="25034a87-7523-47d0-bcfb-3404d6b454e3"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{appreciation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="258" y="0" width="33" height="20" uuid="5c2914ff-cc21-49be-afe9-deb6fde56fcb"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coef}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="337" y="0" width="36" height="20" uuid="3810d00c-84f4-4f57-a3a7-41d594e0208d"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tableauH}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="213" y="0" width="45" height="20" uuid="2edc86ef-e306-4201-96ab-bff94269e385"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{moyenneMat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="0" width="46" height="20" uuid="1868a5c2-7fa3-4776-98f2-aae76addfa7f"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{moyNote}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

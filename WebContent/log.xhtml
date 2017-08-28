@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+	<!-- Page de Loggue -->
+	<style>
+		.top {
+		
+			width:300px;
+			height:170px;
+			vertical-align:middle;
+			text-align:center;
+		  	horizontal-align:middle;
+		  	margin:auto;	 
+		}
+	</style>
+	<br /><br /><br />
+		<rich:panel  styleClass="top">
+			<f:facet name="header">
+			<div class="titre_panel">Login</div>
+			</f:facet>
+			<h:form id="login">
+				Login impossible via LDAP utiliser le formulaire.
+				<fieldset>
+				  <table>
+				  	<TR>
+				  		<TD>
+							<h:outputLabel for="username">NiGend</h:outputLabel>
+						</TD>
+						<TD>
+							<h:inputText id="username" value="#{authenticator.niGend}" style="width: 175px;"/>
+							<div class="errors"><h:message for="username"/></div>
+						</TD>
+					</TR>
+				</table>
+			
+					<div class="errors"><h:messages globalOnly="true"/></div>
+					<div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Login"/></div>
+				</fieldset>
+            </h:form>
+		</rich:panel>
+		<br/>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages login-view-id="/login.xhtml"
+ xmlns="http://jboss.com/products/seam/pages"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+ <page action="#{identity.login}" view-id="/login.xhtml">
+  <navigation from-action="#{identity.login}">
+   <rule if="#{identity.loggedIn}">
+    <redirect view-id="#{authenticator.redirection()}"/>
+   </rule>
+  </navigation>
+ </page>
+
+
+
+ <page login-required="true" view-id="/pages/*"/>
+ 
+ <page view-id="*" >
+ 	<navigation from-action="#{identity.logout}" >
+ 		<redirect view-id="/logout/logout.html"/>
+ 	</navigation>
+ </page>
+ 
+ 
+ <exception class="org.jboss.seam.security.NotLoggedInException">
+  <redirect view-id="/login.xhtml">
+   <message severity="warn">You must be logged in to use this feature</message>
+  </redirect>
+ </exception>
+ <exception  class="org.jboss.seam.web.FileUploadException"  >
+  <redirect >
+   <message for="uploadError" >Le fichier importé est trop volumineux (max 1Mo)</message>
+  </redirect>
+ </exception>
+ 
+ <exception  class="javax.faces.application.ViewExpiredException" log="false" >
+  <redirect view-id="/expiredSession.xhtml" >
+   <message severity="error" >Session expirée</message>
+  </redirect>
+ </exception>
+ <exception  class="javax.crypto.BadPaddingException" log="false" >
+  <redirect view-id="/expiredSession.xhtml" >
+   <message severity="error" >Session expirée</message>
+  </redirect>
+ </exception>
+ 
+  
+ 
+ <exception  class="java.lang.Exception" >
+  <redirect view-id="/error.xhtml" >
+   <message severity="error" >Une erreur est survenue</message>
+  </redirect>
+ </exception>
+
+</pages>

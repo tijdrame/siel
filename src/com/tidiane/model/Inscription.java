@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -43,7 +44,7 @@ public class Inscription implements Serializable {
 
     private List<Notes> listNotes;
 
-    private Boolean redouble;
+    private Boolean redouble, abscence, retard;
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -128,6 +129,24 @@ public class Inscription implements Serializable {
 
 	public void setRedouble(Boolean redouble) {
 		this.redouble = redouble;
+	}
+
+	@Transient
+	public Boolean getAbscence() {
+		return abscence;
+	}
+
+	public void setAbscence(Boolean abscence) {
+		this.abscence = abscence;
+	}
+
+	@Transient
+	public Boolean getRetard() {
+		return retard;
+	}
+
+	public void setRetard(Boolean retard) {
+		this.retard = retard;
 	}
 
 	@Override

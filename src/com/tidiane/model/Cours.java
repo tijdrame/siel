@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import com.chaka.common.utils.ChakaUtils;
 import com.chaka.projet.entity.Utilisateur;
 
 @Entity
@@ -30,8 +31,11 @@ public class Cours implements Serializable {
 	private Semestre semestre;
 	private AnneeAcademique academique;
 	private Date dateCours, dateSaisie, dateModif;
-	private Integer heureDebut, minDebut, heureFin, minFin, duree;
+	private Integer heureDebut, minDebut, heureFin, minFin, duree, nbH,nbMn;
 	private String commentaires;
+	private Boolean payer;
+	private Boolean cocher;
+	private PaiementGenere PaiementGenere;
 	
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -113,10 +117,28 @@ public class Cours implements Serializable {
 	}
 	@Transient
 	public Integer getDuree() {
-		return duree;
+		/*Integer dureeEnMn = ChakaUtils.dureeEntre2Heures(heureDebut,minDebut,heureFin,minFin);
+		Integer nbHe = dureeEnMn / 60;
+		Integer nbMn = dureeEnMn % 60;*/
+		return duree=ChakaUtils.dureeEntre2Heures(heureDebut,minDebut,heureFin,minFin);
 	}
 	public void setDuree(Integer duree) {
 		this.duree = duree;
+	}
+	
+	@Transient
+	public Integer getNbH() {
+		return nbH=duree / 60;
+	}
+	public void setNbH(Integer nbH) {
+		this.nbH = nbH;
+	}
+	@Transient
+	public Integer getNbMn() {
+		return nbMn = duree % 60;
+	}
+	public void setNbMn(Integer nbMn) {
+		this.nbMn = nbMn;
 	}
 	public String getCommentaires() {
 		return commentaires;
@@ -151,6 +173,29 @@ public class Cours implements Serializable {
 	}
 	public void setDateModif(Date dateModif) {
 		this.dateModif = dateModif;
+	}
+	
+	public Boolean getPayer() {
+		return payer;
+	}
+	public void setPayer(Boolean payer) {
+		this.payer = payer;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idPaiement", nullable=true)
+	public PaiementGenere getPaiementGenere() {
+		return PaiementGenere;
+	}
+	public void setPaiementGenere(PaiementGenere paiementGenere) {
+		PaiementGenere = paiementGenere;
+	}
+	@Transient
+	public Boolean getCocher() {
+		return cocher;
+	}
+	public void setCocher(Boolean cocher) {
+		this.cocher = cocher;
 	}
 	@Override
 	public int hashCode() {

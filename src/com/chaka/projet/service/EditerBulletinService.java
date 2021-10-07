@@ -11,6 +11,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.ServletContext;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -78,7 +80,7 @@ public class EditerBulletinService implements Serializable {
             ChakaUtils.println("sec sem");
         }
         if(filtreClasse != null && filtreCycle != null && filtreAcademique != null&& filtreSemestre != null) {
-            return listBulletins = bulletinService.findBulletins(filtreClasse, filtreSemestre, filtreAcademique);
+            return listBulletins = findBulletins(filtreClasse, filtreSemestre, filtreAcademique);
         }else{
         	facesMessages.addToControlFromResourceBundle("erreurGenerique",
 					"Tous les critères de recherche sont obligatoires!");
@@ -152,6 +154,52 @@ public class EditerBulletinService implements Serializable {
         bulletin = bulletinService.consuler(bull);
     }
 
+    @SuppressWarnings("unchecked")
+	public List<Bulletin> findBulletins(Classe classe, Semestre semestre, AnneeAcademique aa) {
+		try {
+			StringBuilder hql = new StringBuilder();
+			hql.append("select distinct b from Bulletin b");
+			hql.append(" inner join fetch b.semestre s");
+			hql.append(" inner join fetch b.listLnkBulletinMatieres lst");
+			hql.append(" inner join fetch lst.matiere m");
+			hql.append(" inner join fetch b.inscription i");
+			hql.append(" inner join fetch i.classe cl");
+			hql.append(" inner join fetch cl.institut it");
+			hql.append(" inner join fetch cl.cycle cy");
+			hql.append(" inner join fetch i.etudiant et");
+			hql.append(" inner join fetch et.parent pa");
+			hql.append(" inner join fetch i.anneeAcademique a");
+			hql.append(" where b.deleted is false and it.idInstitut =:paramInstit");
+			if(utilisateur.getProfile().getLibelle().equals(Constantes.PARENT))
+            	hql.append(" and pa.idUtilisateur =:paramParent");
+			if (classe != null)
+				hql.append(" and cl.idClasse =:paramClasse");
+			if (semestre != null)
+				hql.append(" and s.idSemestre =:paramSem");
+			if (aa != null)
+				hql.append(" and a.idAnneeAc =:paramAnAc");
+
+			hql.append(" order by et.nom, et.prenom, a.anneeFin desc");
+			Query q = dataSource.createQuery(hql.toString());
+			if (classe != null)
+				q.setParameter("paramClasse", classe.getIdClasse());
+			if (semestre != null)
+				q.setParameter("paramSem", semestre.getIdSemestre());
+			if (aa != null)
+				q.setParameter("paramAnAc", aa.getIdAnneeAc());
+			// q.setParameter("paramFalse", false);
+			q.setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut());
+			if(utilisateur.getProfile().getLibelle().equals(Constantes.PARENT))
+            	q.setParameter("paramParent", utilisateur.getIdUtilisateur());
+			List<Bulletin> list = q.list();
+			if (!list.isEmpty())
+				ChakaUtils.println("liste bull non vide" + list.size());
+			return list;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
     
 	public List<Bulletin> getListBulletins() {
 		return listBulletins;

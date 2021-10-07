@@ -214,7 +214,7 @@ public class UtilisateurService  implements Serializable {
 		this.profileSearch = null;
 		this.listeUtilisateurs = Collections.emptyList();
 		
-		find2();
+		//find2();
 		
 		return "/pages/utilisateur/utilisateurListe2.xhtml";
 	}
@@ -449,7 +449,7 @@ public class UtilisateurService  implements Serializable {
 		this.profileSearch = null;
 		this.listeUtilisateurs = Collections.emptyList();
 		
-		find();
+		//find();
 		
 		return "/pages/utilisateur/utilisateurListe.xhtml";
 	}

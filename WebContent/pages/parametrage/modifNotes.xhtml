@@ -141,7 +141,7 @@
 								<rich:dataTable id="intervenants" rows="10"
 									value="#{modifNotesService.listNotes}"
 									var="it"
-									
+									rowClasses="row1,row2"
 									width="100%"   >
 									<rich:column filterBy="#{it.inscription.etudiant.numEleve}" filterEvent="onkeyup">
 										<f:facet name="header">
@@ -198,6 +198,7 @@
 										<tr>
 										<td>
 											<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="formModalInfo2"
+											rendered="#{s:hasRole('admin') or s:hasRole('sAdmin')}"
 											action="#{modifNotesService.consulter(it)}" title="Voir détails" image="/picto/page_edit.png" 
 											styleClass="sansOmbre"	oncomplete="javascript:Richfaces.showModalPanel('panelModalInfo2',{width:450, 
 												top:50, height:200})">

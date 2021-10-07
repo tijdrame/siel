@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
 
 import com.chaka.common.utils.ChakaUtils;
+import com.chaka.constantes.Constantes;
 import com.chaka.projet.entity.Utilisateur;
 import com.tidiane.model.AnneeAcademique;
 import com.tidiane.model.Classe;
@@ -66,6 +67,7 @@ public class PresenceService implements Serializable {
     private List<Semestre>listSemestres = new ArrayList<Semestre>();
 
     private List<Classe> listClasses = new ArrayList<Classe>();
+    private List<Inscription> listInscription = new ArrayList<Inscription>();
 
     public void init(){
         presence = new Presence();
@@ -83,6 +85,12 @@ public class PresenceService implements Serializable {
 	{
     	init();
 		return "/pages/parametrage/presence.xhtml";
+	}
+    
+    public String versFiche()
+	{
+    	init();
+		return "/pages/parametrage/fichePresence.xhtml";
 	}
     
     public void consuler(Presence presence1){
@@ -210,10 +218,13 @@ public class PresenceService implements Serializable {
 			hql.append(" inner join fetch p.inscription i");
 			hql.append(" inner join fetch i.classe cl");
 			hql.append(" inner join fetch i.etudiant et");
+			hql.append(" inner join fetch et.parent pa");
 			hql.append(" inner join fetch et.institut it");
 			hql.append(" inner join fetch i.anneeAcademique ac");
 			hql.append(" inner join fetch p.semestre s");
 			hql.append(" where it.idInstitut =:paramInstit");
+			if(utilisateur.getProfile().getLibelle().equals(Constantes.PARENT))
+            	hql.append(" and pa.idUtilisateur =:paramParent");
 			if(classe != null)hql.append(" and cl.idClasse =:paramClasse");
 			if(anneeAcademique != null)hql.append(" and ac.idAnneeAc =:paramAnneeAc");
 			if(etudiant != null)hql.append(" and et.idEtudiant =:paramEtudiant");
@@ -226,6 +237,8 @@ public class PresenceService implements Serializable {
 			if(matiere != null)q.setParameter("paramMatiere",matiere.getIdMatiere());
 			if(semestre != null)q.setParameter("paramSemestre",semestre.getIdSemestre());
 			q.setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut());
+			if(utilisateur.getProfile().getLibelle().equals(Constantes.PARENT))
+            	q.setParameter("paramParent", utilisateur.getIdUtilisateur());
 			List<Presence> list = q.list();
 			return list;
 		} catch (HibernateException e) {
@@ -233,6 +246,57 @@ public class PresenceService implements Serializable {
 		}
 		return null;
 	}
+    
+    public List<Inscription> findInscriptions(){
+    	if (filtreClasse != null && filtreCycle != null && filtreAcademique != null && filtreSemestre != null
+				&& filtreMatiere != null ) {
+    	listInscription = new ArrayList<Inscription>();
+    	listInscription = inscriptionService.allInscriptionsByFiltre(filtreClasse, filtreCycle, filtreAcademique, null);
+    	}else {
+			facesMessages.addToControlFromResourceBundle("erreurGenerique",
+					"Tous les critères de recherche sont obligatoires!");
+		}
+    	return listInscription;
+    	
+    }
+    
+    public void save(){
+    	if(dejaSave()){
+    		facesMessages.addToControlFromResourceBundle("erreurGenerique",
+					"Fiche de présence déjà enregistrée!");
+    		return;
+    	}
+    	if(!listInscription.isEmpty()){
+			for (Inscription eachInscription : listInscription) {
+				if(eachInscription.getAbscence() || eachInscription.getRetard()){
+					Presence presence = new Presence();
+					presence.setInscription(eachInscription);
+					presence.setMatiere(filtreMatiere);
+					presence.setSemestre(filtreSemestre);
+					if(eachInscription.getAbscence())
+						presence.setTypeAbsence("Abscence");
+					if(eachInscription.getRetard())
+						presence.setTypeAbsence("Retard");
+					presence.setDateAbsRetard(new Date());
+			        presence.setUserSaisie(utilisateur);
+			        dataSource.save(presence);
+				}
+			}
+			dataSource.flush();
+	        facesMessages.addToControlFromResourceBundle("infoGenerique", 
+	        		"Fiche de présence ajoutée avec succés!");
+		}
+    	
+    	
+        
+    }
+    
+    private Boolean dejaSave(){
+    	Boolean flag = false;
+    	List<Presence> list = presencesByClasse(filtreClasse, filtreAcademique, null, filtreMatiere, filtreSemestre);
+    	if(!list.isEmpty())flag=true;
+    	return flag;
+    }
 
     @SuppressWarnings("unchecked")
 	public List<Presence> presencesByEtudiant(Etudiant etudiant) {
@@ -344,6 +408,14 @@ public class PresenceService implements Serializable {
 
 	public void setListClasses(List<Classe> listClasses) {
 		this.listClasses = listClasses;
+	}
+
+	public List<Inscription> getListInscription() {
+		return listInscription;
+	}
+
+	public void setListInscription(List<Inscription> listInscription) {
+		this.listInscription = listInscription;
 	}
 
 }

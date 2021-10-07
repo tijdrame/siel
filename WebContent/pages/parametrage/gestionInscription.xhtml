@@ -127,7 +127,7 @@
 								<rich:dataTable id="intervenants" rows="10"
 									value="#{inscriptionService.listInscriptions}"
 									var="it"
-									
+									rowClasses="row1,row2"
 									width="100%"   >
 									<rich:column filterBy="#{it.numInscription}" filterEvent="onkeyup">
 										<f:facet name="header">

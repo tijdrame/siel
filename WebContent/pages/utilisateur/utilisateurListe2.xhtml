@@ -84,7 +84,15 @@
 												
 										#{msgBundle['btn.rechercher']}
 									</a:commandLink></li>
-										
+									<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{utilisateurService.versCreationParent}" status="waitStatus"
+												ignoreDupResponses="true"
+												eventsQueue="rechercheUtilisateurServiceQueue"
+												requestDelay="0" reRender="panelModalInfo2">
+												
+												<i class="fa fa-plus" aria-hidden="true"></i>
+										Ajouter
+									</a:commandLink></li>
 									</ul>
 								</div>
 							</td>
@@ -102,7 +110,7 @@
 									rendered="#{utilisateurService.listeUtilisateurs.size()==0}" />
 								<rich:dataTable id="intervenants" rows="10"
 									value="#{utilisateurService.listeUtilisateurs}"
-									var="hotUtilisateur"
+									var="hotUtilisateur" rowClasses="row1,row2"
 									rendered="#{utilisateurService.listeUtilisateurs.size()>0}"
 									width="100%"   >
 									<rich:column filterBy="#{hotUtilisateur.institut.nomInstitut}" filterEvent="onblur">

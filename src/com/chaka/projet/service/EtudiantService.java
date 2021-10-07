@@ -86,6 +86,24 @@ public class EtudiantService implements Serializable {
         }
         return null;
     }
+    public void consuler2(Etudiant et){
+    	try {
+            StringBuilder hql = new StringBuilder();
+            hql.append("from Etudiant e");
+            hql.append(" left outer join fetch e.listDossiers ld");
+            hql.append(" left outer join fetch ld.maladie");
+            hql.append(" inner join fetch e.institut i");
+            hql.append(" inner join fetch e.parent p");
+            hql.append(" where e.idEtudiant =:paramId and i.idInstitut =:paramInstit");
+            etudiant = (Etudiant) dataSource.createQuery(hql.toString())
+                    .setParameter("paramId", et.getIdEtudiant())
+                    .setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut())
+                    .uniqueResult();
+            filtreParent = etudiant.getParent().getLogin();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+    }
     
     public void ajout(){
         try {
@@ -99,7 +117,7 @@ public class EtudiantService implements Serializable {
 
                 dataSource.save(etudiant);
                 facesMessages.addToControlFromResourceBundle("infoGenerique", 
-                		"Etudiant ajouté avec succés avec le numéro: "+etudiant.getNumEleve());
+                		"Elève ajouté avec succés avec le numéro: "+etudiant.getNumEleve());
             }else {
             	if(etudiant.getNumEleve()==null){
                     String chaine = ChakaUtils.completeStr(etudiant.getDateNaissance().hashCode()+
@@ -110,7 +128,7 @@ public class EtudiantService implements Serializable {
                 }
                 dataSource.update(etudiant);
                 facesMessages.addToControlFromResourceBundle("infoGenerique", 
-                		"Etudiant modifié avec succés avec le numéro: "+etudiant.getNumEleve());
+                		"Elève modifié avec succés avec le numéro: "+etudiant.getNumEleve());
             }
             init();
             //listEtudiants = eleveBusiness.allEtudiant();
@@ -235,9 +253,12 @@ public class EtudiantService implements Serializable {
         try {
             StringBuilder hql = new StringBuilder();
             hql.append("from Etudiant et");
+            //hql.append(" left outer join fetch et.listDossiers ld");
+            //hql.append(" left outer join fetch ld.maladie");
             hql.append(" inner join fetch et.institut i");
             hql.append(" inner join fetch et.parent p");
-            hql.append(" where i.idInstitut =:paramInstit");
+            hql.append(" where et.idEtudiant >0");
+            if(utilisateur.getInstitut()!=null)hql.append(" and i.idInstitut =:paramInstit");
             if(numEtudiant != null && numEtudiant.trim().length() !=0 )hql.append(" and et.numEleve =:paramNum");
             if(nom != null && nom.trim().length() !=0 )hql.append(" and lower(et.nom) =:paramNom");
             if(prenom != null && prenom.trim().length() !=0 )hql.append(" and lower(et.prenom) =:paramPrenom");
@@ -246,7 +267,7 @@ public class EtudiantService implements Serializable {
             if(numEtudiant != null && numEtudiant.trim().length() !=0 )q.setParameter("paramNum",numEtudiant);
             if(nom != null && nom.trim().length() !=0 )q.setParameter("paramNom",nom.toLowerCase());
             if(prenom != null && prenom.trim().length() !=0 )q.setParameter("paramPrenom",prenom.toLowerCase());
-            q.setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut());
+            if(utilisateur.getInstitut()!=null) q.setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut());
             listEtudiants = q.list();
             return listEtudiants;
         } catch (HibernateException e) {

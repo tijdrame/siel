@@ -107,7 +107,7 @@
 					
 					
 					<a:outputPanel id="searchResultsIntervenants">
-					<h2 class="titre-tab">Liste des Etudiants</h2>
+					<h2 class="titre-tab">Liste des Etudiants </h2>
 
 						<div class="panel">
 							
@@ -116,7 +116,7 @@
 								<rich:dataTable id="intervenants" rows="10"
 									value="#{etudiantService.listEtudiants}"
 									var="it"
-									
+									rowClasses="row1,row2"
 									width="100%"   >
 									<rich:column filterBy="#{it.prenom}" filterEvent="onkeyup">
 										<f:facet name="header">
@@ -145,7 +145,18 @@
 										<f:convertDateTime pattern="dd/MM/yyyy"/>
 										</h:outputText>
 									</rich:column>
-									
+									<rich:column >
+										<f:facet name="header">
+											Parent
+										</f:facet>
+										<h:commandLink 
+											styleClass="#{hotUtilisateur.actif ? 'lienSansSoulignementVert' : 'lienSansSoulignementRouge'  },black"
+											onclick="afficherAttente();"
+											action="#{utilisateurService.consulterUtilisateur2(it.parent)}">
+											<h:outputText value="#{it.parent.nomComplet}"  styleClass="black"/>
+										</h:commandLink>
+										
+									</rich:column>
 
 									<rich:column>
 										<f:facet name="header">
@@ -153,6 +164,21 @@
 										</f:facet>
 										<table align="center">												
 										<tr>
+										<td>
+										<a:commandLink value="" styleClass="btn btn-success"
+										title="Voir Dossier médical"
+										rendered="#{not empty it.listDossiers}"
+										action="#{etudiantService.consuler2(it)}" status="waitStatus"
+										ignoreDupResponses="true" reRender="panelModalInfo"
+										oncomplete="javascript:Richfaces.showModalPanel
+										('panelModalInfo',{width:850, top:50, height:300})">
+										
+										<i class="fa fa-h-square" aria-hidden="true"></i>
+										
+									</a:commandLink>
+										
+										</td>
+										
 										<td>
 										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="searchIntervenantCriteria"
 											action="#{etudiantService.consuler(it)}" title="Voir détails" image="/picto/page_edit.png" 
@@ -181,6 +207,7 @@
 		</a:form>
 	</div>
 	<ui:include src="/pages/parametrage/modalEleve.xhtml" />
+	<ui:include src="/pages/parametrage/modalDossier.xhtml" />
 </ui:define>
 <ui:define name="buttonImg">
       <div id="trd_submenu" class="trd_kb">

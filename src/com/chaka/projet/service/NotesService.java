@@ -364,9 +364,16 @@ public class NotesService implements Serializable {
 	public List<Semestre> getListSemestres() {
 		StringBuilder hql = new StringBuilder();
 		hql.append("from Semestre s");
-		hql.append(" order by s.libelle");
-		listSemestres = dataSource.createQuery(hql.toString()).list();
-		return listSemestres;
+		hql.append(" inner join fetch s.institut i");
+        if(utilisateur.getInstitut()!=null)
+        	hql.append(" where i.idInstitut =:paramInstit");
+        hql.append(" order by s.libelle");
+        Query q = dataSource.createQuery(hql.toString());
+
+        if(utilisateur.getInstitut()!=null)
+        	q.setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut());
+        
+		return listSemestres = q.list();
 	}
 
 	public void setListSemestres(List<Semestre> listSemestres) {

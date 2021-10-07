@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<ui:define name="title">SIEL</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+
+		<a:outputPanel id="msg">
+			<h:message infoClass="confirmationerror"
+				errorClass="confirmationerror" warnClass="confirmationerror"
+				for="intervenantErreur" />
+			<h:message infoClass="confirmationwarning"
+				errorClass="confirmationwarning" warnClass="confirmationwarning"
+				for="intervenantMsgWarning" />
+			<h:inputHidden id="intervenantMsgWarning" value="" />
+			<h:inputHidden id="intervenantErreur" value="" />
+		</a:outputPanel>
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<div id="zoneRecherche" class="zoneRecherche">
+		<h:form id="formInsc">
+
+			<!-- Fieldset de recherche -->
+
+			<a:outputPanel id="searchIntervenantCriteria">
+
+				
+						<div class="panel">
+			<h2 class="titre-tab">Saisie dossier</h2>
+							<table width="100%" align="center" class="table" >
+					<tr>
+						<td><h:outputLabel class="grey"	value="N°Elève:" for="numEle" />
+						</td>
+						<td><h:inputText  id="numEle" required="true" styleClass="req" 
+						valueChangeListener="#{inscriptionService.findEtudiant}" reRender="parentPan"
+								value="#{inscriptionService.filtreEtudiant}" style="width: 250px;">
+								<a:support event="onchange" ajaxSingle="true" reRender="nomBi,naissBi,adrBi" />
+								</h:inputText></td>
+						
+						<td><h:outputLabel class="grey"	value="Prénom et nom:"  /></td>
+						<td><h:outputLabel class="blue" id="nomBi"
+							value="#{inscriptionService.etudiant.prenom} 
+							#{inscriptionService.etudiant.nom}"  /></td>
+						
+						
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="naissBi"  styleClass="grey" value="Date naissance:" />
+						</td>
+						<td>
+							<h:outputLabel  id="naissBi"  class="blue"
+								value="#{inscriptionService.etudiant.dateNaissance}" >
+								 <f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputLabel>
+						</td>
+						<td><h:outputLabel class="grey"
+								value="Adresse:" for="adrBi" />
+						</td>
+						<td><h:outputLabel id="adrBi" class="blue"
+								value="#{inscriptionService.etudiant.adresse}"/></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="maladie"  styleClass="grey" value="Maladie:" /></td>
+						<td>
+							<h:selectOneMenu id="maladie" style="width: 250px;" 
+								converter="#{maladieConverter}" styleClass="select"
+								value="#{dossierMedicalService.dossierMedical.maladie}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="varAC" 
+								label="#{varAC.libelle}" value="#{maladieService.allMaladies()}"  />
+							</h:selectOneMenu>
+						</td>
+						<td><h:outputLabel for="dateD"  styleClass="grey" value="Date maladie:" /></td>
+						<td>
+							<rich:calendar  enableManualInput="true" validatorMessage="X" styleClass="textBleu2"
+						 maxlength="10"   value="#{dossierMedicalService.dossierMedical.dateDebMaladie}" 
+						 locale="fr" popup="#{true}"  buttonIcon="/img2/calendrier.png" required="true"
+							datePattern="dd/MM/yyyy" showApplyButton="#{false}"  requiredMessage="X" id="dateD"
+							cellWidth="1px" cellHeight="22px" style="width:200px" />
+						</td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="hosp"  styleClass="grey" value="Hospitaliser?" /></td>
+						<td><h:selectBooleanCheckbox id="hosp"
+						 value="#{dossierMedicalService.dossierMedical.hospitaliser}" /></td>
+						 <td><h:outputLabel for="oper"  styleClass="grey" value="Opérer?" /></td>
+						<td><h:selectBooleanCheckbox id="oper"
+						 value="#{dossierMedicalService.dossierMedical.operer}" /></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="comms"  styleClass="grey" value="Commentaires:" /></td>
+						<td colspan="3"><h:inputTextarea id="comms" rows="3" styleClass="select" cols="90" 
+						value="#{dossierMedicalService.dossierMedical.commentaires}"/></td>
+					</tr>
+				</table>
+					
+					<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										
+									<li><a:commandLink   action="#{dossierMedicalService.ajout()}"  
+										reRender="searchIntervenantCriteria" 
+										 status="waitStatus" styleClass="btn btn-success">
+										 <i class="fa fa-check" aria-hidden="true"></i>
+										  Valider
+										</a:commandLink>
+									
+									</li>
+										
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+					</div>
+					
+					</a:outputPanel>
+					</h:form>
+					<a:form>
+					
+					
+					
+				
+		</a:form>
+	</div>
+	<ui:include src="/pages/parametrage/modalInscrip.xhtml" />
+</ui:define>
+
+</ui:composition>

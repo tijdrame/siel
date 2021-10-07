@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<div style="width: 100%;" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+	
+	<rich:modalPanel id="panelModalInfo2" moveable="true"  >
+			<f:facet name="controls">
+				<a:commandLink value="" status="waitStatus" title="Fermer "
+					onclick="javascript:Richfaces.hideModalPanel('panelModalInfo2')">
+					<s:graphicImage fileName="cross.png" style="border:0px;"
+						value="/picto/cross.png" width="16" height="16" alt="" />
+				</a:commandLink>
+			</f:facet>
+			<f:facet name="header">
+			 <h:outputLabel value=" Paiement en consultation "  />
+			</f:facet>
+			<rich:spacer height="2px" />
+
+				<!-- Holds the form -->
+
+				<h:form class="note-form" id="formModalInfo2">
+					<a:outputPanel ajaxRendered="true">
+						<div style="visibility: hidden; display: none">
+							<h:messages id="error"></h:messages>
+						</div>
+					</a:outputPanel>
+					<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#formModalInfo\\:error").text();
+					 if (retour == 'X')
+						    return true;
+					 if (retour == 'XX')
+						    return true;
+					 if (retour == 'XXX')
+						    return true;
+					 return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModalInfo');
+				}
+
+				
+				
+			</script>
+				<table width="100%" align="center" class="table" >
+					
+					<tr>
+						<td><h:outputLabel   styleClass="grey" value="Date Génération:" /></td>
+						<td><h:outputLabel  class="blue"
+							value="#{paiementGenereService.paiementGenere.datePayement}">
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputLabel>
+						</td>
+						<td><h:outputLabel   styleClass="grey" value="Generateur :" /></td>
+						<td><h:outputLabel class="blue"
+							value="#{paiementGenereService.paiementGenere.userGenerateur.nomComplet}"/>
+						</td>
+						<td><h:outputLabel   styleClass="grey" value="Nb d'heures total :" /></td>
+						<td><h:outputLabel class="blue"
+							value="#{paiementGenereService.paiementGenere.nbDHeureTotalPaye}"/>
+						</td>
+						
+					</tr>
+					
+				</table>
+				<h2 class="titre-tab">Liste des Cours</h2>
+				<rich:dataTable id="intervenants" rows="10"
+									value="#{paiementGenereService.paiementGenere.listCours}"
+									var="it"
+									rowClasses="row1,row2"
+									width="100%"   >
+									
+									<rich:column >
+										<f:facet name="header">
+											Date cours
+										</f:facet>
+										<h:outputText value="#{it.dateCours}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Classe
+										</f:facet>
+										<h:outputText value="#{it.classe.libelle}"/>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Matiére
+										</f:facet>
+										<h:outputText value="#{it.matiere.libelle}"/>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Heure deb.
+										</f:facet>
+										<h:outputText value="#{it.heureDebut}:#{it.minDebut}"/>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Heure fin
+										</f:facet>
+										<h:outputText value="#{it.heureFin}:#{it.minFin}"/>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Durée
+										</f:facet>
+										<h:outputText value="#{it.duree}"/>
+										<rich:toolTip id="firstToolTip" horizontalOffset="50" verticalOffset="50">
+										<table border="0" >
+											<tr>
+												<td style="text-align: left; font-size: 15px;" >
+													<h:outputText value="Nb d'heure(s) = " />
+													<h:outputText value="#{it.nbH} H #{it.nbMn} mn"  >
+														<f:convertNumber pattern="#,##0"/>
+													</h:outputText>	
+												</td>
+											</tr>
+										
+										</table>
+									</rich:toolTip>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Payer?
+										</f:facet>
+										<h:outputText value="#{it.payer ? 'Oui':'Non'}"/>
+									</rich:column>
+
+									
+									
+									
+									
+								</rich:dataTable>
+					
+				</h:form>
+		<div class="clear"></div>
+	</rich:modalPanel>
+</div>

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<div style="width: 100%;" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+	
+	<rich:modalPanel id="panelModalInfo" moveable="true"  >
+			<f:facet name="controls">
+				<a:commandLink value="" status="waitStatus" title="Fermer "
+					onclick="javascript:Richfaces.hideModalPanel('panelModalInfo')">
+					<s:graphicImage fileName="cross.png" style="border:0px;"
+						value="/picto/cross.png" width="16" height="16" alt="" />
+				</a:commandLink>
+			</f:facet>
+			<f:facet name="header">
+			 <h:outputLabel value="Dossier médical : "  />
+			</f:facet>
+			<rich:spacer height="2px" />
+
+				<!-- Holds the form -->
+
+				<h:form class="note-form" id="formModalInfo">
+					<a:outputPanel ajaxRendered="true">
+						<div style="visibility: hidden; display: none">
+							<h:messages id="error"></h:messages>
+						</div>
+					</a:outputPanel>
+					<script>
+				jQuery(document).ready(function()
+				{
+					dateEtHeureInputs();
+				});
+
+				function ajaxRequestContainsErrors() {
+					var retour = jQuery("#formModalInfo\\:error").text();
+					 if (retour == 'X')
+						    return true;
+					 if (retour == 'XX')
+						    return true;
+					 if (retour == 'XXX')
+						    return true;
+					 return false;
+				}
+
+				function fermerSiOk()
+				{
+					if (!ajaxRequestContainsErrors()) Richfaces.hideModalPanel('panelModalInfo');
+				}
+
+				
+				
+			</script>
+				<table width="100%" align="center" class="table" >
+					<tr>
+						<td><h:outputLabel class="grey"	value="N°Elève:" for="numEle" />
+						</td>
+						<td><h:outputLabel  id="numEle" required="true" styleClass="req" 
+								value="#{etudiantService.etudiant.numEleve}" style="width: 250px;">
+								
+								</h:outputLabel></td>
+						
+						<td><h:outputLabel class="grey"	value="Prénom et nom:"  /></td>
+						<td><h:outputLabel class="blue" id="nomBi"
+							value="#{etudiantService.etudiant.prenom} 
+							#{etudiantService.etudiant.nom}"  /></td>
+						
+						
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="naissBi"  styleClass="grey" value="Date naissance:" />
+						</td>
+						<td>
+							<h:outputLabel  id="naissBi"  class="blue"
+								value="#{etudiantService.etudiant.dateNaissance}" >
+								 <f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputLabel>
+						</td>
+						<td><h:outputLabel class="grey"
+								value="Adresse:" for="adrBi" />
+						</td>
+						<td><h:outputLabel id="adrBi" class="blue"
+								value="#{etudiantService.etudiant.adresse}"/></td>
+					</tr>
+					<tr>
+						
+						
+					</tr>
+					
+				</table>
+				<rich:dataTable id="intervenants" rows="10"
+									value="#{etudiantService.etudiant.listDossiers}"
+									var="it"
+									rowClasses="row1,row2"
+									width="100%"   >
+					<rich:column filterBy="#{it.maladie.libelle}" filterEvent="onkeyup">
+						<f:facet name="header">
+							Maladie
+						</f:facet>
+						<h:outputText value="#{it.maladie.libelle}"/>
+						
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							Date
+						</f:facet>
+						<h:outputText value="#{it.dateDebMaladie}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</h:outputText>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							Hospitaliser?
+						</f:facet>
+						<h:outputText value="#{it.hospitaliser ?'Oui':'Non'}"/>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							Opérer?
+						</f:facet>
+						<h:outputText value="#{it.operer ?'Oui':'Non'}"/>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							Commentaires
+						</f:facet>
+						<h:outputText value="#{it.commentaires}"/>
+					</rich:column>
+			</rich:dataTable>
+					
+				</h:form>
+		<div class="clear"></div>
+	</rich:modalPanel>
+</div>

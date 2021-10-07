@@ -56,6 +56,8 @@ public class Constantes {
     public static final String EXAMEN_TYPE_NOTE = "EXAMEN";
     public static final String PREMIER_SEMESTRE = "SEMESTRE1";
     public static final String SECOND_SEMESTRE = "SEMESTRE2";
+    public static final String PROFESSEUR = "PROFESSEUR";
+    public static final String PARENT = "PARENT";
 	
 	/**
 	 * longueur de 50.

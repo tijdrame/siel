@@ -32,7 +32,7 @@
 					
 					
 					<a:outputPanel id="searchResultsIntervenants">
-					<h2 class="titre-tab">Liste des Classesp</h2>
+					<h2 class="titre-tab">Liste des Classes</h2>
 
 						<div class="panel">
 							
@@ -40,7 +40,7 @@
 								
 								<rich:dataTable id="intervenants" rows="1"
 									value="#{classeMatiereService.listClasses}"
-									var="it"
+									var="it" 
 									width="100%"   >
 									
 									<f:facet name="header">
@@ -62,6 +62,7 @@
 									</rich:column>
 									<rich:column width="60%">
 										<rich:dataTable value="#{it.listLnkCoefMatieres}" var="lnk" 
+										rowClasses="row1,row2"
 										rendered="#{not empty it.listLnkCoefMatieres}" >
                                         <rich:column width="80%">
                                         

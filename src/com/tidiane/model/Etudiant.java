@@ -13,6 +13,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.chaka.projet.entity.Utilisateur;
 
@@ -41,7 +47,7 @@ public class Etudiant implements Serializable {
     private Institut institut;
     
     private Utilisateur parent;
-    
+    private List<DossierMedical> listDossiers;
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 	public Long getIdEtudiant() {
@@ -124,6 +130,17 @@ public class Etudiant implements Serializable {
 	}
 	public void setParent(Utilisateur parent) {
 		this.parent = parent;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY)
+    @JoinColumn(name = "idEtudiant", nullable=true)
+    @Cascade(value={CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+    @LazyCollection(LazyCollectionOption.TRUE)
+	public List<DossierMedical> getListDossiers() {
+		return listDossiers;
+	}
+	public void setListDossiers(List<DossierMedical> listDossiers) {
+		this.listDossiers = listDossiers;
 	}
 	@Override
 	public int hashCode() {

@@ -159,6 +159,13 @@
 								<s:conversationPropagation propagation="none" />
 							</a:commandLink>
 							</li>
+							<li>
+							<a:commandLink action="#{maladieService.versMaladie}"
+							rendered="#{s:hasRole('admin') or s:hasRole('sAdmin')}"
+								value="Maladie">
+								<s:conversationPropagation propagation="none" />
+							</a:commandLink>
+							</li>
 						
 					</ul>
 				  </li>
@@ -174,39 +181,12 @@
 							<div id="bout"></div>
 							<li>
 								<a:commandLink  status="waitStatus"
-									value="Gestion des Elèves">
-									<s:conversationPropagation propagation="none" />
-								</a:commandLink>
-								<ul>
-									<li>
-								<a:commandLink  status="waitStatus"
-									value="Saisie Elèves"
-									action="#{etudiantService.versNewEl}">
-									<s:conversationPropagation propagation="none" />
-								</a:commandLink>
-							</li>
-							<li>
-								<a:commandLink  status="waitStatus"
 									value="Liste des Elèves"
 									action="#{etudiantService.versEtud}">
 									<s:conversationPropagation propagation="none" />
 								</a:commandLink>
 							</li>
-								</ul>
-							</li>
-							<li>
-								<a:commandLink  status="waitStatus"
-									value="Gestion des Parents">
-									<s:conversationPropagation propagation="none" />
-								</a:commandLink>
-								<ul>
-									<li>
-								<a:commandLink  status="waitStatus"
-									value="Saisie Parent"
-									action="#{utilisateurService.versCreationParent}">
-									<s:conversationPropagation propagation="none" />
-								</a:commandLink>
-							</li>
+							
 							<li>
 								<a:commandLink  status="waitStatus"
 									value="Liste des Parents"
@@ -214,12 +194,19 @@
 									<s:conversationPropagation propagation="none" />
 								</a:commandLink>
 							</li>
+							<li>
+								<a:commandLink  status="waitStatus"
+									value="Dossier Médical"
+									action="#{dossierMedicalService.versDossier}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+							</li>
+								
 								</ul>
 							</li>	
 							
 															
-						</ul>
-				  </li>
+						
 				  
 				  <li id="paye">
 			    		<a:commandLink 
@@ -272,7 +259,14 @@
 							</li>
 							<li>
 								<a:commandLink  status="waitStatus"
-									value="Gestion des abscences / retards"
+									value="Fiche de présence"
+									action="#{presenceService.versFiche}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+							</li>
+							<li>
+								<a:commandLink  status="waitStatus"
+									value="Historique des abscences / retards"
 									action="#{presenceService.versPresence}">
 									<s:conversationPropagation propagation="none" />
 								</a:commandLink>
@@ -300,6 +294,32 @@
 								<a:commandLink  status="waitStatus"
 									value="Edition des Bulletins"
 									action="#{editerBulletinService.versEditerBulletin}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								
+							</li>
+														
+						</ul>
+				  </li>
+				  <li id="bull">
+			    		<a:commandLink 
+							value="">
+							Gestion des Professeurs
+						</a:commandLink>
+						<ul>
+							<div id="bout"></div>
+							<li>
+								<a:commandLink  status="waitStatus"
+									value="Enregistrement cours"
+									action="#{coursService.versCours}">
+									<s:conversationPropagation propagation="none" />
+								</a:commandLink>
+								
+							</li>
+							<li>
+								<a:commandLink  status="waitStatus"
+									value="Rémunération des heures de cours"
+									action="#{paiementGenereService.versPaiement}">
 									<s:conversationPropagation propagation="none" />
 								</a:commandLink>
 								

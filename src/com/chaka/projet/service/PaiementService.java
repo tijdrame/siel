@@ -53,13 +53,9 @@ public class PaiementService implements Serializable {
 	@Out(required = false)
 	private Utilisateur utilisateur;
 	
-	@In(required = false)
-	@Out(required = false)
-	private EtudiantService etudiantService;
+	EtudiantService etudiantService = (EtudiantService)Component.getInstance(EtudiantService.class);
 	
-	@In(required = false)
-	@Out(required = false)
-	private ClasseService classeService;
+	ClasseService classeService = (ClasseService)Component.getInstance(ClasseService.class);
 	
 	@In 
 	FacesMessages facesMessages;
@@ -217,8 +213,12 @@ public class PaiementService implements Serializable {
             hql.append(" inner join fetch cl.institut it");
             hql.append(" inner join fetch cl.cycle cy");
             hql.append(" inner join fetch i.etudiant et");
+            hql.append(" inner join fetch et.parent pa");
             hql.append(" inner join fetch i.anneeAcademique a");
-            hql.append(" where it.idInstitut =:paramInstit");
+            hql.append(" where p.idPaiement >0");
+            if(utilisateur.getInstitut()!=null) hql.append(" and it.idInstitut =:paramInstit");
+            if(utilisateur.getProfile().getLibelle().equals(Constantes.PARENT))
+            	hql.append(" and pa.idUtilisateur =:paramParent");
             if(classe != null)hql.append(" and cl.idClasse =:paramClasse");
             if(aa != null)hql.append(" and a.idAnneeAc =:paramAnAc");
             if(NumEleve != null && NumEleve.trim().length() !=0 )hql.append(" and et.numEleve =:paramEt");
@@ -227,7 +227,9 @@ public class PaiementService implements Serializable {
             if(classe != null) q.setParameter("paramClasse",classe.getIdClasse());
             if(aa != null) q.setParameter("paramAnAc",aa.getIdAnneeAc());
             if(NumEleve != null && NumEleve.trim().length() !=0 ) q.setParameter("paramEt",NumEleve);
-            q.setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut());
+            if(utilisateur.getInstitut()!=null)q.setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut());
+            if(utilisateur.getProfile().getLibelle().equals(Constantes.PARENT))
+            	q.setParameter("paramParent", utilisateur.getIdUtilisateur());
             List<Paiement> list = q.list();
             if(!list.isEmpty()) ChakaUtils.println("liste paimet non vide"+list.size());
             return  list;

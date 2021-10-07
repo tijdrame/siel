@@ -120,7 +120,7 @@
 								<rich:dataTable id="intervenants" rows="10"
 									value="#{editerBulletinService.listBulletins}"
 									var="it"
-									
+									rowClasses="row1,row2"
 									width="100%"   >
 									<rich:column filterBy="#{it.inscription.etudiant.numEleve}" filterEvent="onkeyup">
 										<f:facet name="header">
@@ -190,7 +190,8 @@
 										</td>
 										<td width="15px"></td>
 										<td>
-										<a:commandButton status="waitStatus" style="height:16px;width:16px;"  
+										<a:commandButton status="waitStatus" style="height:16px;width:16px;" 
+										rendered="#{s:hasRole('admin') or s:hasRole('sAdmin')}" 
 											action="#{editerBulletinService.imprim(it)}" title="Imprimer" image="/picto/ip.png" 
 											styleClass="sansOmbre"	oncomplete="javascript:Richfaces.showModalPanel('modalPdf')">
 										</a:commandButton>
@@ -216,6 +217,7 @@
 												action="#{editerBulletinService.imprimer()}" status="waitStatus"
 												oncomplete="javascript:Richfaces.showModalPanel('modalPdf')"
 												ignoreDupResponses="true"
+												rendered="#{s:hasRole('admin') or s:hasRole('sAdmin')}"
 												requestDelay="0" reRender="searchResultsIntervenants, searchIntervenantCriteria">
 												<i class="fa fa-print" aria-hidden="true"></i>
 										Imprimer 

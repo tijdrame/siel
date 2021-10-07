@@ -111,7 +111,7 @@
 					
 					
 					<a:outputPanel id="searchResultsIntervenants">
-					<h2 class="titre-tab">Liste des Notes en création</h2>
+					<h2 class="titre-tab">Liste des Notes </h2>
 
 						<div class="panel">
 							
@@ -120,7 +120,7 @@
 								<rich:dataTable id="intervenants" rows="10"
 									value="#{bulletinService.listNotes}"
 									var="it"
-									
+									rowClasses="row1,row2"
 									width="100%"   >
 									<rich:column filterBy="#{it.inscription.etudiant.numEleve}" filterEvent="onkeyup">
 										<f:facet name="header">

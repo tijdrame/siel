@@ -3164,6 +3164,15 @@ hr.gris {
 	 text-align: left;
 }
 
+.blue {
+	text-shadow: 0px 0px 7px #FFFFFD;
+	 color: #284984;
+	 font-family:Arial, fantasy;
+	 font-size: 13px;
+	 font-weight: bold;
+	 text-align: left;
+}
+
 .black {
 	font-size: 1.1em;
 	float: left;
@@ -6286,3 +6295,22 @@ rich-tabPanel-content {
 	box-shadow: 2px 3px 4px #808080;
 	background: #fff url(../images/ast.png) no-repeat 92% center;
 } 
+.selectReq{
+	display: block;
+    width: 87%;
+    height: 20px; 
+    padding: 2.5px 0px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #777777;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #029acf;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    background: #fff url(../images/ast.png) no-repeat 89% center;
+}

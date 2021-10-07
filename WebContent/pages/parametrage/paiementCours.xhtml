@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  V 0.1 : Maj : 09/11/2007 -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="/template/template.xhtml">
+	<ui:define name="title">SIEL</ui:define>
+	<ui:define name="body">
+		<!-- Message d'avertissement-->
+		<a:loadScript src="/js/common.js"/>
+
+		<a:outputPanel id="msg">
+			<h:message infoClass="confirmationerror"
+				errorClass="confirmationerror" warnClass="confirmationerror"
+				for="intervenantErreur" />
+			<h:message infoClass="confirmationwarning"
+				errorClass="confirmationwarning" warnClass="confirmationwarning"
+				for="intervenantMsgWarning" />
+			<h:inputHidden id="intervenantMsgWarning" value="" />
+			<h:inputHidden id="intervenantErreur" value="" />
+		</a:outputPanel>
+		<f:loadBundle basename="messages" var="msgBundle" />
+		<div id="zoneRecherche" class="zoneRecherche">
+		<h:form id="formInsc">
+
+			<!-- Fieldset de recherche -->
+
+			<a:outputPanel id="searchIntervenantCriteria">
+
+				
+						<div class="panel">
+	<h2 class="titre-tab">Critéres de recherche</h2>
+							<table width="100%" class="table">
+								<tr>
+								<td><h:outputLabel for="acad"  styleClass="grey" value="Année Académique:" /></td>
+								<td>
+								<h:selectOneMenu id="acad" style="width: 250px;" 
+								converter="#{anneeAcademiqueConverter}" styleClass="selectReq"
+								value="#{paiementGenereService.filtreAcademique}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="varAC" 
+								label="#{varAC.anneeAc}" value="#{anneeService.allAcademiques()}"  />
+							</h:selectOneMenu>
+								</td>
+								<td><h:outputLabel for="cycle"  styleClass="grey" value="Cycle :" /></td>
+								<td>
+								<h:selectOneMenu id="cycle" style="width: 250px;"  
+								converter="#{cycleConverter}" styleClass="select"
+								valueChangeListener="#{paiementGenereService.findClasseByCycle}"
+								value="#{paiementGenereService.filtreCycle}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="varCy" 
+								label="#{varCy.libelle}" value="#{inscriptionService.allCycles()}"  />
+								<a:support  event="onchange"  ajaxSingle="true" reRender="classe" />
+							</h:selectOneMenu>
+								</td>
+								</tr>
+								
+								<tr>
+								<td><h:outputLabel for="classe"  styleClass="grey" value="Classe:" /></td>
+								<td>
+								<h:selectOneMenu id="classe" style="width: 250px;" 
+								valueChangeListener="#{paiementGenereService.findMatiereByClasse}"
+								converter="#{classeConverter}" styleClass="select"
+								value="#{paiementGenereService.filtreClasse}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="cla" 
+								label="#{cla.libelle}" value="#{paiementGenereService.listClasses}"  />
+								<a:support  event="onchange"  ajaxSingle="true" reRender="matiere" />
+							</h:selectOneMenu>
+								</td>
+								
+								<td><h:outputLabel for="matiere"  styleClass="grey" value="Matiére:" /></td>
+								<td>
+								<h:selectOneMenu id="matiere" style="width: 250px;" 
+								converter="#{matiereConverter}" styleClass="select"
+								value="#{paiementGenereService.filtreMatiere}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="mat" 
+								label="#{mat.libelle}" value="#{paiementGenereService.listMatieres}"  />
+							</h:selectOneMenu>
+								</td>
+							</tr>
+							
+								
+							<tr>
+								<td><h:outputLabel for="typNo"  styleClass="grey" value="Professeur:" /></td>
+								<td><h:selectOneMenu id="typNo" style="width: 250px;" 
+								converter="#{utilisateurConverter}" styleClass="selectReq"
+								value="#{paiementGenereService.filtreProfesseur}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="typN" 
+								label="#{typN.nomComplet}" value="#{paiementGenereService.listProfs}"  />
+							</h:selectOneMenu>
+							</td>
+								
+								<td><h:outputLabel for="semestre"  styleClass="grey" value="Semestre:" /></td>
+								<td><h:selectOneMenu id="semestre" style="width: 250px;" 
+								converter="#{semestreConverter}" styleClass="selectReq"
+								value="#{paiementGenereService.filtreSemestre}"  >
+								<s:selectItems noSelectionLabel="Sélectionnez..." var="sem" 
+								label="#{sem.libelle}" value="#{notesService.listSemestres}"  />
+							</h:selectOneMenu>
+							</td>
+							</tr>	
+								
+								
+							</table>
+					
+					<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{paiementGenereService.findPaiement()}" status="waitStatus"
+												ignoreDupResponses="true"
+												requestDelay="0" reRender="searchResultsIntervenants, searchIntervenantCriteria">
+												<i class="fa fa-search" aria-hidden="true"></i>
+										Rechercher
+									</a:commandLink></li>
+										
+									</ul>
+								</div>
+							</td>
+							
+							
+						</tr>
+					</table>
+					</div>
+					
+					</a:outputPanel>
+					</h:form>
+					<a:form id="dataTab">
+					
+					
+					<a:outputPanel id="searchResultsIntervenants">
+					<h2 class="titre-tab">Liste des Paiements</h2>
+
+						<div class="panel">
+							
+							<div class="content">
+								
+								<rich:dataTable id="intervenants" rows="10"
+									value="#{paiementGenereService.listPaiements}"
+									var="it"
+									rowClasses="row1,row2"
+									width="100%"   >
+									
+									<rich:column >
+										<f:facet name="header">
+											Date Génération
+										</f:facet>
+										<h:outputText value="#{it.datePayement}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</rich:column> 
+									<rich:column >
+										<f:facet name="header">
+											Generateur
+										</f:facet>
+										<h:outputText value="#{it.userGenerateur.nomComplet}"/>
+									</rich:column> 
+									<rich:column >
+										<f:facet name="header">
+											Nb Heures tot
+										</f:facet>
+										<h:outputText value="#{it.nbDHeureTotalPaye}"/>
+									</rich:column>
+									<rich:column >
+										<f:facet name="header">
+											Payer?
+										</f:facet>
+										<h:outputText value="#{it.payerON ? 'Oui':'Non'}"/>
+									</rich:column>
+
+									<rich:column>
+										<f:facet name="header">
+											Action
+										</f:facet>
+										<table align="center">												
+										<tr>
+										<td>
+											<a:commandButton status="waitStatus" style="height:16px;width:16px;"  reRender="formModalInfo2"
+											action="#{paiementGenereService.consuler(it)}" title="Voir détails" image="/picto/page_edit.png" 
+											styleClass="sansOmbre"	oncomplete="javascript:Richfaces.showModalPanel('panelModalInfo2',{width:950, 
+												top:50, height:550})">
+										</a:commandButton>
+										</td>
+										
+										</tr> 
+										</table>
+									</rich:column>
+									
+									<rich:column>
+			                   		<f:facet name="header">
+							       		 <h:selectBooleanCheckbox  id="cocherTous" style="COLOR: #ff0000;" 
+							       		  title="Selectionnez / Deselectionnez tout" 
+							       		 valueChangeListener="#{paiementGenereService.selectionTout}"  styleClass="textBleu2">
+									         <a:support event="onchange" bypassUpdates="true" ajaxSingle="true" status="waitStatus"
+									         	reRender="intervenants" oncomplete="dateEtHeureInputs();" >
+											 </a:support>
+									  </h:selectBooleanCheckbox>
+			                  		 </f:facet>
+		                         	<h:selectBooleanCheckbox value="#{it.cocher}" />
+			                 </rich:column>
+									
+								</rich:dataTable>
+								
+								<rich:datascroller status="waitStatus" stepControls="auto"  styleClass="textBleu2" 
+				 style="width:100%; " for="intervenants"  align="center" />
+						
+						<table width="100%" class="table">
+						<tr>
+							<td width="1060px;">
+								<div id="trd_submenu" class="trd_kb">
+									<ul>
+										<li><a:commandLink value="" styleClass="btn btn-success"
+												action="#{paiementGenereService.payer()}" status="waitStatus"
+												ignoreDupResponses="true"
+												requestDelay="0" reRender="intervenants">
+												<i class="fa fa-eur" aria-hidden="true"></i>
+										Payer
+									</a:commandLink></li>
+									
+										
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+						
+							</div>
+							<div class="clear"></div>
+							<div class="navigation">
+								<div class="clear"></div>
+							</div>
+						</div>
+
+					</a:outputPanel>
+				
+		</a:form>
+	</div>
+	<ui:include src="/pages/parametrage/modalPaiementC.xhtml" />
+</ui:define>
+
+</ui:composition>

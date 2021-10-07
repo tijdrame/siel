@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.faces.event.ValueChangeEvent;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -17,13 +18,14 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
 
 import com.chaka.common.utils.ChakaUtils;
+import com.chaka.constantes.Constantes;
 import com.chaka.projet.entity.Utilisateur;
 import com.tidiane.model.AnneeAcademique;
 import com.tidiane.model.Classe;
 import com.tidiane.model.Cours;
 import com.tidiane.model.Cycle;
 import com.tidiane.model.Matiere;
-import com.tidiane.model.Presence;
+import com.tidiane.model.PaiementGenere;
 import com.tidiane.model.Semestre;
 
 @Name("coursService")
@@ -61,6 +63,9 @@ public class CoursService implements Serializable {
 	
 	private List<Classe> listClasses = new ArrayList<Classe>();
 	private List<Matiere> listMatieres = new ArrayList<Matiere>();
+	@SuppressWarnings("unused")
+	private List<Utilisateur> listProfs = new ArrayList<Utilisateur>();
+	private String selectionTous;
 	
 	public void init() {
 		cours = new Cours();
@@ -71,9 +76,10 @@ public class CoursService implements Serializable {
 		filtreProfesseur = null;
 		filtreMatiere = null;
 		listCours = new ArrayList<Cours>();
+		this.selectionTous="cocherTous";
 	}
 	
-	public String versBulletin()
+	public String versCours()
 	{
     	init();
 		return "/pages/parametrage/cours.xhtml";
@@ -82,6 +88,7 @@ public class CoursService implements Serializable {
 	public void ajout(){
         try {
             if(cours.getIdCours()==null) {
+            	cours.setPayer(false);
                 cours.setDateSaisie(new Date());
                 cours.setUserSaisie(utilisateur);
                 dataSource.save(cours);
@@ -104,6 +111,51 @@ public class CoursService implements Serializable {
         			"Erreur lors de l'ajout/modification de la présence!");
         }
     }
+	
+	@SuppressWarnings("unchecked")
+	public void findNotes(){
+		if (filtreAcademique != null && filtreSemestre != null
+				&& filtreProfesseur!=null) {
+			listCours = new ArrayList<Cours>();
+			StringBuilder hql = new StringBuilder();
+			hql.append("from Cours c");
+			hql.append(" inner join fetch c.matiere m");
+			hql.append(" inner join fetch c.classe cl");
+			hql.append(" inner join fetch c.semestre s");
+			hql.append(" inner join fetch c.professeur p");
+			hql.append(" inner join fetch c.academique a");
+			hql.append(" inner join fetch c.userSaisie u");
+			hql.append(" inner join fetch u.institut i");
+			hql.append(" where p.idUtilisateur =:paramID");
+			hql.append(" and a.idAnneeAc =:paramAcad");
+			hql.append(" and s.idSemestre =:paramSemestre");
+			hql.append(" and i =:paramInst");
+			
+			if(filtreClasse!=null)
+				hql.append(" and cl.idClasse =:paramClasse");
+			if(filtreMatiere!=null)
+				hql.append(" and m.idMatiere =:paramMat");
+			//if(filtreProfesseur!=null)
+				//hql.append(" and p.idUtilisateur =:paramID");
+			hql.append(" order by p.nom asc, p.prenom asc");
+			Query q = dataSource.createQuery(hql.toString());
+			q.setParameter("paramSemestre", filtreSemestre.getIdSemestre());
+			q.setParameter("paramAcad", filtreAcademique.getIdAnneeAc());
+			
+			if(filtreClasse!=null)
+				q.setParameter("paramClasse", filtreClasse.getIdClasse());
+			//if(filtreProfesseur!=null)
+				q.setParameter("paramID", filtreProfesseur.getIdUtilisateur());
+			q.setParameter("paramInst", utilisateur.getInstitut());
+			if(filtreMatiere!=null)
+				q.setParameter("paramMat", filtreMatiere.getIdMatiere());
+			listCours = q.list();
+		} else {
+			facesMessages.addToControlFromResourceBundle("erreurGenerique",
+					"Tous les critères de recherche sont obligatoires!");
+		}
+		
+	}
 	
 	public void consuler(Cours cours1){
         try {
@@ -148,6 +200,103 @@ public class CoursService implements Serializable {
 			listMatieres = matiereService.matieresByClasse(filtreClasse);
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Utilisateur> allProfs(){
+		StringBuilder hql = new StringBuilder();
+		hql.append("from Utilisateur u");
+		hql.append(" inner join fetch u.institut i");
+		hql.append(" inner join fetch u.profile p");
+		hql.append(" where p.libelle =:paramLib");
+		hql.append(" and i =:paramInst");
+		
+		hql.append(" order by u.nom asc, u.prenom asc");
+		Query q = dataSource.createQuery(hql.toString());
+		q.setParameter("paramInst", utilisateur.getInstitut());
+		q.setParameter("paramLib", Constantes.PROFESSEUR);
+		return q.list();
+	}
+	
+	public void payer(){
+		if(listCours.isEmpty()){
+			facesMessages.addToControlFromResourceBundle("erreurGenerique", 
+        			"Liste vide!");
+			return;
+		}
+		Boolean flag = false;
+		for (Cours eachCours  : listCours) {
+			if(eachCours.getCocher())flag=true;
+		}
+		if(!flag){
+			facesMessages.addToControlFromResourceBundle("erreurGenerique", 
+        			"Cochez au moins une ligne!");
+			return;
+		}
+		PaiementGenere paiementGenere = new PaiementGenere();
+		flag=false;
+		for (Cours eachCours  : listCours) {
+			if(eachCours.getCocher()&& !eachCours.getPayer()){
+				//eachCours.setPaiementGenere(paiementGenere);
+				//eachCours.setPayer(true);
+				flag = true;
+				paiementGenere.setNbDHeureTotalPaye(paiementGenere.getNbDHeureTotalPaye()+eachCours.getDuree());
+				//dataSource.update(eachCours);
+			}
+		}
+		if(flag){
+			paiementGenere.setDatePayement(new Date());
+			paiementGenere.setPayerON(false);
+			paiementGenere.setUserGenerateur(utilisateur);
+			paiementGenere.setRefPaiement("Paiement des cours effectués");
+			dataSource.save(paiementGenere);
+			for (Cours eachCours  : listCours) {
+				if(eachCours.getCocher()&& !eachCours.getPayer()){
+					eachCours.setPaiementGenere(paiementGenere);
+					eachCours.setPayer(true);
+					dataSource.update(eachCours);
+				}
+			}
+			dataSource.flush();
+			facesMessages.addToControlFromResourceBundle("infoGenerique", 
+	        		"Paiement généré avec succés!");
+			findNotes();
+			deselectionTout();
+		}else{
+			facesMessages.addToControlFromResourceBundle("erreurGenerique", 
+        			"Heure dejà payer(marquer)!!");
+		}
+	}
+	
+	/**
+	 * @param e
+	 *selectionner tout  ou de selectionner tout.
+	 */
+	public void selectionTout(ValueChangeEvent e)
+ 	{
+		Boolean valeur=(Boolean)e.getNewValue();
+		if(valeur){
+			for(int i=0;i<getListCours().size();i++){
+				getListCours().get(i).setCocher(true);
+			}
+		this.selectionTous="decocherTous";
+		}
+		else{ 
+			deselectionTout();
+		}
+	}
+	
+	/**
+	 *deselectionner tout.
+	 */
+	public void deselectionTout()
+	{
+		  for(int i=0;i<getListCours().size();i++){
+			  getListCours().get(i).setCocher(false);
+			}
+		  this.selectionTous="cocherTous";
+	}
+
+
 	
 	public Cours getCours() {
 		return cours;
@@ -212,6 +361,22 @@ public class CoursService implements Serializable {
 
 	public void setListMatieres(List<Matiere> listMatieres) {
 		this.listMatieres = listMatieres;
+	}
+
+	public List<Utilisateur> getListProfs() {
+		return listProfs = allProfs();
+	}
+
+	public void setListProfs(List<Utilisateur> listProfs) {
+		this.listProfs = listProfs;
+	}
+
+	public String getSelectionTous() {
+		return selectionTous;
+	}
+
+	public void setSelectionTous(String selectionTous) {
+		this.selectionTous = selectionTous;
 	}
 
 }

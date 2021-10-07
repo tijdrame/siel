@@ -9,7 +9,7 @@
 	xmlns:a="https://ajax4jsf.dev.java.net/ajax"
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	template="/template/template.xhtml">
-	<ui:define name="title">Application SunuECOLE</ui:define>
+	<ui:define name="title">SIEL</ui:define>
 	<ui:define name="body">
 		<!-- Message d'avertissement-->
 		<a:loadScript src="/js/common.js"/>
@@ -46,7 +46,7 @@
 								</h:inputText></td>
 						
 						<td><h:outputLabel class="grey"	value="Nom Parent:"  /></td>
-						<td><h:outputLabel class="grey" id="parentPan"
+						<td><h:outputLabel class="blue" id="parentPan"
 							value="#{etudiantService.etudiant.parent.nom} #{etudiantService.etudiant.parent.prenom}"  /></td>
 						
 						

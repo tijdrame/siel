@@ -1003,7 +1003,7 @@ public class ChakaUtils implements Serializable {
 			}
 			else return chaine;
 		}
-	    public static long dureeEntre2Heures(Integer heurDeb, Integer minDeb,Integer heurFin, Integer minFin){
+	    public static Integer dureeEntre2Heures(Integer heurDeb, Integer minDeb,Integer heurFin, Integer minFin){
 	    	/** La minute de départ*/
             //Date minute1 = new GregorianCalendar(2012,11,11,12,59).getTime( );
 
@@ -1019,20 +1019,21 @@ public class ChakaUtils implements Serializable {
             Calendar calendar2=Calendar.getInstance();
             calendar1.clear();
             calendar1.setTime(new Date());
-    		calendar1.set(Calendar.HOUR_OF_DAY, 14);
-    		calendar1.set(Calendar.MINUTE, 30);
+    		calendar1.set(Calendar.HOUR_OF_DAY, heurDeb);
+    		calendar1.set(Calendar.MINUTE, minDeb);
     		calendar1.set(Calendar.SECOND, 0);
     		calendar1.set(Calendar.MILLISECOND, 0);	
     		
     		calendar2.clear();
             calendar2.setTime(new Date());
-    		calendar2.set(Calendar.HOUR_OF_DAY, 16);
-    		calendar2.set(Calendar.MINUTE, 10);
+    		calendar2.set(Calendar.HOUR_OF_DAY, heurFin);
+    		calendar2.set(Calendar.MINUTE, minFin);
     		calendar2.set(Calendar.SECOND, 0);
     		calendar2.set(Calendar.MILLISECOND, 0);	
     		long diff2 =calendar2.getTime().getTime() - calendar1.getTime().getTime();
-    		println("result= "+(diff2 / (1000*60)));
-    		return (diff2 / (1000*60));
+    		//println("result= "+(diff2 / (1000*60)));
+    		Integer res =  (int) (diff2 / (1000*60));
+    		return res;
             // Calcul de différence en nombre de minutes entre les deux minutes
             
 	    }
@@ -1040,8 +1041,11 @@ public class ChakaUtils implements Serializable {
 	    	/*DecimalFormat df = new DecimalFormat("###,###.##");	    		    	
 			ChakaUtils.println(df.format(ChakaUtils.getValue("15987.76","Double")));*/
 
-	    	ChakaUtils.dureeEntre2Heures(14,30,16,10);
-	    	//println("result "+date1.equals(date2));
+	    	//ChakaUtils.dureeEntre2Heures(14,30,16,10);
+	    	
+	    	//Calendar cal = ChakaUtils.createCalendarFromDate("2017/5/4");
+	    	
+	    	//println("result "+cal.get(Calendar.DAY_OF_WEEK));
 	    }
 	    
 	    public static boolean emptyOrNull(List list){

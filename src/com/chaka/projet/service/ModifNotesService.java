@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
 
 import com.chaka.common.utils.ChakaUtils;
+import com.chaka.constantes.Constantes;
 import com.chaka.projet.entity.Utilisateur;
 import com.tidiane.model.AnneeAcademique;
 import com.tidiane.model.Classe;
@@ -147,8 +148,11 @@ public class ModifNotesService implements Serializable {
 			hql.append(" inner join fetch cl.institut it");
 			hql.append(" inner join fetch cl.cycle cy");
 			hql.append(" inner join fetch i.etudiant et");
+			hql.append(" inner join fetch et.parent pa");
 			hql.append(" inner join fetch i.anneeAcademique a");
 			hql.append(" where it.idInstitut =:paramInstit");
+			if(utilisateur.getProfile().getLibelle().equals(Constantes.PARENT))
+            	hql.append(" and pa.idUtilisateur =:paramParent");
 			
 			if(classe != null)hql.append(" and cl.idClasse =:paramClasse");
 			if(matiere != null)hql.append(" and m.idMatiere =:paramMatiere");
@@ -164,6 +168,8 @@ public class ModifNotesService implements Serializable {
 			if(semestre != null)q.setParameter("paramSemest",semestre.getIdSemestre());
 			if(typeNote != null)q.setParameter("paramTypeNote",typeNote.getIdTypeNote());
 			q.setParameter("paramInstit", utilisateur.getInstitut().getIdInstitut());
+			if(utilisateur.getProfile().getLibelle().equals(Constantes.PARENT))
+            	q.setParameter("paramParent", utilisateur.getIdUtilisateur());
 			List<Notes> list = q.list();
 			if(!list.isEmpty()) ChakaUtils.println("liste notes en consultation non vide"+list.size());
 			return  list;

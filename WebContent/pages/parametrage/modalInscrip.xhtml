@@ -18,7 +18,7 @@
 				</a:commandLink>
 			</f:facet>
 			<f:facet name="header">
-			 <h:outputLabel value=" Ajouter / Modifier Elève : "  />
+			 <h:outputLabel value=" Ajouter / Modifier inscription : "  />
 			</f:facet>
 			<rich:spacer height="2px" />
 
@@ -66,7 +66,7 @@
 								</h:inputText></td>
 						
 						<td><h:outputLabel class="grey"	value="Prénom et nom:"  /></td>
-						<td><h:outputLabel class="grey" id="nomBi"
+						<td><h:outputLabel class="blue" id="nomBi"
 							value="#{inscriptionService.etudiant.prenom} 
 							#{inscriptionService.etudiant.nom}"  /></td>
 						
@@ -77,7 +77,7 @@
 							<h:outputLabel for="naissBi"  styleClass="grey" value="Date naissance:" />
 						</td>
 						<td>
-							<h:outputLabel  id="naissBi"  class="grey"
+							<h:outputLabel  id="naissBi"  class="blue"
 								value="#{inscriptionService.etudiant.dateNaissance}" >
 								 <f:convertDateTime pattern="dd/MM/yyyy"/>
 							</h:outputLabel>
@@ -85,7 +85,7 @@
 						<td><h:outputLabel class="grey"
 								value="Adresse:" for="adrBi" />
 						</td>
-						<td><h:outputLabel id="adrBi" class="grey"
+						<td><h:outputLabel id="adrBi" class="blue"
 								value="#{inscriptionService.etudiant.adresse}"/></td>
 					</tr>
 					<tr>

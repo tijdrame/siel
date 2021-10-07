@@ -101,14 +101,14 @@
 					</tr>
 					<tr>			
 						<td><h:outputLabel class="grey"	value="Prénom et nom:"  /></td>
-						<td><h:outputLabel class="grey" id="nomBi"
+						<td><h:outputLabel class="blue" id="nomBi"
 							value="#{paiementService.paiement.inscription.etudiant.prenom} 
 							#{paiementService.paiement.inscription.etudiant.nom}"  /></td>
 						<td>
 							<h:outputLabel for="naissBi"  styleClass="grey" value="Date naissance:" />
 						</td>
 						<td>
-							<h:outputLabel  id="naissBi"  class="grey"
+							<h:outputLabel  id="naissBi"  class="blue"
 								value="#{paiementService.paiement.inscription.etudiant.dateNaissance}" >
 								 <f:convertDateTime pattern="dd/MM/yyyy"/>
 							</h:outputLabel>
@@ -119,13 +119,13 @@
 						<td><h:outputLabel class="grey"
 								value="Adresse:" for="adrBi" />
 						</td>
-						<td><h:outputLabel id="adrBi" class="grey"
+						<td><h:outputLabel id="adrBi" class="blue"
 								value="#{paiementService.paiement.inscription.etudiant.adresse}"/></td>
 						<td>
 							<h:outputLabel for="telBi"  styleClass="grey" value="Téléphone:" />
 						</td>
 						<td>
-							<h:outputLabel  id="telBi"  class="grey"
+							<h:outputLabel  id="telBi"  class="blue"
 								value="#{paiementService.paiement.inscription.etudiant.telephone}" />
 						</td>
 					</tr>
